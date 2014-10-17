@@ -6,7 +6,7 @@ CREATE TRIGGER AfterInsertVisitSchema
     BEGIN
 		INSERT INTO visit_backup_schema
 		(
-			health_card_number,
+			patient_id,
 			cpso_number,
 			start_time,
 			end_time,
@@ -15,7 +15,7 @@ CREATE TRIGGER AfterInsertVisitSchema
 		)
 		VALUES
         (
-			NEW.health_card_number,
+			NEW.patient_id,
             NEW.cpso_number,
             NEW.start_time,
             NEW.end_time,

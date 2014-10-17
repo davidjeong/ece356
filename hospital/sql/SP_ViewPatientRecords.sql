@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewPatientRecords(IN health_card_number_ VARCHAR(32))
+CREATE PROCEDURE ViewPatientRecords(IN patient_id_ INT)
 	BEGIN
     SELECT 
 		v.start_time,
@@ -12,6 +12,6 @@ CREATE PROCEDURE ViewPatientRecords(IN health_card_number_ VARCHAR(32))
 	FROM
 		visit_schema v
 	WHERE
-		v.health_card_number = health_card_number_;
+		v.patient_id = patient_id_;
 	END //
 DELIMITER ;

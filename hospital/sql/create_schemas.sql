@@ -46,46 +46,38 @@ CREATE TABLE patient_schema(
     FOREIGN KEY (user_name) REFERENCES user_schema(user_name)
 );
 
+
+CREATE TABLE surgery_schema(
+	surgery_name VARCHAR(64),
+    cost NUMERIC(15,2) NOT NULL,
+    PRIMARY KEY (surgery_name)
+);
+
 CREATE TABLE visit_schema(
 	health_card_number VARCHAR(32) NOT NULL,
     cpso_number VARCHAR(6) NOT NULL,
-    created_by VARCHAR(32) NOT NULL,
     start_time DATETIME NOT NULL,
     end_time DATETIME NOT NULL,
-    comments VARCHAR(128),
+    surgery_name VARCHAR(64),
+    prescription VARCHAR (256),
+    comments VARCHAR(512),
     PRIMARY KEY (cpso_number, start_time),
     FOREIGN KEY (health_card_number) REFERENCES patient_schema(health_card_number),
     FOREIGN KEY (cpso_number) REFERENCES doctor_schema (cpso_number),
-    FOREIGN KEY (created_by) REFERENCES user_schema(user_name)
+    FOREIGN KEY (surgery_name) REFERENCES surgery_schema (surgery_name)
 );
 
 CREATE TABLE visit_backup_schema(
 	health_card_number VARCHAR(32) NOT NULL,
     cpso_number VARCHAR(6) NOT NULL,
-    created_by VARCHAR(32) NOT NULL,
     start_time DATETIME NOT NULL,
     end_time DATETIME NOT NULL,
-    comments VARCHAR(128),
+    surgery_name VARCHAR(64),
+    prescription VARCHAR (256),
+    comments VARCHAR(512),
     inserted_time DATETIME NOT NULL,
-    PRIMARY KEY (cpso_number, start_time, inserted_time),
+    PRIMARY KEY (cpso_number, start_time),
     FOREIGN KEY (health_card_number) REFERENCES patient_schema(health_card_number),
     FOREIGN KEY (cpso_number) REFERENCES doctor_schema (cpso_number),
-    FOREIGN KEY (created_by) REFERENCES user_schema(user_name)
-);
-
-CREATE TABLE surgery_schema(
-	start_time DATETIME NOT NULL,
-    cpso_number VARCHAR(6) NOT NULL,
-    surgery_name VARCHAR(32) NOT NULL,
-    cost NUMERIC(15,2) NOT NULL,
-    PRIMARY KEY (start_time, cpso_number),
-    FOREIGN KEY (cpso_number, start_time) REFERENCES visit_schema (cpso_number, start_time)
-);
-
-CREATE TABLE prescription_schema(
-	start_time DATETIME NOT NULL,
-    cpso_number VARCHAR(6) NOT NULL,
-    drug_name VARCHAR(32) NOT NULL,
-    PRIMARY KEY (start_time, cpso_number),
-    FOREIGN KEY (cpso_number, start_time) REFERENCES visit_schema (cpso_number, start_time)
+    FOREIGN KEY (surgery_name) REFERENCES surgery_schema (surgery_name)
 );

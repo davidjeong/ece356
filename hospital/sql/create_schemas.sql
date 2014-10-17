@@ -76,7 +76,7 @@ CREATE TABLE visit_backup_schema(
     prescription VARCHAR (256),
     comments VARCHAR(512),
     inserted_time DATETIME NOT NULL,
-    PRIMARY KEY (cpso_number, start_time),
+    PRIMARY KEY (cpso_number, start_time, inserted_time),
     FOREIGN KEY (health_card_number) REFERENCES patient_schema(health_card_number),
     FOREIGN KEY (cpso_number) REFERENCES doctor_schema (cpso_number),
     FOREIGN KEY (surgery_name) REFERENCES surgery_schema (surgery_name)

@@ -25,6 +25,14 @@ CREATE TABLE doctor_staff_assignment_schema(
     FOREIGN KEY (staff) REFERENCES user_schema(user_name)
 );
 
+CREATE TABLE doctor_patient_view_schema(
+	cpso_number VARCHAR (6) NOT NULL,
+    patient VARCHAR(32) NOT NULL,
+    PRIMARY KEY (cpso_number, patient),
+    FOREIGN KEY (cpso_number) REFERENCES doctor_schema (cpso_number),
+    FOREIGN KEY (patient) REFERENCES user_schema (user_name)
+);
+
 CREATE TABLE patient_schema(
 	user_name VARCHAR(32) NOT NULL,
     default_doctor VARCHAR(6),
@@ -81,4 +89,3 @@ CREATE TABLE prescription_schema(
     PRIMARY KEY (start_time, cpso_number),
     FOREIGN KEY (cpso_number, start_time) REFERENCES visit_schema (cpso_number, start_time)
 );
-

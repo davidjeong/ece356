@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author jeong_000
  */ 
-@WebServlet(urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/UserCreationServlet"})
+public class UserCreationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,71 +32,21 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try{
+        User newuser = new User();
+        newuser.setLegalName(request.getParameter("legalname"));
+        newuser.setUserName(request.getParameter("username"));
+        newuser.setPassword(request.getParameter("password"));
+        HttpSession session = request.getSession(true);
+        session.setAttribute("User", newuser);
         
-        CallableStatement cs = null;
-        Connection conn = null;
-        ResultSet rs = null;
-        
-        try {
-            Class.forName(SQLConstants.driver);
-            conn = DriverManager.getConnection(SQLConstants.url, SQLConstants.admin_username, SQLConstants.admin_password);
-            
-            String userName = request.getParameter("username");
-            String password = request.getParameter("password");
-            
-            cs = conn.prepareCall(SQLConstants.SELECT_VERIFY_USER);
-            int i=0;
-            cs.setString(++i, userName);
-            cs.setString(++i, password);
-            rs = cs.executeQuery();
-            
-            User user = null;
-            if (rs != null) {
-                while (rs.next()) {
-                    String userType = rs.getString("user_type");
-                    user = new User();
-                    user.setUserName(userName);
-                    user.setPassword(password);
-                    user.setUserType(userType);
-                    
-                    HttpSession session = request.getSession(true);
-                    session.setAttribute("user", user);
-                }
-            }
-            
-            if (user == null) {
-                System.out.println("No user");
-            }
-            else {
-                System.out.println("User found with user name [" + user.getUserName() + "], password [" + user.getPassword() + "]");
-                
-                //Redirect user based on user type
-                if (user.getUserType() == "Doctor"){
-                    
-                }
-                else if (user.getUserType() == "Patient"){
-                    
-                }
-                else if (user.getUserType() == "Staff"){
-                    
-                }
-                else if (user.getUserType() == "Finance"){
-                
-                }
-                else if (user.getUserType() == "Legal"){
-                    
-                }
-            }
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
+   }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

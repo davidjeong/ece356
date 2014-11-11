@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
             cs.setString(++i, password);
             rs = cs.executeQuery();
             
+            //dumb comment
             User user = null;
             if (rs != null) {
                 while (rs.next()) {

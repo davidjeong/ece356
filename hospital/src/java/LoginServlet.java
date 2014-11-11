@@ -41,9 +41,15 @@ public class LoginServlet extends HttpServlet {
         
         try {
             Class.forName(SQLConstants.driver);
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "root");
+            conn = DriverManager.getConnection(SQLConstants.url, SQLConstants.admin_username, SQLConstants.admin_password);
+            
+            String userName = request.getParameter("username");
+            String password = request.getParameter("password");
             
             cs = conn.prepareCall(SQLConstants.SELECT_VERIFY_USER);
+            int i=0;
+            cs.setString(++i, userName);
+            cs.setString(++i, password);
             rs = cs.executeQuery();
             
             User user = null;
@@ -52,8 +58,8 @@ public class LoginServlet extends HttpServlet {
                 while (rs.next()) {
                     String userType = rs.getString("user_type");
                     user = new User();
-                    user.setUserName(request.getParameter("username"));
-                    user.setPassword(request.getParameter("password"));
+                    user.setUserName(userName);
+                    user.setPassword(password);
                     user.setUserType(userType);
                     
                     HttpSession session = request.getSession(true);

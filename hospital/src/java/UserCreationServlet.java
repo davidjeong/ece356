@@ -39,8 +39,15 @@ public class UserCreationServlet extends HttpServlet {
         newuser.setLegalName(request.getParameter("legalname"));
         newuser.setUserName(request.getParameter("username"));
         newuser.setPassword(request.getParameter("password"));
+        newuser.setUserType(request.getParameter("usertype"));
         HttpSession session = request.getSession(true);
         session.setAttribute("User", newuser);
+        
+        cs = conn.prepareCall(SQLConstants.SELECT_VERIFY_USER);
+        int i=0;
+        cs.setString(++i, userName);
+        cs.setString(++i, password);
+        rs = cs.executeQuery();
         
         }
         catch (Exception e) {

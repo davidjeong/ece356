@@ -18,6 +18,7 @@ public class SQLConstants {
     
     
     public static String SELECT_VERIFY_USER = "{ call VerifyUserCredentials(?,?) }";
+    public static String INSERT_USER = "{ call InsertUserCredentials(?,?,?,?)}";
     
     
 }

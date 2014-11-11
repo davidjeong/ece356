@@ -24,13 +24,13 @@ CREATE PROCEDURE InsertNewPatientInformation
 	)
     VALUES
     (
-		user_name_,
-        default_doctor_,
-        health_status_,
-        health_card_number_,
-        sin_number_,
-        phone_number_,
-        address_
+		"leo zhao",
+        "doctor",
+        "GREAT",
+        "007",
+        "007",
+        "905-884-2588",
+        "6 lanebrooke"
 	);
 END //
 DELIMITER ;

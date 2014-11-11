@@ -16,6 +16,7 @@
             <p>Legal Name: <input type="text" name="legalname"><p> 
             <p>Username: <input type="text" name="username"><p>
             <p>Password: <input type="text" name="password"><p>
+            <p>User type: <input type = "text" name="usertype">
             <input type="submit" value="Submit">
             </div>
         </form>

@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <form action="jsp/login.jsp" method="POST">
+        <form action="LoginServlet" method="POST">
             <div id="header">
                 <h1>Login Page</h1>
                 <p>

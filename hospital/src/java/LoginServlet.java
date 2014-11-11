@@ -4,12 +4,17 @@
  * and open the template in the editor.
  */
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,18 +34,44 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        CallableStatement cs = null;
+        Connection conn = null;
+        ResultSet rs = null;
+        
+        try {
+            Class.forName(SQLConstants.driver);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "root");
+            
+            cs = conn.prepareCall(SQLConstants.SELECT_VERIFY_USER);
+            rs = cs.executeQuery();
+            
+            User user = null;
+            
+            if (rs != null) {
+                while (rs.next()) {
+                    String userType = rs.getString("user_type");
+                    user = new User();
+                    user.setUserName(request.getParameter("username"));
+                    user.setPassword(request.getParameter("password"));
+                    user.setUserType(userType);
+                    
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user", user);
+                }
+            }
+            
+            if (user == null) {
+                System.out.println("No user");
+            }
+            else {
+                System.out.println("User found with user name [" + user.getUserName() + "], password [" + user.getPassword() + "]");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

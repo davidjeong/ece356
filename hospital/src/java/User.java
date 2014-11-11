@@ -12,6 +12,11 @@ public class User {
     private String userName;
     private String password;
     private String legalName;
+    private String userType;
+    
+    public User() {
+        
+    }
     
     public User (String userName, String password) {
         this.userName = userName;
@@ -40,6 +45,14 @@ public class User {
     
     public String getLegalName() {
         return legalName;
+    }
+    
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+    
+    public String getUserType() {
+        return userType;
     }
     
 }

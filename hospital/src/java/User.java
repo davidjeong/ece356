@@ -9,28 +9,50 @@
  */
 public class User {
     
-    String userName;
-    String password;
+    private String userName;
+    private String password;
+    private String legalName;
+    private String userType;
+    
+    public User() {
+        
+    }
     
     public User (String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
     
-    private void setUserName(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
     
-    private String getUserName() {
+    public String getUserName() {
         return userName;
     }
     
-    private void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
     
-    private String getPassword() {
+    public String getPassword() {
         return password;
+    }
+    
+    public void setLegalName(String legalName) {
+        this.legalName = legalName;
+    }
+    
+    public String getLegalName() {
+        return legalName;
+    }
+    
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+    
+    public String getUserType() {
+        return userType;
     }
     
 }

@@ -11,7 +11,13 @@
  */
 public class SQLConstants {
     
-    public static String test = "";
+    public static String admin_username = "root";
+    public static String admin_password = "root";
+    public static String driver = "com.mysql.jdbc.Driver";
+    public static String url = "jdbc:mysql://localhost:3306/ece356";
+    
+    
+    public static String SELECT_VERIFY_USER = "{ call VerifyUserCredentials(?,?) }";
     
     
 }

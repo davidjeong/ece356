@@ -12,11 +12,13 @@
         .divTable
         {
             display:  table;
+            margin-left: auto;
+            margin-right: auto;
             width:auto;
             background-color:#eee;
-            border:1px solid  #666666;
             border-spacing:5px;/*cellspacing:poor IE support for  this*/
            /* border-collapse:separate;*/
+           text-align: center;
         }
 
         .divRow
@@ -30,6 +32,7 @@
             float:left;/*fix for  buggy browsers*/
             display:table-column;
             width:200px;
+            margin-left: 5px;
             background-color:#ccc;
         }
     </style>
@@ -39,22 +42,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <div class="divTable">
-            <div class="headRow">
-                <div class="divCell" align="center">Customer ID</div>
-                <div  class="divCell">Customer Name</div>
-                <div  class="divCell">Customer Address</div>
-            </div>
-            <div class="divRow">
-                <div class="divCell">001</div>
-            </div>
-            <div class="divRow">
-                <div class="divCell">xxx</div>
-            </div>
-            <div class="divRow">
-                <div class="divCell">111-ttt</div>
-            </div>
+        <form action="ViewRecordServlet" method="POST">
+            <div class="divTable">
+                <div class="headRow">
+                    <div class="divCell">User ID</div>
+                    <div  class="divCell">Name</div>
+                    <div  class="divCell">Address</div>
+                </div>
+                <div class="divRow">    
+                    <div class="divCell">001</div>
+                    <div class="divCell">xxx</div>
+                    <div class="divCell">111-ttt</div>
+                </div>
 
-        </div>
+            </div>
+        </form>
     </body>
 </html>

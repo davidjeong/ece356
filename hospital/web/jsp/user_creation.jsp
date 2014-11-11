@@ -13,10 +13,10 @@
     <body>
         <h2>Please enter the following to create a new user:</h2>
         <form name="input" action="UserCreationServlet" method="get">
-            <p>Legal Name: <input type="text" name="firstname"><p> 
+            <p>Legal Name: <input type="text" name="legalname"><p> 
             <p>Username: <input type="text" name="username"><p>
             <p>Password: <input type="text" name="password"><p>
-            <input type="submit" value="Submit Query">
+            <input type="submit" value="Submit">
             </div>
         </form>
     </body>

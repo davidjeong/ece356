@@ -37,8 +37,6 @@ public class LoginServlet extends HttpServlet {
         CallableStatement cs = null;
         ResultSet rs = null;
         
-        PropertyConfigurator.configure("log4j.properties");
-        
         try {
             
             if (SQLConstants.CONN == null) {

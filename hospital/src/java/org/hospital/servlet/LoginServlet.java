@@ -5,20 +5,23 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.PropertyConfigurator;
 import org.hospital.other.MySQLConnection;
 import org.hospital.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet(urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
+    Logger logger = LoggerFactory.getLogger(LoginServlet.class);
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,6 +36,8 @@ public class LoginServlet extends HttpServlet {
         
         CallableStatement cs = null;
         ResultSet rs = null;
+        
+        PropertyConfigurator.configure("log4j.properties");
         
         try {
             
@@ -64,14 +69,14 @@ public class LoginServlet extends HttpServlet {
                 }
 
                 if (SQLConstants.USER == null) {
-                    System.out.println("No user");
+                   logger.warn("No user");
                 }
                 else {
-                    System.out.println("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
+                    logger.info("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
 
                     //Redirect user based on user type
                     if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Doctor)) {
-
+                        
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Patient)) {
 
@@ -89,22 +94,22 @@ public class LoginServlet extends HttpServlet {
             }
             
         } catch (SQLException e) {
-            System.out.println("SQLException");
+            logger.error(e.toString());
         } catch (Exception e) {
-            System.out.println("Exception");
+            logger.error(e.toString());
         } finally {
             if (cs != null) {
                 try {
                     cs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException e) {
+                    logger.error(e.toString());
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException e) {
+                    logger.error(e.toString());
                 }
             }
         }

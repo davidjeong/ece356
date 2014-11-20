@@ -25,11 +25,3 @@ CREATE PROCEDURE InsertNewUserRecord (
 	);
 END //
 DELIMITER ;
-
-
-CALL InsertNewUserRecord("Legal Person", "legal", "password", 'legal');
-CALL InsertNewUserRecord("Doctor A", "doctor", "password", 'doctor');
-CALL InsertNewUserRecord("Patient A", "patient", "password", 'patient');
-CALL InsertNewUserRecord("Staff A", "staff", "password", 'staff');
-CALL InsertNewUserRecord("Finance Person", "finance", "password", 'finance');
-

@@ -35,9 +35,12 @@ public class LoginServlet extends HttpServlet {
         ResultSet rs = null;
         
         try {
-        
-            if (MySQLConnection.establish()) {
             
+            if (SQLConstants.CONN == null) {
+                MySQLConnection.establish();
+            }
+            
+            if (SQLConstants.CONN != null) {
                 String userName = request.getParameter("username");
                 String password = request.getParameter("password");
 
@@ -84,6 +87,7 @@ public class LoginServlet extends HttpServlet {
                     }
                 }
             }
+            
         } catch (SQLException e) {
             System.out.println("SQLException");
         } catch (Exception e) {

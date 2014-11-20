@@ -6,7 +6,7 @@ import org.hospital.entities.SQLConstants;
 
 public class MySQLConnection {
     
-    public static boolean establish() {
+    public static void establish() {
         boolean success = false;
         try {
             Class.forName(SQLConstants.DRIVER);
@@ -24,6 +24,5 @@ public class MySQLConnection {
                 System.out.println("Connection established to database.");
             }
         }
-        return success;
     }
 }

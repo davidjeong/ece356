@@ -77,6 +77,7 @@ public class UserCreationServlet extends HttpServlet {
                     cs.setString(++i, patient.getAddress());
                     cs.executeUpdate();
                 } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 
             } else if (user.getUserType().equals("doctor")) {

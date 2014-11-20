@@ -1,7 +1,7 @@
 USE ece356
 
 DELIMITER //
-CREATE PROCEDURE InsertNewPatientInformation 
+CREATE PROCEDURE InsertNewPatientRecord 
 		(
 			IN user_name_ VARCHAR(32),
             IN default_doctor_ VARCHAR(6),

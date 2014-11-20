@@ -28,6 +28,6 @@
                 </p>
             </div>
         </form>
-        <p><a href="jsp/user_creation.jsp">User creation</a></p>
+        <p><a href="user_creation.jsp">User creation</a></p>
     </body>
 </html>

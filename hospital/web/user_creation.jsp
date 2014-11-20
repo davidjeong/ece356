@@ -3,6 +3,7 @@
     Created on : Nov 10, 2014, 11:03:27 PM
     Author     : AnthonyVAIO
 --%>
+<!DOCTYPE html>
 <html>
     <head>
         <title>User Creation Page</title>
@@ -22,7 +23,7 @@
                     <option value="finance">Finance</option>
                 </select>
             </p>
-            <p>Legal name: <input type="text" name="legalName"><p> 
+            <p>Legal name: <input type="text" name="legal_name"><p> 
             <p>Username: <input type="text" name="username"><p>
             <p>Password: <input type="text" name="password"><p>
             <div id="doctor_input">

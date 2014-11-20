@@ -20,5 +20,6 @@ public class SQLConstants {
     // Our query names
     public static String SELECT_VERIFY_USER = "{ call VerifyUserCredentials(?,?) }";
     public static String INSERT_NEW_USER = "{ call InsertNewUserRecord(?,?,?,?)}";
-    
+    public static String INSERT_NEW_PATIENT = "{ call InsertNewPatientRecord(?,?,?,?,?,?,?) }";
+    public static String INSERT_NEW_DOCTOR = "{ call InsertNewDoctorRecord(?,?,?) }";
 }

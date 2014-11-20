@@ -62,9 +62,9 @@ public class UserCreationServlet extends HttpServlet {
                 patient.setDefaultDoctor(request.getParameter("default_doctor"));
                 patient.setHealthStatus(request.getParameter("health_status"));
                 patient.setHealthCardNumber(request.getParameter("health_card_number"));
-                patient.setSinNumber("sin_number");
-                patient.setPhoneNumber("phone_number");
-                patient.setAddress("address");
+                patient.setSinNumber(request.getParameter("sin_number"));
+                patient.setPhoneNumber(request.getParameter("phone_number"));
+                patient.setAddress(request.getParameter("address"));
 
                 try (CallableStatement cs = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_PATIENT)) {
                     int i = 0;
@@ -78,10 +78,11 @@ public class UserCreationServlet extends HttpServlet {
                     cs.executeUpdate();
                 } catch (SQLException e) {
                 }
+                
             } else if (user.getUserType().equals("doctor")) {
                 Doctor doctor = new Doctor();
                 doctor.setUserName(request.getParameter("username"));
-                doctor.setCpsoNumber(request.getParameter("cpso_number"));
+                doctor.setCpsoNumber(request.getParameter("cpso"));
                 doctor.setDepartment(request.getParameter("department"));
 
                 try (CallableStatement cs = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_DOCTOR)) {

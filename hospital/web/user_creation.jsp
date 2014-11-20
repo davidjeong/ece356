@@ -31,7 +31,7 @@
                 <p>Department: <input type="text" name="department"></p>
             </div>
             <div id="patient_input">
-                <p>Default doctor: <input type="text" name="cpso"></p>
+                <p>Default doctor: <input type="text" name="default_doctor"></p>
                 <p>Health status: <input type="text" name="health_status"></p>
                 <p>Health card number: <input type="text" name="health_card_number"></p>
                 <p>SIN number: <input type="text" name="sin_number"></p>

@@ -4,7 +4,7 @@ DELIMITER //
 CREATE PROCEDURE InsertNewDoctorRecord (
 		IN user_name_ VARCHAR(32),
     	IN cpso_number_ VARCHAR(6),
-    	IN department_ VARCHAR(32),
+    	IN department_ VARCHAR(32)
 	)
     BEGIN
     INSERT INTO doctor_schema 

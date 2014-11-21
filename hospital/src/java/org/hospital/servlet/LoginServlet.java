@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.log4j.PropertyConfigurator;
 import org.hospital.other.MySQLConnection;
 import org.hospital.entities.User;
 import org.slf4j.Logger;
@@ -72,6 +71,8 @@ public class LoginServlet extends HttpServlet {
 
                 if (SQLConstants.USER == null) {
                    logger.warn("No user");
+                   request.setAttribute("message", "User name or password is incorrect.");
+                   request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
                 else {
                     logger.info("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
@@ -80,7 +81,7 @@ public class LoginServlet extends HttpServlet {
                     boolean typeFound = false;
                     if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
                         typeFound = true;
-                        getServletContext().getRequestDispatcher("/jsp/doctor.jsp").forward(request, response);
+                        getServletContext().getRequestDispatcher("/jsp/doctor_ui.jsp").forward(request, response);
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
                         typeFound = true;

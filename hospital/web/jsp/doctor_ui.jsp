@@ -11,13 +11,15 @@
     <body>
         <div class="top-panel">
             <div class="name">
-            Hello Doctor <%=session.getAttribute("legalname")%>
+            Hello Doctor
         </div>
-        <div class="left-panel">
+        <div class="left-panel" id="left-panel">
             Functions
-            <ul></ul>
+            <ul>My Patients</ul>
+            <ul>My History</ul>
+            <ul>My Account</ul>
         </div>
-        <div class="right-panel">
+        <div class="right-panel" id="right-panel">
             Second panel
         </div>
     </body>

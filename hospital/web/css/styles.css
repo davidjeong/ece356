@@ -10,3 +10,7 @@
     height: 100px;
     float: left;
 }
+
+.error-message {
+    color: red;
+}

@@ -38,6 +38,8 @@ public class LoginServlet extends HttpServlet {
         
         try {
             
+            SQLConstants.USER = null;
+            
             if (SQLConstants.CONN == null) {
                 MySQLConnection.establish();
             }

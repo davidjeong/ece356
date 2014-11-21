@@ -2,6 +2,7 @@ package org.hospital.servlet;
 
 import org.hospital.other.SQLConstants;
 import java.io.IOException;
+import static java.lang.System.out;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -85,7 +86,16 @@ public class LoginServlet extends HttpServlet {
                         boolean typeFound = false;
                         if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
                             typeFound = true;
-                            getServletContext().getRequestDispatcher("/jsp/doctor_ui.jsp").forward(request, response);
+                            cs = SQLConstants.CONN.prepareCall(SQLConstants.USERNAME_TO_CPSONUMBER);
+                            cs.setString(1, SQLConstants.USER.getUserName());
+                            rs = cs.executeQuery();
+                            if (rs.next())
+                            {
+                                String number = rs.getString("cpso_number");
+                                //getServletContext().setAttribute("cpsonumber", number);
+                                request.getSession().setAttribute("cpsonumber", number);
+                                getServletContext().getRequestDispatcher("/jsp/doctor_ui.jsp").forward(request, response);
+                            }
                         }
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
                             typeFound = true;

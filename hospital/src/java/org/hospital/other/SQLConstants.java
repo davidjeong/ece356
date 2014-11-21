@@ -27,4 +27,7 @@ public class SQLConstants {
     public static String INSERT_NEW_USER = "{ call InsertNewUserRecord(?,?,?,?)}";
     public static String INSERT_NEW_PATIENT = "{ call InsertNewPatientRecord(?,?,?,?,?,?,?) }";
     public static String INSERT_NEW_DOCTOR = "{ call InsertNewDoctorRecord(?,?,?) }";
+    
+    public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
+    public static String VIEW_ASSIGNED_DOCTOR = "{ call ViewAssignedDoctor(?) }";
 }

@@ -1,19 +1,15 @@
-<%-- 
-    Document   : CreateUser
-    Created on : Nov 10, 2014, 11:03:27 PM
-    Author     : AnthonyVAIO
---%>
 <!DOCTYPE html>
 <html>
     <head>
         <title>User Creation Page</title>
         <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <script src="../js/jquery-1.11.1.min.js"></script>
     </head>
     <body>
         <h2>Please enter the following to create a new user:</h2>
-        <form name="input" action="UserCreationServlet" method="get">
+        <form name="input" action="UserCreationServlet" method="post">
             <p>User type: <select name="userType" id="userType">
                     <option value="select">&lt;Select a user type&gt;</option>
                     <option value="patient">Patient</option>

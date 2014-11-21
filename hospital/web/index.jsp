@@ -12,6 +12,7 @@
         <title>Login Page</title>
         <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     </head>
     <body>
         <form action="LoginServlet" method="POST">
@@ -28,6 +29,6 @@
                 </p>
             </div>
         </form>
-        <p><a href="user_creation.jsp">User creation</a></p>
+        <p><a href="jsp/user_creation.jsp">User creation</a></p>
     </body>
 </html>

@@ -3,7 +3,6 @@ package org.hospital.servlet;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

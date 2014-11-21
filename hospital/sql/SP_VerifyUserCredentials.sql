@@ -4,7 +4,8 @@ DELIMITER //
 CREATE PROCEDURE VerifyUserCredentials(IN user_name_ VARCHAR(32), IN user_password_ VARCHAR(32))
 	BEGIN
     SELECT 
-		u.user_type
+		u.user_type,
+		u.legal_name
 	FROM
 		user_schema u
 	WHERE

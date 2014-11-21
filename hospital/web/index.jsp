@@ -1,15 +1,9 @@
-<%-- 
-    Document   : login
-    Created on : Nov 10, 2014, 9:01:47 PM
-    Author     : jeong_000
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <html>
     <head>
-        <title>Login Page</title>
+        <title>Welcome to Medicare. Please log in</title>
         <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">

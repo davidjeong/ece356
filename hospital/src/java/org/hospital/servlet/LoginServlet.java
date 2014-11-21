@@ -56,13 +56,17 @@ public class LoginServlet extends HttpServlet {
                 if (rs != null) {
                     if (rs.next()) {
                         String userType = rs.getString("user_type");
+                        String legalName = rs.getString("legal_name");
                         SQLConstants.USER = new User();
+                        SQLConstants.USER.setLegalName(legalName);
                         SQLConstants.USER.setUserName(userName);
                         SQLConstants.USER.setPassword(password);
                         SQLConstants.USER.setUserType(userType);
 
                         HttpSession session = request.getSession(true);
-                        session.setAttribute("user", SQLConstants.USER);
+                        session.setAttribute("legalname", SQLConstants.USER.getLegalName());
+                        session.setAttribute("username", SQLConstants.USER.getUserName());
+                        session.setAttribute("usertype", SQLConstants.USER.getUserType());
                     }
                 }
 
@@ -74,7 +78,7 @@ public class LoginServlet extends HttpServlet {
 
                     //Redirect user based on user type
                     if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
-                        
+                        getServletContext().getRequestDispatcher("/jsp/doctor.jsp").forward(request, response);
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
 

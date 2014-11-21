@@ -77,20 +77,25 @@ public class LoginServlet extends HttpServlet {
                     logger.info("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
 
                     //Redirect user based on user type
+                    boolean typeFound = false;
                     if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
+                        typeFound = true;
                         getServletContext().getRequestDispatcher("/jsp/doctor.jsp").forward(request, response);
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
-
+                        typeFound = true;
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.Staff)) {
-
+                        typeFound = true;
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.Finance)) {
-
+                        typeFound = true;
                     }
                     else if (SQLConstants.USER.getUserType().equals(SQLConstants.Legal)) {
-
+                        typeFound = true;
+                    }
+                    if (!typeFound) {
+                        logger.error("Couldn't find user type");
                     }
                 }
             }

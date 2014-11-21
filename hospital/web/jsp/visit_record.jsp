@@ -1,9 +1,3 @@
-<%-- 
-    Document   : visit_record
-    Created on : Nov 10, 2014, 9:59:39 PM
-    Author     : l22fu
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 

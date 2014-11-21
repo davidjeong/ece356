@@ -48,8 +48,9 @@
                     <div class="divCell">xxx</div>
                     <div class="divCell">111-ttt</div>
                 </div>
-
             </div>
         </form>
+        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

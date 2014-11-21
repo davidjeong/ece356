@@ -3,8 +3,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <title>Welcome</title>
     </head>
     <body>
@@ -31,6 +31,7 @@
                 $("#right-panel").load("jsp/view_patients.jsp");
             }
         </script> 
-            
+        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -4,32 +4,34 @@
         <title>Welcome to MediCare. Please log in.</title>
         <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     </head>
     <body>
-        <form action="LoginServlet" method="POST">
-            <div style="padding-left:30px;" id="login">
-                <div>
-                    <img style="float:left;" src="images/red_cross.png" alt="logo" height="30" width="30">
+        <form id="login_info" action="LoginServlet" method="POST">
+            <div id="login">
+                <div class="jumbotron">
+                    <div class="bg"></div>
+                    <div class="container">
+                        <h1>Welcome to MediCare</h1>
+                        <p>An all-in-one health care management tool</p>
+                        <p>
+                            User Name:&nbsp;<input id="login_username" type="text" name="username">
+                        </p>
+                        <p>
+                            Password:&nbsp;<input id="login_password" type="password" name="password">
+                        </p>
+                        <c:if test="{$not empty message}">
+                            ${message}
+                        </c:if>
+                        <p>
+                            <button type="submit" class="btn btn-default" type="submit">Login</button>
+                        </p>
+                    </div>
                 </div>
-                <div style="margin-left: 40px;">
-                    <h1>Welcome to MediCare</h1>
-                </div>
-                <p>
-                    User Name:&nbsp;<input id="login_username" type="text" name="username">
-                </p>
-                <p>
-                    Password:&nbsp;<input id="login_password" type="password" name="password">
-                </p>
-                <c:if test="${not empty message}">
-                    <p class="error-message">${message}</p>
-                </c:if>
-                <p>
-                    <input id="login_submit" type="submit" value="Submit">
-                </p>
             </div>
         </form>
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

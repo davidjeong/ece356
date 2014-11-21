@@ -13,13 +13,28 @@
             Hello Doctor
         </div>
         <div class="left-panel" id="left-panel">
-            <ul><a href="view_patients.jsp">My Patients</a></ul>
+            <ul><a href="#">My Patients</a></ul>
             <ul><a href="view_history.jsp">My History</a></ul>
-            <ul><a href="view_account.jsp">My Account</a></ul>
+            <ul><a href="#" onclick="load_visits()">My Appointments</a></ul>
         </div>
         <div class="right-panel" id="right-panel">
             Second panel
         </div>
+        
+        <div style="background-color:lightgrey">
+            <a href="jsp/visit_record.jsp">Click!</a>
+        </div>
+            
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
+        <script type="text/javascript">
+            function load_visits() {
+                $("#right-panel").load("jsp/visit_record.jsp");
+            }
+            
+            function load_patients() {
+                $("#right-panel").load("jsp/view_patients.jsp");
+            }
+        </script> 
+            
     </body>
 </html>

@@ -14,10 +14,9 @@
             Hello Doctor
         </div>
         <div class="left-panel" id="left-panel">
-            Functions
-            <ul>My Patients</ul>
-            <ul>My History</ul>
-            <ul>My Account</ul>
+            <ul><a href="view_patients.jsp">My Patients</a></ul>
+            <ul><a href="view_history.jsp">My History</a></ul>
+            <ul><a href="view_account.jsp">My Account</a></ul>
         </div>
         <div class="right-panel" id="right-panel">
             Second panel

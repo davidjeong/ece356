@@ -3,7 +3,7 @@
 
 <html>
     <head>
-        <title>Welcome to Medicare. Please log in</title>
+        <title>Welcome to MediCare. Please log in.</title>
         <meta charset="UTF-8">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -11,8 +11,8 @@
     </head>
     <body>
         <form action="LoginServlet" method="POST">
-            <div id="header">
-                <h1>Login Page</h1>
+            <div style="padding-left: 30px;" id="login">
+                <h1>Welcome to MediCare</h1>
                 <p>
                     User Name:&nbsp;<input type="text" name="username">
                 </p>

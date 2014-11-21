@@ -3,7 +3,8 @@
     <head>
         <title>User Creation Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     </head>
     <body>
         <h2>Please enter the following to create a new user:</h2>
@@ -61,6 +62,7 @@
             });
             //]]>
         </script>
-        <script src="../js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -76,7 +76,10 @@ public class LoginServlet extends HttpServlet {
 
                     if (SQLConstants.USER == null) {
                        logger.warn("No user");
-                       request.setAttribute("message", "User name or password is incorrect.");
+                       StringBuilder sb = new StringBuilder();
+                       sb.append("<p class=\"alert alert-danger error-message\" role=\"alert\">User name or password is <strong>incorrect</strong>.</p>");
+                       request.setAttribute("message", sb.toString());
+
                        request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
                     else {
@@ -94,7 +97,7 @@ public class LoginServlet extends HttpServlet {
                                 String number = rs.getString("cpso_number");
                                 //getServletContext().setAttribute("cpsonumber", number);
                                 request.getSession().setAttribute("cpsonumber", number);
-                                getServletContext().getRequestDispatcher("/jsp/doctor_ui.jsp").forward(request, response);
+                                getServletContext().getRequestDispatcher("/jsp/home_page.jsp").forward(request, response);
                             }
                         }
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
@@ -116,7 +119,9 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     logger.warn("Empty fields");
-                    request.setAttribute("message", "Fields are empty.");
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("<p class=\"alert alert-danger error-message\" role=\"alert\">Fields are <strong>empty</strong>.</p>");
+                    request.setAttribute("message", sb.toString());
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
             }

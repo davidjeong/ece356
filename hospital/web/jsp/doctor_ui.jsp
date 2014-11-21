@@ -20,11 +20,7 @@
         <div class="right-panel" id="right-panel">
             Second panel
         </div>
-        
-        <div style="background-color:lightgrey">
-            <a href="jsp/visit_record.jsp">Click!</a>
-        </div>
-            
+
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
         <script type="text/javascript">
             function load_visits() {

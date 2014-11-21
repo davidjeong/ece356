@@ -1,6 +1,6 @@
 package org.hospital.servlet;
 
-import org.hospital.entities.SQLConstants;
+import org.hospital.other.SQLConstants;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -73,19 +73,19 @@ public class LoginServlet extends HttpServlet {
                     logger.info("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
 
                     //Redirect user based on user type
-                    if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Doctor)) {
+                    if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
                         
                     }
-                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Patient)) {
+                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
 
                     }
-                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Staff)) {
+                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.Staff)) {
 
                     }
-                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Finance)) {
+                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.Finance)) {
 
                     }
-                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.USER_TYPE.Legal)) {
+                    else if (SQLConstants.USER.getUserType().equals(SQLConstants.Legal)) {
 
                     }
                 }

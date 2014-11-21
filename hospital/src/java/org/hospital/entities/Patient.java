@@ -1,16 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.entities;
 
-/**
- *
- * @author okamayana
- */
-public class Patient {
+public class Patient extends User {
 
-    private String userName;
     private String defaultDoctor;
     private String healthStatus;
     private String healthCardNumber;
@@ -19,14 +10,6 @@ public class Patient {
     private String address;
 
     public Patient() {
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getDefaultDoctor() {

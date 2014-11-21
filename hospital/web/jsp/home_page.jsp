@@ -15,7 +15,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">My Patients</a></li>
+                        <li class="active"><a href="#" onclick="load_patients()">My Patients</a></li>
                         <li><a href="#">My History</a></li>
                         <li><a href="#" onclick="load_visits()">My Appointments</a></li>
                         <li><a href="#" onclick="user_creation()">Create New User</a></li>

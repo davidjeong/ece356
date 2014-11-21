@@ -4,7 +4,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <script src="../js/jquery-1.11.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title>Welcome</title>
     </head>
@@ -21,5 +20,6 @@
         <div class="right-panel" id="right-panel">
             Second panel
         </div>
+        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
     </body>
 </html>

@@ -9,8 +9,13 @@
     </head>
     <body>
         <form action="LoginServlet" method="POST">
-            <div style="padding-left: 30px;" id="login">
-                <h1>Welcome to MediCare</h1>
+            <div style="padding-left:30px;" id="login">
+                <div>
+                    <img style="float:left;" src="images/red_cross.png" alt="logo" height="30" width="30">
+                </div>
+                <div style="margin-left: 40px;">
+                    <h1>Welcome to MediCare</h1>
+                </div>
                 <p>
                     User Name:&nbsp;<input id="login_username" type="text" name="username">
                 </p>

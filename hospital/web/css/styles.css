@@ -1,12 +1,12 @@
 .left-panel {
-    background-color: #ccc;
+    background-color: GhostWhite;
     width: 10%;
     height: 100px;
     float: left;
 }
 .right-panel {
-    background-color: Gray;
-    width: 80% ;
+    background-color: Cornsilk;
+    width: 90% ;
     height: 100px;
     float: left;
 }

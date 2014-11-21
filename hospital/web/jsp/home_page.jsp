@@ -15,10 +15,11 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#" onclick="load_patients()">My Patients</a></li>
+                        <li class="active"><a href="#" onclick="load_patients();">My Patients</a></li>
                         <li><a href="#">My History</a></li>
-                        <li><a href="#" onclick="load_visits()">My Appointments</a></li>
-                        <li><a href="#" onclick="user_creation()">Create New User</a></li>
+                        <li><a href="#" onclick="load_visits();">My Appointments</a></li>
+                        <li><a href="#" onclick="user_creation();">Create New User</a></li>
+                        <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
                      </ul>
                 </div>
             </div>
@@ -27,20 +28,7 @@
         </div>
 
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
-        <script type="text/javascript">
-            function load_visits() {
-                $("#right-panel").load("jsp/visit_record.jsp");
-            }
-            
-            function load_patients() {
-                $("#right-panel").load("jsp/view_patients.jsp");
-            }
-            
-            function user_creation() {
-                $("#right-panel").load("jsp/user_creation.jsp");
-            }
-        </script> 
-        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
     </body>
 </html>

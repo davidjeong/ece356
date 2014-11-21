@@ -16,6 +16,7 @@
             <ul><a href="#">My Patients</a></ul>
             <ul><a href="view_history.jsp">My History</a></ul>
             <ul><a href="#" onclick="load_visits()">My Appointments</a></ul>
+            <ul><a href="#" onclick="user_creation()">Create New User</a></ul>
         </div>
         <div class="right-panel" id="right-panel">
             Second panel
@@ -29,6 +30,10 @@
             
             function load_patients() {
                 $("#right-panel").load("jsp/view_patients.jsp");
+            }
+            
+            function user_creation() {
+                $("#right-panel").load("jsp/user_creation.jsp");
             }
         </script> 
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>

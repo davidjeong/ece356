@@ -88,7 +88,7 @@ public class LoginServlet extends HttpServlet {
                         boolean typeFound = false;
                         if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
                             typeFound = true;
-                            getServletContext().getRequestDispatcher("/jsp/doctor_ui.jsp").forward(request, response);
+                            getServletContext().getRequestDispatcher("/jsp/home_page.jsp").forward(request, response);
                         }
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
                             typeFound = true;

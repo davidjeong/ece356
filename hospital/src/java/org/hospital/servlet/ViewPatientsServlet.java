@@ -5,7 +5,6 @@
  */
 package org.hospital.servlet;
 
-import org.hospital.other.SQLConstants;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -17,13 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.hospital.entities.Doctor;
 import org.hospital.entities.Patient;
 import org.hospital.other.SQLConstants;
-import org.hospital.entities.User;
 import org.hospital.other.MySQLConnection;
-import org.hospital.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +57,7 @@ public class ViewPatientsServlet extends HttpServlet {
         CallableStatement cs = null;
         ResultSet rs = null;
         
-        List<Patient> PatientList = null;
+        List<Patient> patientList = null;
    
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -70,30 +65,31 @@ public class ViewPatientsServlet extends HttpServlet {
         
         try {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-            cs.setString(1, request.getSession().getAttribute("cpsonumber").toString());
-            
-            logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
-            
-            rs = cs.executeQuery();
-            
-            if (rs != null)
-            { 
-                PatientList = new ArrayList();
-                while (rs.next())
-                {
-                    Patient p = new Patient();
-                    p.setPatientId(rs.getString("patient_id"));
-                    p.setLegalName(rs.getString("legal_name"));
-                    p.setDefaultDoctor(rs.getString("default_doctor"));
-                    p.setHealthStatus(rs.getString("health_status"));
-                    PatientList.add(p);
-                    logger.info("Adding [" + p + "] to patient list");
+            String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
+            if (!cpsoNumber.isEmpty()) {
+                int i=0;
+                cs.setString(++i, cpsoNumber);
+                logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
+                rs = cs.executeQuery();
+                if (rs != null)
+                { 
+                    patientList = new ArrayList();
+                    while (rs.next())
+                    {
+                        Patient p = new Patient();
+                        p.setPatientId(rs.getInt("patient_id"));
+                        p.setLegalName(rs.getString("patient_legal_name"));
+                        p.setDefaultDoctor(rs.getString("doctor_legal_name"));
+                        p.setHealthStatus(rs.getString("health_status"));
+                        patientList.add(p);
+                        logger.info("Adding [" + p + "] to patient list");
+                    }
                 }
-            }
+            }            
         }
         catch (SQLException e)
         {
-                    
+            logger.error(e.toString());
         }
         finally {
             if (cs != null) {
@@ -108,9 +104,9 @@ public class ViewPatientsServlet extends HttpServlet {
                 } catch (SQLException ex) {
                 }
             }
-            if (PatientList != null) 
+            if (patientList != null) 
             {
-                request.getSession().setAttribute("PatientList", PatientList);
+                request.getSession().setAttribute("PatientList", patientList);
             }
         }
     }

@@ -8,7 +8,7 @@ public class Patient extends User {
     private String sinNumber;
     private String phoneNumber;
     private String address;
-    private String patientId;
+    private int patientId;
 
     public Patient() {
     }
@@ -61,12 +61,12 @@ public class Patient extends User {
         this.address = address;
     }
     
-    public String getPatientId ()
+    public int getPatientId ()
     {
         return patientId;
     }
     
-    public void setPatientId (String patientId)
+    public void setPatientId (int patientId)
     {
         this.patientId = patientId;
     }

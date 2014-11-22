@@ -20,14 +20,15 @@
     height: 100%;
 }
 
-.left-panel {
-    background-color: GhostWhite;
-    width: 10%;
-    height: 100px;
-    float: left;
-    font-weight: bold;
+.navbar .container-fluid .navbar-brand {
+    margin-left: 0px;
 }
-.right-panel {
+
+.navbar-right {
+    padding-right: 15px;
+}
+
+.content-panel {
     background-color: Cornsilk;
     width: 90% ;
     height: 100px;

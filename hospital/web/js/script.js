@@ -57,7 +57,7 @@ function showLegalDiv() {
 function hideAll() {
     $(".doctor-field").hide();
     $(".patient-field").hide();
-    $('#create_submit').prop("disabled", false);
+    $('#newUserSubmit').prop("disabled", false);
 }
 
 

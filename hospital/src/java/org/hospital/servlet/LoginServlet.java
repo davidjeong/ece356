@@ -2,7 +2,6 @@ package org.hospital.servlet;
 
 import org.hospital.other.SQLConstants;
 import java.io.IOException;
-import static java.lang.System.out;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,16 +21,8 @@ public class LoginServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(LoginServlet.class);
     
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         CallableStatement cs = null;
@@ -77,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                     if (SQLConstants.USER == null) {
                        logger.warn("No user");
                        StringBuilder sb = new StringBuilder();
-                       sb.append("<p class=\"alert alert-danger error-message\" role=\"alert\">User name or password is <strong>incorrect</strong>.</p>");
+                       sb.append("<p class=\"alert alert-danger message\" role=\"alert\">User name or password is <strong>incorrect</strong>.</p>");
                        request.setAttribute("message", sb.toString());
                        request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
@@ -120,8 +111,8 @@ public class LoginServlet extends HttpServlet {
                 else {
                     logger.warn("Empty fields");
                     StringBuilder sb = new StringBuilder();
-                    sb.append("<p class=\"alert alert-danger error-message\" role=\"alert\">Fields are <strong>empty</strong>.</p>");
-                    request.setAttribute("message", sb.toString());
+                    sb.append("<p class=\"alert alert-danger message\" role=\"alert\">Fields are <strong>empty</strong>.</p>");
+                    request.getSession().setAttribute("message", sb.toString());
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
             }
@@ -146,47 +137,5 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         }
-        
-        
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

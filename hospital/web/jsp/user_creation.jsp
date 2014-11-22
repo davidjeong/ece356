@@ -10,7 +10,7 @@
         <jsp:include page="/UserCreationServlet" />
         <% List<Doctor> doctorList = (List<Doctor>)session.getAttribute("allDoctorList"); %>
         
-        <form name="input" action="UserCreationServlet" class="form-horizontal" role="form" method="POST">
+        <form name="input" id="ajaxRequestForUserCreation" class="form-horizontal" role="form" method="POST">
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
             <div class="form-group">
                 <label for="user_type" class="col-sm-2 control-label">Type of User*</label>
@@ -111,9 +111,39 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button id="create_submit" type="submit" onclick="submitNewUser();" class="btn btn-default" disabled>Create User</button>
+                    <button id="newUserSubmit" type="submit" class="btn btn-default" disabled>Create User</button>
                 </div>
             </div>
+            <p id="creation_message"></p>
         </form>
+        <script type="text/javascript">
+            $("#ajaxRequestForUserCreation").submit(function(e){
+                console.log("stopping");
+                e.preventDefault();
+            });
+
+            $("#newUserSubmit").click(function(e) { 
+                dataString = $("#ajaxRequestForUserCreation").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "UserCreationServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#creation_message").html(data.output);
+                        if (data.success === 'true') {
+                            $("#creation_message").removeClass();
+                            $("#creation_message").addClass("alert alert-success message");
+                            console.log("success");
+                        } else if (data.success === 'false') {
+                            $("#creation_message").removeClass();
+                            $("#creation_message").addClass("alert alert-danger message");
+                            console.log("false");
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

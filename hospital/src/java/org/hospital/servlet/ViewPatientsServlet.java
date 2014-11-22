@@ -6,6 +6,7 @@
 package org.hospital.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,47 +27,26 @@ import org.slf4j.LoggerFactory;
 public class ViewPatientsServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         CallableStatement cs = null;
         ResultSet rs = null;
-        
         List<Patient> patientList = null;
-   
+        StringBuilder output = null;
+        boolean success = false;
+        
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
-        
-        try {
+        try {           
+            output = new StringBuilder();
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
             String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
-            if (!cpsoNumber.isEmpty()) {
+
+            if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
                 int i=0;
                 cs.setString(++i, cpsoNumber);
                 logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
@@ -84,6 +64,7 @@ public class ViewPatientsServlet extends HttpServlet {
                         patientList.add(p);
                         logger.info("Adding [" + p + "] to patient list");
                     }
+                    success = true;
                 }
             }            
         }
@@ -104,35 +85,46 @@ public class ViewPatientsServlet extends HttpServlet {
                 } catch (SQLException ex) {
                 }
             }
-            if (patientList != null) 
-            {
-                request.getSession().setAttribute("PatientList", patientList);
+            PrintWriter out = response.getWriter();
+            response.setContentType("text/html");
+            response.setHeader("Cache-control", "no-cache, no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Expires", "-1");
+
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "POST");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response.setHeader("Access-Control-Max-Age", "86400");
+            
+            output = new StringBuilder();
+            if (patientList != null) {
+                output.append("<table class='table table-hover'>");
+                output.append("<thead>");
+                output.append("<tr>");
+                output.append("<th>Patient ID</th>");
+                output.append("<th>Legal Name</th>");
+                output.append("<th>Default Doctor</th>");
+                output.append("<th>Health Status</th>");
+                output.append("</tr>");
+                output.append("</thead>");
+                if (patientList.size() > 0) {
+                    output.append("<tbody>");
+                    for (Patient p : patientList) {
+                        output.append("<tr>");
+                        output.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
+                        output.append("<td>").append(p.getLegalName()).append("</td>");
+                        output.append("<td>").append(p.getDefaultDoctor()).append("</td>");
+                        output.append("<td>").append(p.getHealthStatus()).append("</td>");
+                        output.append("</tr>");
+                    }
+                    output.append("</tbody>");
+                }
+                output.append("</table>");
+                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
+            } else {
+                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Failed to retrieve patients." + "\"} ");
             }
+            out.close();
         }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

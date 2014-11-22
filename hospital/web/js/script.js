@@ -1,25 +1,29 @@
 function load_visits() {
-    $("#content-panel").load("jsp/visit_record.jsp");
+    $("#content-panel").load("../jsp/visit_record.jsp");
 }
             
 function load_patients() {
-    $("#content-panel").load("jsp/view_patients.jsp");
+    $("#content-panel").load("../jsp/view_patients.jsp");
 }
             
 function user_creation() {
-    $("#content-panel").load("jsp/user_creation.jsp");
+    $("#content-panel").load("../jsp/user_creation.jsp");
 }
 
 function manage_appointments() {
-    $("#content-panel").load("jsp/manage_appointments.jsp");
+    $("#content-panel").load("../jsp/manage_appointments.jsp");
 }
 
-function Doctor_Visits() {
-     $("#content-panel").load("jsp/Doctor_Visits.jsp");
+function doctor_visits() {
+    $("#content-panel").load("../jsp/doctor_visits.jsp");
 }
 
-function Patient_Visits() {
-     $("#content-panel").load("jsp/Patient_Visits.jsp");
+function patient_visits() {
+     $("#content-panel").load("../jsp/patient_visits.jsp");
+}
+
+function manage_doctor_patient_viewing() {
+    $("#content-panel").load("../jsp/doctor_patient_viewing.jsp");
 }
 
 function showDoctorDiv() {
@@ -57,12 +61,7 @@ function showLegalDiv() {
 function hideAll() {
     $(".doctor-field").hide();
     $(".patient-field").hide();
-    $('#create_submit').prop("disabled", false);
-}
-
-
-function manage_doctor_patient_viewing() {
-    $("#content-panel").load("jsp/doctor_patient_viewing.jsp");
+    $('#newUserSubmit').prop("disabled", false);
 }
 
 function changeDefaultDoctor(doctor) {
@@ -70,4 +69,17 @@ function changeDefaultDoctor(doctor) {
     var cpso = parent.value;
     $("#default_doctor").val(cpso);
     $("#default_doctor_dropdown").html(doctor.innerHTML + "&nbsp;<span class=\"caret\"></span>");
+}
+
+function untruncateCpso(value) {
+    if (value.length === 6) {
+        return value;
+    }
+    var fixed = value;
+    var len = value.length;
+    while (len < 6) {
+        fixed = '0' + fixed;
+        len++;
+    }
+    return fixed;
 }

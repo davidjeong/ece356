@@ -4,8 +4,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/styles.css">
         <title>Welcome to MediCare</title>
     </head>
     <body>
@@ -29,24 +29,25 @@
                             <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
                         <% } 
                         if ((userType).equals(SQLConstants.Finance)) { %>
-                             <li><a href="#" onclick="Doctor_Visits();">Doctor Visits</a></li>
-                             <li><a href="#" onclick="Patient_Visits();">Patient Visits</a></li>
+                             <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
+                             <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
                         <% } %>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 
                         if (!legalName.isEmpty()) {
                      %>
-                     <p class="navbar-text navbar-right">
-                         Welcome&nbsp;<%=legalName%>
-                     </p>
-                     <% } %>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="../index.jsp">Logout</a></li>
+                        <li><a href="#">Welcome&nbsp;<%=legalName%></a></li>
+                    </ul>
+                    <% } %>
                 </div>
             </div>
         </nav>
         <div class="container" id="content-panel">
         </div>
-        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/script.js"></script>
     </body>
 </html>

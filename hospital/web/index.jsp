@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     </head>
     <body>
-        <form id="login_info" action="LoginServlet" method="POST">
+        <form id="ajaxRequestForLoginInfo" action="LoginServlet" method="POST">
             <div id="login">
                 <div class="jumbotron">
                     <div class="bg"></div>
@@ -21,11 +21,9 @@
                         <p>
                             Password:&nbsp;<input id="login_password" type="password" name="password">
                         </p>
-                        <c:if test="{$not empty message}">
-                            ${message}
-                        </c:if>
+                        <p id="login_error_message"></p>
                         <p>
-                            <button type="submit" class="btn btn-default" type="submit">Login</button>
+                            <button id="loginButton" type="submit" class="btn btn-default" type="submit">Login</button>
                         </p>
                     </div>
                 </div>
@@ -34,5 +32,31 @@
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript">
+             $("#ajaxRequestForLoginInfo").submit(function(e){
+                console.log("stopping");
+                e.preventDefault();
+            });
+
+            $("#loginButton").click(function(e) { 
+                dataString = $("#ajaxRequestForLoginInfo").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "LoginServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (data.success === 'true') {
+                            window.location = data.output;
+                        }
+                        else {
+                            $("#login_error_message").html(data.output);
+                            $("#login_error_message").addClass("alert alert-danger message");
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

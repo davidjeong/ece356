@@ -6,6 +6,8 @@
 package org.hospital.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,8 +29,9 @@ public class DoctorVisitsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         CallableStatement cs = null;
+        CallableStatement cs = null;
         ResultSet rs = null;
+        boolean success = false;
         int PatientVisits = 0;
         String cpso = null;
         String datetime = null;
@@ -39,7 +42,6 @@ public class DoctorVisitsServlet extends HttpServlet {
         try {
             cpso = request.getParameter("cpso");
             datetime = request.getParameter("searchtime");
-            logger.info(datetime);
             if (!cpso.isEmpty() && !datetime.isEmpty()) {
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT);
                 cs.setString(1, cpso);
@@ -49,6 +51,7 @@ public class DoctorVisitsServlet extends HttpServlet {
                 {
                     PatientVisits = rs.getInt("count(distinct v.patient_id)");
                 }
+                success = true;
             }
         }            
         catch (SQLException e)
@@ -74,6 +77,24 @@ public class DoctorVisitsServlet extends HttpServlet {
                 request.getSession().setAttribute("DesiredDoctor", cpso);
             }
         }
-        getServletContext().getRequestDispatcher("/jsp/view_finance_results.jsp").forward(request, response);
+        
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+        response.setContentType("text/html");
+        response.setHeader("Cache-control", "no-cache, no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "-1");
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        response.setHeader("Access-Control-Max-Age", "86400");
+        
+        StringBuilder output = new StringBuilder();
+        if (success && PatientVisits > 0) {
+            output.append("Number of Patients seen by Doctor: ").append(PatientVisits);
+        }
+        out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
+        out.close();
     }
 }

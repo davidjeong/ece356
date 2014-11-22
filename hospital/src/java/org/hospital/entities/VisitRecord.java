@@ -1,0 +1,84 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.hospital.entities;
+
+import java.util.Date;
+
+/**
+ *
+ * @author l22fu
+ */
+public class VisitRecord {
+ 
+    private int patient_id;
+    private int cpso_number;
+    private Date start_time;
+    private Date end_time;
+    private String surgery_name;
+    private String prescription;
+    private String comments;
+    private String diagnosis;
+    
+    public VisitRecord() {
+        
+    }
+    
+    public VisitRecord (int patient_id, int cpso_number, Date start_time, Date end_time, String surgery_name, String prescription, String comments, String diagnosis) {
+        this.patient_id = patient_id;
+        this.cpso_number = cpso_number;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.surgery_name = surgery_name;
+        this.prescription = prescription;
+        this.comments = comments;
+        this.diagnosis = diagnosis;
+    }
+    
+    public int getPatientID(){
+        return patient_id;
+    }
+    
+    public int getCPSONumber() {
+        return cpso_number;
+    }
+    
+    public Date getStartTime() {
+        return start_time;
+    }
+    
+    public Date getEndTime() {
+        return end_time;
+    }
+    
+    public String getSurgeryName() {
+        return surgery_name;
+    }
+    
+    public void setPrescription(String name) {
+        this.prescription = name;
+    }
+    
+    public String getPerscription() {
+        return prescription;
+    }
+    
+    public void setComments(String c) {
+        this.comments = c;
+    }
+    
+    public String getComments() {
+        return comments;
+    }
+    
+    public void setDiagnosis(String d) {
+        this.diagnosis = d;
+    }
+    
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+    
+}

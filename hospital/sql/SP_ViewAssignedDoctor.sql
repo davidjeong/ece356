@@ -7,6 +7,7 @@ CREATE PROCEDURE ViewAssignedDoctor(IN cpso_number_ INT)
 		p.default_doctor,
         p.health_status,
         p.user_name,
+        p.patient_id,
         u.legal_name
 	FROM
 		patient_schema p

@@ -8,6 +8,7 @@ public class Patient extends User {
     private String sinNumber;
     private String phoneNumber;
     private String address;
+    private String patientId;
 
     public Patient() {
     }
@@ -58,5 +59,15 @@ public class Patient extends User {
     
     public void setAddress(String address) {
         this.address = address;
+    }
+    
+    public String getPatientId ()
+    {
+        return patientId;
+    }
+    
+    public void setPatientId (String patientId)
+    {
+        this.patientId = patientId;
     }
 }

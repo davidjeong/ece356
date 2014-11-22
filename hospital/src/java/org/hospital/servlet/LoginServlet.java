@@ -93,7 +93,6 @@ public class LoginServlet extends HttpServlet {
                             if (rs.next())
                             {
                                 String number = rs.getString("cpso_number");
-                                //getServletContext().setAttribute("cpsonumber", number);
                                 request.getSession().setAttribute("cpsonumber", number);
                             }
                         }

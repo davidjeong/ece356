@@ -44,32 +44,6 @@ public class ViewPatientsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        CallableStatement cs = null;
-        ResultSet rs = null;
-         
-        if (SQLConstants.CONN == null) {
-            MySQLConnection.establish();
-        }
-        
-        try {
-        cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-        /*cs.setString(1, getServletContext().getAttribute("cpsonumber"));
-                
-                    cs.setString(++i, userName);
-                    cs.setString(++i, password);
-                    rs = cs.executeQuery();*/
-        }
-        catch (SQLException e)
-        {
-                    
-        }
-                //ViewAssignedDoctor(getServletContext().getAttribute("cpsonumber")));
-        
-        Patient p = new Patient();
-        List<Patient> list = new ArrayList<Patient>();
-        
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,7 +58,61 @@ public class ViewPatientsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        
+        List<Patient> PatientList = null;
+   
+        if (SQLConstants.CONN == null) {
+            MySQLConnection.establish();
+        }
+        
+        try {
+            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
+            cs.setString(1, request.getSession().getAttribute("cpsonumber").toString());
+            
+            logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
+            
+            rs = cs.executeQuery();
+            
+            if (rs != null)
+            { 
+                PatientList = new ArrayList();
+                while (rs.next())
+                {
+                    Patient p = new Patient();
+                    p.setPatientId(rs.getString("patient_id"));
+                    p.setLegalName(rs.getString("legal_name"));
+                    p.setDefaultDoctor(rs.getString("default_doctor"));
+                    p.setHealthStatus(rs.getString("health_status"));
+                    PatientList.add(p);
+                    logger.info("Adding [" + p + "] to patient list");
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+                    
+        }
+        finally {
+            if (cs != null) {
+                try {
+                    cs.close();
+                } catch (SQLException ex) {
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                }
+            }
+            if (PatientList != null) 
+            {
+                request.getSession().setAttribute("PatientList", PatientList);
+            }
+        }
     }
 
     /**

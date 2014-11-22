@@ -5,60 +5,97 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h2>Please enter the following to create a new user:</h2>
-        <form name="input" action="UserCreationServlet" method="post">
-            <p>User type: <select name="userType" id="userType">
-                    <option value="select">&lt;Select a user type&gt;</option>
-                    <option value="patient">Patient</option>
-                    <option value="doctor">Doctor</option>
-                    <option value="staff">Staff</option>
-                    <option value="legal">Legal</option>
-                    <option value="finance">Finance</option>
-                </select>
-            </p>
-            <p>Legal name: <input type="text" name="legal_name"><p> 
-            <p>Username: <input type="text" name="username"><p>
-            <p>Password: <input type="text" name="password"><p>
-            <div id="doctor_input">
-                <p>CPSO Number: <input type="text" name="cpso"></p>
-                <p>Department: <input type="text" name="department"></p>
+        <div class="dropdown clearfix">
+            <p>Type of User</p>
+            <button class="btn btn-default dropdown-toggle" type="button" id="userTypeSelector" data-toggle="dropdown">Types&nbsp;<span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                <li role="presentation"><a role="menuitem" tabindex="0" value="doctor" href="#" onclick="showDoctorDiv();">Doctor</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="1" value="patient" href="#" onclick="showPatientDiv();">Patient</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="2" value="staff" href="#" onclick="showStaffDiv();">Staff</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="3" value="finance" href="#" onclick="showFinanceDiv();">Finance</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="4" value="legal" href="#" onclick="showLegalDiv();">Legal</a></li>
+            </ul>
+        </div>
+        <form name="input" action="UserCreationServlet" class="form-horizontal" role="form" method="POST">
+            <input id="usertype" type="hidden" name="usertype" value="">
+            <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
+            <div class="form-group">
+                <label for="legal_name" class="col-sm-2 control-label">Legal Name*</label>
+                <div class="col-sm-10">
+                    <input name="legal_name" type="text" class="form-control" id="legal_name" placeholder="Legal Name">
+                 </div>
             </div>
-            <div id="patient_input">
-                <p>Default doctor: <input type="text" name="default_doctor"></p>
-                <p>Health status: <input type="text" name="health_status"></p>
-                <p>Health card number: <input type="text" name="health_card_number"></p>
-                <p>SIN number: <input type="text" name="sin_number"></p>
-                <p>Phone number: <input type="text" name="phone_number"></p>
-                <p>Address: <input type="text" name="address"></p>
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">User Name*</label>
+                <div class="col-sm-10">
+                    <input name="username" type="text" class="form-control" id="username" placeholder="User Name">
+                 </div>
             </div>
-            <br/>
-            <input type="submit" value="Submit">
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">Password*</label>
+                <div class="col-sm-10">
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+                 </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password" class="col-sm-2 control-label">Confirm Password*</label>
+                <div class="col-sm-10">
+                    <input name="confirm_password" type="password" class="form-control" id=confirm_password" placeholder="Re-type Password">
+                </div>
+            </div>
+            <div class="form-group doctor-field">
+                <label for="cpso" class="col-sm-2 control-label">CPSO Number*</label>
+                <div class="col-sm-10">
+                    <input name="cpso" type="text" class="form-control" id="cpso" placeholder="CPSO Number">
+                </div>
+            </div>
+            <div class="form-group doctor-field">
+                <label for="department" class="col-sm-2 control-label">Department</label>
+                <div class="col-sm-10">
+                    <input name="department" type="text" class="form-control" id="department" placeholder="Department">
+                </div>
+            </div>
+            <div class="form-group patient-field">
+                <label for="health_card_number" class="col-sm-2 control-label">Health Card Number*</label>
+                <div class="col-sm-10">
+                    <input name="health_card_number" type="text" class="form-control" id="health_card_number" placeholder="Health Card Number">
+                </div>
+            </div>
+            <div class="form-group patient-field">
+                <label for="default_doctor" class="col-sm-2 control-label">Default Doctor</label>
+                <div class="col-sm-10">
+                    <input name="default_doctor" type="text" class="form-control" id="department" placeholder="Default Doctor">
+                </div>
+            </div>
+            <div class="form-group patient-field">
+                <label for="health_status" class="col-sm-2 control-label">Health Status</label>
+                <div class="col-sm-10">
+                    <input name="health_status" type="text" class="form-control" id="health_status" placeholder="Health Status">
+                </div>
+            </div>            
+            <div class="form-group patient-field">
+                <label for="sin_number" class="col-sm-2 control-label">SIN Number</label>
+                <div class="col-sm-10">
+                    <input name="sin_number" type="text" class="form-control" id="sin_number" placeholder="SIN Number">
+                </div>
+            </div>
+            <div class="form-group patient-field">
+                <label for="phone_number" class="col-sm-2 control-label">Phone Number</label>
+                <div class="col-sm-10">
+                    <input name="phone_number" type="text" class="form-control" id="phone_number" placeholder="Phone Number">
+                </div>
+            </div>
+            <div class="form-group patient-field">
+                <label for="sin_number" class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    <input name="address" type="text" class="form-control" id="address" placeholder="Address">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="create_submit" type="submit" onclick="submitNewUser();" class="btn btn-default" disabled>Create User</button>
+                </div>
+            </div>
         </form>
-        <script type='text/javascript'>//<![CDATA[
-            
-            hideAllDivs = function () {
-                $("#doctor_input").hide();
-                $("#patient_input").hide();
-            };
-        
-            handleNewSelection = function () {
-                hideAllDivs();
-            
-                switch ($(this).val()) {
-                    case 'doctor':
-                        $("#doctor_input").show();
-                        break;
-                    case 'patient':
-                        $("#patient_input").show();
-                        break;
-                }
-            };
-        
-            $(document).ready(function() {
-                $("#userType").change(handleNewSelection);
-                handleNewSelection.apply($("#userType"));
-            });
-            //]]>
-        </script>
     </body>
 </html>

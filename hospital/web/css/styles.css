@@ -28,6 +28,14 @@
     padding-right: 15px;
 }
 
+.col-sm-2 {
+    padding-left: 0px;
+}
+
+.form-group {
+    margin-top: 15px;
+}
+
 .content-panel {
     background-color: Cornsilk;
     width: 90% ;
@@ -37,4 +45,16 @@
 
 .error-message {
     font-size: 14px;
+}
+
+.doctor-field {
+    display: none;
+}
+
+.patient-field {
+    display: none;
+}
+
+.mandatory-message {
+    padding-top: 10px;
 }

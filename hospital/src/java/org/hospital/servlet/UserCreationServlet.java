@@ -168,7 +168,6 @@ public class UserCreationServlet extends HttpServlet {
             
             PrintWriter out = response.getWriter();
             response.setContentType("text/html");
-            response.setContentType("text/html");
             response.setHeader("Cache-control", "no-cache, no-store");
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Expires", "-1");

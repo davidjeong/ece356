@@ -109,6 +109,7 @@ public class LoginServlet extends HttpServlet {
                             typeFound = true;
                         }
                         if (typeFound) {
+                            request.getSession().setAttribute("usertype", SQLConstants.USER.getUserType());
                             getServletContext().getRequestDispatcher("/jsp/home_page.jsp").forward(request, response);
                         }
                         else {

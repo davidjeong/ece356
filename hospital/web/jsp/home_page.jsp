@@ -1,3 +1,4 @@
+<%@page import="org.hospital.other.SQLConstants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,11 +16,16 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#" onclick="load_patients();">My Patients</a></li>
-                        <li><a href="#">My History</a></li>
-                        <li><a href="#" onclick="load_visits();">My Appointments</a></li>
-                        <li><a href="#" onclick="user_creation();">Create New User</a></li>
-                        <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
+                        <% String userType = session.getAttribute("usertype").toString(); 
+                        if ((userType).equals(SQLConstants.Doctor)) { %>
+                            <li class="active"><a href="#" onclick="load_patients();">My Patients</a></li>
+                            <li><a href="#">My History</a></li>
+                            <li><a href="#" onclick="load_visits();">My Appointments</a></li>
+                        <% } 
+                        if ((userType).equals(SQLConstants.Staff)) { %>
+                            <li><a href="#" onclick="user_creation();">Create New User</a></li>
+                            <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
+                        <% } %>
                      </ul>
                 </div>
             </div>

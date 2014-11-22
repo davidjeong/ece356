@@ -32,8 +32,10 @@ public class ManageAppointmentServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // This is where we get the data for each doctor. The calendar.
+        StringBuilder sb = new StringBuilder();
         
-        System.out.println("SS");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

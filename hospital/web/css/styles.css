@@ -7,6 +7,10 @@
     z-index: 1;
 }
 
+.refresh-button {
+    float: right;
+}
+
 .jumbotron .bg {
   position: absolute;
     z-index: -1;

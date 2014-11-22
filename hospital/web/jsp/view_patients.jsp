@@ -8,35 +8,52 @@
         <title>View Patients</title>
     </head>
     <body>
-        <jsp:include page="/ViewPatientsServlet"/>
-        <% List<Patient> patientList = (List<Patient>)session.getAttribute("PatientList"); %>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Patient ID</th>
-                    <th>Legal Name</th>
-                    <th>Default Doctor</th>
-                    <th>Health Status</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% int i = 0;
-            while (i<patientList.size()) { 
-                Patient p = patientList.get(i); 
-                int patientId = p.getPatientId();
-                String legalName = p.getLegalName();
-                String defaultDoctor = p.getDefaultDoctor();
-                String healthStatus = p.getHealthStatus(); 
-            %>
-            <tr>
-                <td><%=patientId%></td>
-                <td><%=legalName%></td>
-                <td><%=defaultDoctor%></td>
-                <td><%=healthStatus%></td>
-            </tr>
-            </tbody>
-            <% i++; 
-            } %>
-        </table>
+        <div>
+            <button id="refreshViewPatients" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+            <div id="viewPatientContent"></div>
+        </div>
+        <script type="text/javascript">
+            
+            var cpso = "";
+            $(document).ready(function() {
+                cpso = untruncateCpso(${sessionScope.cpsonumber}.toString());
+                dataString = " {\"cpsonumber\":\"" + cpso + "\"}";
+                
+                $.ajax({
+                    type: "POST",
+                    url: "../ViewPatientsServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#creation_message").html(data.output);
+                        if (data.success === 'true') {
+                            $("#viewPatientContent").html(data.output);
+                        } else if (data.success === 'false') {
+                            console.log("failure");
+                        }
+                        console.log(data.output);
+                    }
+                });
+            });
+
+            $("#refreshViewPatients").click(function(e) {
+                dataString = "{\"cpsonumber\":\"\${sessionScope.cpsonumber}\"";
+                console.log(dataString);
+                $.ajax({
+                    type: "POST",
+                    url: "../ViewPatientsServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#creation_message").html(data.output);
+                        if (data.success === 'true') {
+                            $("#viewPatientContent").html(data.output);
+                        } else if (data.success === 'false') {
+                            console.log("failure");
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

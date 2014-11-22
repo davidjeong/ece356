@@ -70,3 +70,16 @@ function changeDefaultDoctor(doctor) {
     $("#default_doctor").val(cpso);
     $("#default_doctor_dropdown").html(doctor.innerHTML + "&nbsp;<span class=\"caret\"></span>");
 }
+
+function untruncateCpso(value) {
+    if (value.length === 6) {
+        return value;
+    }
+    var fixed = value;
+    var len = value.length;
+    while (len < 6) {
+        fixed = '0' + fixed;
+        len++;
+    }
+    return fixed;
+}

@@ -7,7 +7,6 @@ package org.hospital.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,11 +70,6 @@ public class DoctorVisitsServlet extends HttpServlet {
                 } catch (SQLException ex) {
                 }
             }
-            if (PatientVisits > 0) 
-            {
-                request.getSession().setAttribute("PatientVisits", PatientVisits);
-                request.getSession().setAttribute("DesiredDoctor", cpso);
-            }
         }
         
         PrintWriter out = response.getWriter();
@@ -93,6 +87,8 @@ public class DoctorVisitsServlet extends HttpServlet {
         StringBuilder output = new StringBuilder();
         if (success && PatientVisits > 0) {
             output.append("Number of Patients seen by Doctor: ").append(PatientVisits);
+        } else {
+            output.append("Invalid CPSO Number or Before Date Entered.");
         }
         out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
         out.close();

@@ -5,17 +5,20 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hospital.entities.VisitRecord;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(urlPatterns = {"/ViewRecordServlet"})
+@WebServlet(name = "ViewRecordServlet", urlPatterns = {"/ViewRecordServlet"})
 public class ViewRecordServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(LoginServlet.class);
@@ -30,19 +33,7 @@ public class ViewRecordServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewRecordServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewRecordServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,7 +48,71 @@ public class ViewRecordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+                CallableStatement cs = null;
+        ResultSet rs = null;
+        
+        List<VisitRecord> visitList = null;
+        
+        if (SQLConstants.CONN == null) {
+            MySQLConnection.establish();
+        }
+        
+        try {
+            
+            String userType = request.getSession().getAttribute("usertype").toString();
+            if(userType.equals("doctor") || 
+               userType.equals("staff") ||
+               userType.equals("patient") ) {
+
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_VISIT_RECORDS_FOR_USER);
+                int i=0;
+                cs.setString(++i, request.getSession().getAttribute("username").toString());
+            } else {
+                //legal and finance  
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_VISIT_RECORDS);
+            }
+            rs = cs.executeQuery();
+            
+            if (rs != null)
+            { 
+                visitList = new ArrayList();
+                while (rs.next())
+                {   
+                    VisitRecord vr = new VisitRecord( rs.getInt("patient_id"),
+                                                      rs.getInt("cpso_number"),
+                                                      rs.getDate("start_time"),
+                                                      rs.getDate("end_time"),
+                                                      rs.getString("surgery_name"),
+                                                      rs.getString("prescription"),
+                                                      rs.getString("comments"),
+                                                      rs.getString("diagnosis"));
+                    visitList.add(vr);
+                    logger.info("Adding [" + vr + "] to visit list");
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.error(e.toString());
+        } catch (Exception e) {
+            logger.error(e.toString());
+        } finally {
+            if (cs != null) {
+                try {
+                    cs.close();
+                } catch (SQLException ex) {
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                }
+            }
+            if (visitList != null) 
+            {
+                request.getSession().setAttribute("VisitList", visitList);
+            }
+        }
     }
 
     /**
@@ -71,59 +126,8 @@ public class ViewRecordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        CallableStatement cs = null;
-        ResultSet rs = null;
-        
-        if (SQLConstants.CONN == null) {
-            MySQLConnection.establish();
-        }
-        
-        try {
-            
-            String userType = request.getSession().getAttribute("userType").toString();
-            if(userType.equals("doctor") || 
-               userType.equals("staff") ||
-               userType.equals("patient") ) {
 
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_VISIT_RECORDS_FOR_USER);
-                int i=0;
-                cs.setString(++i, request.getSession().getAttribute("userName").toString());
-            } else {
-                //legal and finance  
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_VISIT_RECORDS);
-            }
-            rs = cs.executeQuery();
-            
-            
-
-        } catch (SQLException e) {
-            logger.error(e.toString());
-        } catch (Exception e) {
-            logger.error(e.toString());
-        } finally {
-            if (cs != null) {
-                try {
-                    cs.close();
-                } catch (SQLException e) {
-                    logger.error(e.toString());
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    logger.error(e.toString());
-                }
-            }
-        }
-        
-        
-        
-        
-        processRequest(request, response);
     }
-
     /**
      * Returns a short description of the servlet.
      *

@@ -12,35 +12,10 @@
             <div>
                 <button id="CountPatientVisits" type="submit" class="btn btn-default" >Submit</button>
             </div>
-            <div id="creation_message"></div>
+            <div id="content_div"></div>
         </form>
         <script type="text/javascript">
-            $("#ajaxRequestPatientVisits").submit(function(e){
-                console.log("stopping");
-                e.preventDefault();
-            });
-
-            $("#CountPatientVisits").click(function(e) { 
-                dataString = $("#ajaxRequestPatientVisits").serialize();
-                console.log("lol");
-                $.ajax({
-                    type: "POST",
-                    url: "../ViewPatientsServlet",
-                    data: dataString,
-                    dataType: "JSON",
-                    success: function (data) {
-                        $("#creation_message").html(data.output);
-                        if (data.success === 'true') {
-                            $("#creation_message").html(data.output);
-                            console.log("success");
-                        } else if (data.success === 'false') {
-                            $("#creation_message").html(data.output);
-  
-                            console.log("false");
-                        }
-                    }
-                });
-            });
+            
         </script>
     </body>
 </html>

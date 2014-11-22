@@ -15,5 +15,9 @@ function manage_appointments() {
 }
 
 function view_finance() {
-     $("#content-panel").load("jsp/view_finance.jsp");
+    $("#content-panel").load("jsp/view_finance.jsp");
+}
+
+function manage_doctor_patient_viewing() {
+    $("#content-panel").load("jsp/doctor_patient_viewing.jsp");
 }

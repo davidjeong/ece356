@@ -22,6 +22,7 @@
                             <li><a href="#" onclick="load_patients();">My Patients</a></li>
                             <li><a href="#">My History</a></li>
                             <li><a href="#" onclick="load_visits();">My Appointments</a></li>
+                            <li><a href="#" onclick="manage_doctor_patient_viewing();">Manage Patients</a></li>
                         <% } 
                         if ((userType).equals(SQLConstants.Staff)) { %>
                             <li><a href="#" onclick="user_creation();">Create New User</a></li>

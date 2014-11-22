@@ -44,7 +44,7 @@ public class ViewPatientsServlet extends HttpServlet {
         try {           
             output = new StringBuilder();
             String UserType = request.getSession().getAttribute("usertype").toString();
-            if (UserType == SQLConstants.Doctor)
+            if (UserType.equals(SQLConstants.Doctor))
             {
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
                 String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
@@ -71,12 +71,9 @@ public class ViewPatientsServlet extends HttpServlet {
                     }
                 }            
             }
-            else if (UserType == SQLConstants.Finance)
+            else if (UserType.equals(SQLConstants.Finance))
             {
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-                int i=0;
-                cs.setString(++i, cpsoNumber);
-                logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_PATIENT);
                 rs = cs.executeQuery();
                 if (rs != null)
                 { 

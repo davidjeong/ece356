@@ -37,6 +37,7 @@ public class ViewPatientsServlet extends HttpServlet {
         List<Patient> patientList = null;
         StringBuilder output = null;
         boolean success = false;
+        String userType = request.getSession().getAttribute("usertype").toString();
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -44,12 +45,10 @@ public class ViewPatientsServlet extends HttpServlet {
         try {           
             output = new StringBuilder();
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-            String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
-
-            if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
-                int i=0;
-                cs.setString(++i, cpsoNumber);
-                logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
+            
+            if (userType.equals(SQLConstants.Finance))
+            {
+                cs.setString(1, request.getParameter("cpso"));
                 rs = cs.executeQuery();
                 if (rs != null)
                 { 
@@ -66,7 +65,32 @@ public class ViewPatientsServlet extends HttpServlet {
                     }
                     success = true;
                 }
-            }            
+            }
+            else if (userType.equals(SQLConstants.Doctor))
+            {
+                String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
+
+                if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
+                    //int i=0;
+                    cs.setString(1, cpsoNumber);
+                    rs = cs.executeQuery();
+                    if (rs != null)
+                    { 
+                        patientList = new ArrayList();
+                        while (rs.next())
+                        {
+                            Patient p = new Patient();
+                            p.setPatientId(rs.getInt("patient_id"));
+                            p.setLegalName(rs.getString("patient_legal_name"));
+                            p.setDefaultDoctor(rs.getString("doctor_legal_name"));
+                            p.setHealthStatus(rs.getString("health_status"));
+                            patientList.add(p);
+                            logger.info("Adding [" + p + "] to patient list");
+                        }
+                        success = true;
+                    }
+                }            
+            }
         }
         catch (SQLException e)
         {

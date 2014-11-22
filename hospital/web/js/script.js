@@ -14,11 +14,11 @@ function manage_appointments() {
     $("#content-panel").load("../jsp/manage_appointments.jsp");
 }
 
-function Doctor_Visits() {
-     $("#content-panel").load("../jsp/doctor_visits.jsp");
+function doctor_visits() {
+    $("#content-panel").load("../jsp/doctor_visits.jsp");
 }
 
-function Patient_Visits() {
+function patient_visits() {
      $("#content-panel").load("../jsp/patient_visits.jsp");
 }
 

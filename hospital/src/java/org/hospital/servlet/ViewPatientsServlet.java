@@ -37,14 +37,14 @@ public class ViewPatientsServlet extends HttpServlet {
         List<Patient> patientList = null;
         StringBuilder output = null;
         boolean success = false;
-   
+        String userType = request.getSession().getAttribute("usertype").toString();
+        
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         try {           
             output = new StringBuilder();
-            String UserType = request.getSession().getAttribute("usertype").toString();
-            if (UserType.equals(SQLConstants.Doctor))
+            if (userType.equals(SQLConstants.Doctor))
             {
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
                 String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
@@ -71,7 +71,7 @@ public class ViewPatientsServlet extends HttpServlet {
                     }
                 }            
             }
-            else if (UserType.equals(SQLConstants.Finance))
+            else if (userType.equals(SQLConstants.Finance))
             {
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_PATIENT);
                 rs = cs.executeQuery();
@@ -127,8 +127,10 @@ public class ViewPatientsServlet extends HttpServlet {
                 output.append("<tr>");
                 output.append("<th>Patient ID</th>");
                 output.append("<th>Legal Name</th>");
-                output.append("<th>Default Doctor</th>");
-                output.append("<th>Health Status</th>");
+                if (userType.equals(SQLConstants.Doctor)) {
+                    output.append("<th>Default Doctor</th>");
+                    output.append("<th>Health Status</th>");
+                }
                 output.append("</tr>");
                 output.append("</thead>");
                 if (patientList.size() > 0) {
@@ -137,8 +139,10 @@ public class ViewPatientsServlet extends HttpServlet {
                         output.append("<tr>");
                         output.append("<td>").append(p.getPatientId()).append("</td>");
                         output.append("<td>").append(p.getLegalName()).append("</td>");
-                        output.append("<td>").append(p.getDefaultDoctor()).append("</td>");
-                        output.append("<td>").append(p.getHealthStatus()).append("</td>");
+                        if (userType.equals(SQLConstants.Doctor)) {
+                            output.append("<td>").append(p.getDefaultDoctor()).append("</td>");
+                            output.append("<td>").append(p.getHealthStatus()).append("</td>");
+                        }
                         output.append("</tr>");
                     }
                     output.append("</tbody>");

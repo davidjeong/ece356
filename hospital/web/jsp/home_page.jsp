@@ -29,8 +29,8 @@
                             <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
                         <% } 
                         if ((userType).equals(SQLConstants.Finance)) { %>
-                             <li><a href="#" onclick="Doctor_Visits();">Doctor Visits</a></li>
-                             <li><a href="#" onclick="Patient_Visits();">Patient Visits</a></li>
+                             <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
+                             <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
                         <% } %>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 

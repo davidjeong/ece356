@@ -79,7 +79,9 @@ INSERT INTO surgery_schema (surgery_name, cost) VALUES
 ('broken bone', '69');
 
 INSERT INTO visit_schema (patient_id, cpso_number, start_time, end_time, surgery_name, prescription, comments, diagnosis) VALUES
-('4', '000000', '2014-11-21:23:00:00', '2014-11-21:23:30:00', 'test', 'test', 'test', 'test'),
-('1', '000000', '2014-11-21:22:00:00', '2014-11-21:22:30:00', 'test', 'test', 'test', 'test'),
-('2', '000000', '2014-11-21:21:00:00', '2014-11-21:21:30:00', 'test', 'test', 'test', 'test'),
-('3', '000000', '2014-11-21:20:00:00', '2014-11-21:20:30:00', 'test', 'test', 'test', 'test');
+<<<<<<< HEAD
+('4', '000000', '2014-11-21:23:00:00', '2014-11-21:23:30:00', 'test', 'test', 'test', 'CAncer1'),
+('1', '000000', '2014-11-21:22:00:00', '2014-11-21:22:30:00', 'test', 'test', 'test', 'CAncer2'),
+('2', '000000', '2014-11-21:21:00:00', '2014-11-21:21:30:00', 'test', 'test', 'test', 'CAncer3'),
+('3', '000000', '2014-11-21:20:00:00', '2014-11-21:20:30:00', 'test', 'test', 'test', 'CAncer4');
+

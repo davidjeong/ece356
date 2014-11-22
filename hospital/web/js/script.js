@@ -15,11 +15,11 @@ function manage_appointments() {
 }
 
 function Doctor_Visits() {
-     $("#content-panel").load("jsp/Doctor_Visits.jsp");
+     $("#content-panel").load("jsp/doctor_visits.jsp");
 }
 
 function Patient_Visits() {
-     $("#content-panel").load("jsp/Patient_Visits.jsp");
+     $("#content-panel").load("jsp/patient_visits.jsp");
 }
 
 function showDoctorDiv() {

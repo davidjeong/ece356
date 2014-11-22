@@ -6,8 +6,11 @@ CREATE PROCEDURE ViewAllDoctors()
 		SELECT
 			*
 		FROM	
-			doctor_schema d
-		ORDER BY d.legal_name;
+			doctor_schema d,
+			user_schema u
+		WHERE
+			d.user_name = u.user_name
+		ORDER BY u.legal_name;
 	END //
 DELIMITER ;
 

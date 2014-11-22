@@ -41,13 +41,39 @@ public class ViewPatientsServlet extends HttpServlet {
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
-        try {
-            
+        try {           
             output = new StringBuilder();
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-            String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
-            
-            if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
+            String UserType = request.getSession().getAttribute("usertype").toString();
+            if (UserType == SQLConstants.Doctor)
+            {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
+                String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
+
+                if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
+                    int i=0;
+                    cs.setString(++i, cpsoNumber);
+                    logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
+                    rs = cs.executeQuery();
+                    if (rs != null)
+                    { 
+                        patientList = new ArrayList();
+                        while (rs.next())
+                        {
+                            Patient p = new Patient();
+                            p.setPatientId(rs.getInt("patient_id"));
+                            p.setLegalName(rs.getString("patient_legal_name"));
+                            p.setDefaultDoctor(rs.getString("doctor_legal_name"));
+                            p.setHealthStatus(rs.getString("health_status"));
+                            patientList.add(p);
+                            logger.info("Adding [" + p + "] to patient list");
+                        }
+                        success = true;
+                    }
+                }            
+            }
+            else if (UserType == SQLConstants.Finance)
+            {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
                 int i=0;
                 cs.setString(++i, cpsoNumber);
                 logger.info("Adding [" + request.getSession().getAttribute("cpsonumber").toString() + "] to patient list");
@@ -66,8 +92,8 @@ public class ViewPatientsServlet extends HttpServlet {
                         logger.info("Adding [" + p + "] to patient list");
                     }
                     success = true;
-                }
-            }            
+                }   
+            }
         }
         catch (SQLException e)
         {

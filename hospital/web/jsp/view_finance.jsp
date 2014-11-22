@@ -3,9 +3,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View Finance</title>
+        <title>Patient Visits</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form name="input" action="PatientVisitServlet" method="post">
+            <p>CPSO Number: <input type="text" name="cpso"><p> 
+            <p>Before Date (Format: YYYY-MM-DD:HH:MM:SS): <input type="text" name="searchtime"><p> 
+            <br/>
+            <input type="submit" value="Submit">
+        </form>
     </body>
 </html>

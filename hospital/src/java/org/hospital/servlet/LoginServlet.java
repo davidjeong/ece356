@@ -79,12 +79,10 @@ public class LoginServlet extends HttpServlet {
                        StringBuilder sb = new StringBuilder();
                        sb.append("<p class=\"alert alert-danger error-message\" role=\"alert\">User name or password is <strong>incorrect</strong>.</p>");
                        request.setAttribute("message", sb.toString());
-
                        request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
                     else {
                         logger.info("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
-
                         //Redirect user based on user type
                         boolean typeFound = false;
                         if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
@@ -97,7 +95,6 @@ public class LoginServlet extends HttpServlet {
                                 String number = rs.getString("cpso_number");
                                 //getServletContext().setAttribute("cpsonumber", number);
                                 request.getSession().setAttribute("cpsonumber", number);
-                                getServletContext().getRequestDispatcher("/jsp/home_page.jsp").forward(request, response);
                             }
                         }
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
@@ -112,7 +109,10 @@ public class LoginServlet extends HttpServlet {
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Legal)) {
                             typeFound = true;
                         }
-                        if (!typeFound) {
+                        if (typeFound) {
+                            getServletContext().getRequestDispatcher("/jsp/home_page.jsp").forward(request, response);
+                        }
+                        else {
                             logger.error("Couldn't find user type");
                         }
                     }

@@ -1,4 +1,6 @@
- function load_visits() {
+
+
+function load_visits() {
     $("#right-panel").load("jsp/visit_record.jsp");
 }
             
@@ -8,4 +10,8 @@ function load_patients() {
             
 function user_creation() {
     $("#right-panel").load("jsp/user_creation.jsp");
+}
+
+function manage_appointments() {
+    $("#right-panel").load("jsp/manage_appointments.jsp");
 }

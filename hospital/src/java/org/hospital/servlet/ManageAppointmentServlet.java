@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
-import org.hospital.other.SQLConstants;
 import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -17,21 +11,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 import org.hospital.entities.Doctor;
-import org.hospital.entities.Patient;
 import org.hospital.other.SQLConstants;
-import org.hospital.entities.User;
-import org.hospital.other.MySQLConnection;
-import org.hospital.entities.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@WebServlet(name = "ViewPatientsServlet", urlPatterns = {"/ViewPatientsServlet"})
-public class ViewPatientsServlet extends HttpServlet {
-
-    Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
+@WebServlet(name = "ManageAppointmentServlet", urlPatterns = {"/ManageAppointmentServlet"})
+public class ManageAppointmentServlet extends HttpServlet {
     
+    Logger logger = Logger.getLogger(ManageAppointmentServlet.class);
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,32 +32,8 @@ public class ViewPatientsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        CallableStatement cs = null;
-        ResultSet rs = null;
-         
-        if (SQLConstants.CONN == null) {
-            MySQLConnection.establish();
-        }
         
-        try {
-        cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-        /*cs.setString(1, getServletContext().getAttribute("cpsonumber"));
-                
-                    cs.setString(++i, userName);
-                    cs.setString(++i, password);
-                    rs = cs.executeQuery();*/
-        }
-        catch (SQLException e)
-        {
-                    
-        }
-                //ViewAssignedDoctor(getServletContext().getAttribute("cpsonumber")));
-        
-        Patient p = new Patient();
-        List<Patient> list = new ArrayList<Patient>();
-        
-        
-        
+        System.out.println("SS");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,7 +48,52 @@ public class ViewPatientsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        List<Doctor> doctorList = null;
+        
+        String userName = request.getSession().getAttribute("username").toString();
+
+        if (userName != null && !userName.isEmpty()) {
+            try {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_DOCTORS_FOR_STAFF);
+                int i=0;
+                cs.setString(++i, userName);
+                rs = cs.executeQuery();
+                
+                if (rs != null) {
+                    doctorList = new ArrayList<Doctor>();
+                    while (rs.next()) {
+                        Doctor d = new Doctor();
+                        d.setLegalName(rs.getString("legal_name"));
+                        d.setUserName(rs.getString("user_name"));
+                        d.setCpsoNumber(rs.getString("cpso_number"));
+                        d.setDepartment(rs.getString("department"));
+                        doctorList.add(d);
+                        logger.info("Adding [" + d + "] to dropdown list.");
+                    }
+                } 
+            } catch (SQLException e) {
+                logger.error(e.toString());
+            } finally {
+                if (cs != null) {
+                    try {
+                        cs.close();
+                    } catch (SQLException ex) {
+                    }
+                }
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    } catch (SQLException ex) {
+                    }
+                }
+                if (doctorList != null) {
+                    request.getSession().setAttribute("doctorList", doctorList);
+                }
+            }
+        }
     }
 
     /**

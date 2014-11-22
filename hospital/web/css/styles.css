@@ -1,3 +1,7 @@
+.container-fluid {
+    padding-left: 0px;
+}
+
 .jumbotron {
     position: relative;
     z-index: 1;

@@ -65,3 +65,11 @@ INSERT INTO patient_schema (user_name, default_doctor, health_status, health_car
 ('glloyd', '287371', 'braces', '987463829121', '2832', null, null),
 ('dhamilton', '431821', 'low blood pressure', '382917263826', '7362', null, null),
 ('rmyers', '432821', 'high blood pressure', '382917291732', '2342', null, null);
+
+INSERT INTO doctor_staff_assignment_schema (cpso_number, staff) VALUES
+('283841', 'staff'),
+('287371', 'staff'),
+('432821', 'staff'),
+('000000', 'mbyrd'),
+('494882', 'crobinson'),
+('018375', 'creed');

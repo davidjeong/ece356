@@ -2,15 +2,23 @@ package org.hospital.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hospital.other.MySQLConnection;
+import org.hospital.other.SQLConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet(urlPatterns = {"/ViewRecordServlet"})
 public class ViewRecordServlet extends HttpServlet {
 
+    Logger logger = LoggerFactory.getLogger(LoginServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -63,6 +71,56 @@ public class ViewRecordServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        
+        if (SQLConstants.CONN == null) {
+            MySQLConnection.establish();
+        }
+        
+        try {
+            
+            String userType = request.getSession().getAttribute("userType").toString();
+            if(userType.equals("doctor") || 
+               userType.equals("staff") ||
+               userType.equals("patient") ) {
+
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_VISIT_RECORDS_FOR_USER);
+                int i=0;
+                cs.setString(++i, request.getSession().getAttribute("userName").toString());
+            } else {
+                //legal and finance  
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_VISIT_RECORDS);
+            }
+            rs = cs.executeQuery();
+            
+            
+
+        } catch (SQLException e) {
+            logger.error(e.toString());
+        } catch (Exception e) {
+            logger.error(e.toString());
+        } finally {
+            if (cs != null) {
+                try {
+                    cs.close();
+                } catch (SQLException e) {
+                    logger.error(e.toString());
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    logger.error(e.toString());
+                }
+            }
+        }
+        
+        
+        
+        
         processRequest(request, response);
     }
 

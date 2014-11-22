@@ -26,6 +26,9 @@
                         if ((userType).equals(SQLConstants.Staff)) { %>
                             <li><a href="#" onclick="user_creation();">Create New User</a></li>
                             <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
+                        <% } 
+                        if ((userType).equals(SQLConstants.Legal)) { %>
+                             <li><a href="#" onclick="view_finance();">View Finance</a></li>      
                         <% } %>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 

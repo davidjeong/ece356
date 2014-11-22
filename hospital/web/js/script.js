@@ -13,3 +13,7 @@ function user_creation() {
 function manage_appointments() {
     $("#content-panel").load("jsp/manage_appointments.jsp");
 }
+
+function view_finance() {
+     $("#content-panel").load("jsp/view_finance.jsp");
+}

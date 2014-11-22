@@ -36,10 +36,11 @@
                      <% String legalName = session.getAttribute("legalname").toString(); 
                         if (!legalName.isEmpty()) {
                      %>
-                     <p class="navbar-text navbar-right">
-                         Welcome&nbsp;<%=legalName%>
-                     </p>
-                     <% } %>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="index.jsp">Logout</a></li>
+                        <li><a href="#">Welcome&nbsp;<%=legalName%></a></li>
+                    </ul>
+                    <% } %>
                 </div>
             </div>
         </nav>

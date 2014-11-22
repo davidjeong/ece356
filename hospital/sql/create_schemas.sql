@@ -38,11 +38,11 @@ CREATE TABLE doctor_staff_assignment_schema(
     FOREIGN KEY (staff) REFERENCES user_schema(user_name)
 );
 
-CREATE TABLE doctor_patient_view_schema(
-	cpso_number VARCHAR (6) NOT NULL,
+CREATE TABLE user_patient_view_schema(
+	user_name VARCHAR (32) NOT NULL,
     patient_id INT NOT NULL,
-    PRIMARY KEY (cpso_number, patient_id),
-    FOREIGN KEY (cpso_number) REFERENCES doctor_schema (cpso_number),
+    PRIMARY KEY (user_name, patient_id),
+    FOREIGN KEY (user_name) REFERENCES user_schema (user_name),
     FOREIGN KEY (patient_id) REFERENCES patient_schema (patient_id)
 );
 

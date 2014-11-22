@@ -6,12 +6,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <title>Welcome</title>
+        <title>Welcome to MediCare</title>
     </head>
     <body>
         <nav class="navbar navbar-default navbar-static-top" role="navigation">
             <div class="container-fluid">
-                
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"></button>
                     <a class="navbar-brand">MediCare</a>
@@ -41,7 +40,6 @@
         </nav>
         <div class="container" id="content-panel">
         </div>
-
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/script.js"></script>

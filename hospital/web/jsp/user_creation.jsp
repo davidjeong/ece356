@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="org.hospital.entities.Doctor"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,6 +7,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
+        <jsp:include page="/UserCreationServlet" />
+        <% List<Doctor> doctorList = (List<Doctor>)session.getAttribute("allDoctorList"); %>
         <div class="dropdown clearfix">
             <p>Type of User</p>
             <button class="btn btn-default dropdown-toggle" type="button" id="userTypeSelector" data-toggle="dropdown">Types&nbsp;<span class="caret"></span></button>
@@ -64,7 +68,18 @@
             <div class="form-group patient-field">
                 <label for="default_doctor" class="col-sm-2 control-label">Default Doctor</label>
                 <div class="col-sm-10">
-                    <input name="default_doctor" type="text" class="form-control" id="department" placeholder="Default Doctor">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="default_doctor_dropdown" data-toggle="dropdown">Doctors&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <% int i = 0;
+                        while (i<doctorList.size()) {
+                            Doctor doctor = doctorList.get(i);
+                            String legalName = doctor.getLegalName();
+                            String cpsoNumber = doctor.getCpsoNumber();
+                        %>
+                        <li value="<%=cpsoNumber%> role="presentation"><a role="menuitem" tabindex="<%=i%>" href="#" onclick="changeDefaultDoctor(this);"><%=legalName%></a></li>
+                        <% i++; } %>
+                    </ul>
+                    <input name="default_doctor" type="hidden" id="default_doctor" value="">
                 </div>
             </div>
             <div class="form-group patient-field">

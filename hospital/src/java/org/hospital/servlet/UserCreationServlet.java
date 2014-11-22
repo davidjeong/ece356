@@ -2,7 +2,11 @@ package org.hospital.servlet;
 
 import java.io.IOException;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -141,7 +145,45 @@ public class UserCreationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        
+        List<Doctor> doctorList = null;
+        
+        try {
+            cs = SQLConstants.CONN.prepareCall(SQLConstants.All_DOCTOR_INFORMATION);
+            rs = cs.executeQuery();
+            
+            if (rs != null) {
+                doctorList = new ArrayList<Doctor>();
+                while (rs.next()) {
+                    Doctor d = new Doctor();
+                    d.setLegalName(rs.getString("legal_name"));
+                    d.setCpsoNumber(rs.getString("cpso_number"));
+                    doctorList.add(d);
+                }
+            }
+        }
+        catch (SQLException e) {
+            logger.error(e.toString());
+        }
+        finally {
+            if (cs != null) {
+                try {
+                    cs.close();
+                } catch (SQLException ex) {
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                }
+            }
+            if (doctorList != null) {
+                request.getSession().setAttribute("allDoctorList", doctorList);
+            }
+        }
     }
 
     /**

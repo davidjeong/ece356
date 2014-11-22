@@ -56,6 +56,7 @@ function hideAll() {
     $('#create_submit').prop("disabled", false);
 }
 
-function submitNewUser() {
-    
+
+function manage_doctor_patient_viewing() {
+    $("#content-panel").load("jsp/doctor_patient_viewing.jsp");
 }

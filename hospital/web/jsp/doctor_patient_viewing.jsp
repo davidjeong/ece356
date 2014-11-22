@@ -1,8 +1,3 @@
-<%-- 
-    Document   : doctor_patient_viewing
-    Created on : 21-Nov-2014, 5:22:31 PM
-    Author     : okamayana
---%>
 <%@page import="org.hospital.entities.Patient"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

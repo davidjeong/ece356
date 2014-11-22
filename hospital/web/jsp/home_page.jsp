@@ -28,8 +28,9 @@
                             <li><a href="#" onclick="user_creation();">Create New User</a></li>
                             <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
                         <% } 
-                        if ((userType).equals(SQLConstants.Legal)) { %>
-                             <li><a href="#" onclick="view_finance();">View Finance</a></li>      
+                        if ((userType).equals(SQLConstants.Finance)) { %>
+                             <li><a href="#" onclick="Doctor_Visits();">Doctor Visits</a></li>
+                             <li><a href="#" onclick="Patient_Visits();">Patient Visits</a></li>
                         <% } %>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 

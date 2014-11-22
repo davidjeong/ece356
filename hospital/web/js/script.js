@@ -14,8 +14,12 @@ function manage_appointments() {
     $("#content-panel").load("jsp/manage_appointments.jsp");
 }
 
-function view_finance() {
-     $("#content-panel").load("jsp/view_finance.jsp");
+function Doctor_Visits() {
+     $("#content-panel").load("jsp/Doctor_Visits.jsp");
+}
+
+function Patient_Visits() {
+     $("#content-panel").load("jsp/Patient_Visits.jsp");
 }
 
 function showDoctorDiv() {
@@ -59,4 +63,11 @@ function hideAll() {
 
 function manage_doctor_patient_viewing() {
     $("#content-panel").load("jsp/doctor_patient_viewing.jsp");
+}
+
+function changeDefaultDoctor(doctor) {
+    var parent = doctor.parentNode;
+    var cpso = parent.value;
+    $("#default_doctor").val(cpso);
+    $("#default_doctor_dropdown").html(doctor.innerHTML + "&nbsp;<span class=\"caret\"></span>");
 }

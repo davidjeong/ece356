@@ -48,7 +48,7 @@ public class User {
         return userType;
     }
     
-    public boolean isValid() {
+    public boolean isValidUser() {
         return (userName != null && password != null && legalName != null && userType != null);
     }
     

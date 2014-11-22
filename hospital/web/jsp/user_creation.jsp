@@ -127,7 +127,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "UserCreationServlet",
+                    url: "../UserCreationServlet",
                     data: dataString,
                     dataType: "JSON",
                     success: function (data) {

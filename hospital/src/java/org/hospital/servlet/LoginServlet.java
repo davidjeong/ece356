@@ -2,6 +2,7 @@ package org.hospital.servlet;
 
 import org.hospital.other.SQLConstants;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,10 +28,13 @@ public class LoginServlet extends HttpServlet {
         
         CallableStatement cs = null;
         ResultSet rs = null;
+        StringBuilder message = null;
+        boolean typeFound = false;
         
         try {
             
             SQLConstants.USER = null;
+            message = new StringBuilder();
             
             if (SQLConstants.CONN == null) {
                 MySQLConnection.establish();
@@ -67,15 +71,11 @@ public class LoginServlet extends HttpServlet {
 
                     if (SQLConstants.USER == null) {
                        logger.warn("No user");
-                       StringBuilder sb = new StringBuilder();
-                       sb.append("<p class=\"alert alert-danger message\" role=\"alert\">User name or password is <strong>incorrect</strong>.</p>");
-                       request.setAttribute("message", sb.toString());
-                       request.getRequestDispatcher("index.jsp").forward(request, response);
+                       message.append("User name or password is <strong>incorrect</strong>.");
                     }
                     else {
                         logger.info("User found with user name [" + SQLConstants.USER.getUserName() + "], password [" + SQLConstants.USER.getPassword() + "]");
                         //Redirect user based on user type
-                        boolean typeFound = false;
                         if (SQLConstants.USER.getUserType().equals(SQLConstants.Doctor)) {
                             typeFound = true;
                             cs = SQLConstants.CONN.prepareCall(SQLConstants.USERNAME_TO_CPSONUMBER);
@@ -100,8 +100,7 @@ public class LoginServlet extends HttpServlet {
                             typeFound = true;
                         }
                         if (typeFound) {
-                            request.getSession().setAttribute("usertype", SQLConstants.USER.getUserType());
-                            getServletContext().getRequestDispatcher("/jsp/home_page.jsp").forward(request, response);
+                            message.append("jsp/home_page.jsp");
                         }
                         else {
                             logger.error("Couldn't find user type");
@@ -110,10 +109,7 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     logger.warn("Empty fields");
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("<p class=\"alert alert-danger message\" role=\"alert\">Fields are <strong>empty</strong>.</p>");
-                    request.getSession().setAttribute("message", sb.toString());
-                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    message.append("Fields are <strong>empty</strong>.");
                 }
             }
             
@@ -136,6 +132,23 @@ public class LoginServlet extends HttpServlet {
                     logger.error(e.toString());
                 }
             }
+            
+            PrintWriter out = response.getWriter();
+            response.setContentType("text/html");
+            response.setContentType("text/html");
+            response.setHeader("Cache-control", "no-cache, no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Expires", "-1");
+
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "POST");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response.setHeader("Access-Control-Max-Age", "86400");
+            
+            if (message != null) {
+                out.println(" { \"success\": \"" + typeFound + "\", \"output\": \"" + message.toString() + "\"} ");
+                out.close();
+            } 
         }
     }
 }

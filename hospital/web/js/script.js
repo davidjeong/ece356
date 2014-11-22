@@ -1,25 +1,29 @@
 function load_visits() {
-    $("#content-panel").load("jsp/visit_record.jsp");
+    $("#content-panel").load("../jsp/visit_record.jsp");
 }
             
 function load_patients() {
-    $("#content-panel").load("jsp/view_patients.jsp");
+    $("#content-panel").load("../jsp/view_patients.jsp");
 }
             
 function user_creation() {
-    $("#content-panel").load("jsp/user_creation.jsp");
+    $("#content-panel").load("../jsp/user_creation.jsp");
 }
 
 function manage_appointments() {
-    $("#content-panel").load("jsp/manage_appointments.jsp");
+    $("#content-panel").load("../jsp/manage_appointments.jsp");
 }
 
 function Doctor_Visits() {
-     $("#content-panel").load("jsp/doctor_visits.jsp");
+     $("#content-panel").load("../jsp/doctor_visits.jsp");
 }
 
 function Patient_Visits() {
-     $("#content-panel").load("jsp/patient_visits.jsp");
+     $("#content-panel").load("../jsp/patient_visits.jsp");
+}
+
+function manage_doctor_patient_viewing() {
+    $("#content-panel").load("../jsp/doctor_patient_viewing.jsp");
 }
 
 function showDoctorDiv() {
@@ -58,11 +62,6 @@ function hideAll() {
     $(".doctor-field").hide();
     $(".patient-field").hide();
     $('#newUserSubmit').prop("disabled", false);
-}
-
-
-function manage_doctor_patient_viewing() {
-    $("#content-panel").load("jsp/doctor_patient_viewing.jsp");
 }
 
 function changeDefaultDoctor(doctor) {

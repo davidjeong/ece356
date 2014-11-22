@@ -4,8 +4,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/styles.css">
         <title>Welcome to MediCare</title>
     </head>
     <body>
@@ -37,7 +37,7 @@
                         if (!legalName.isEmpty()) {
                      %>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="index.jsp">Logout</a></li>
+                        <li><a href="../index.jsp">Logout</a></li>
                         <li><a href="#">Welcome&nbsp;<%=legalName%></a></li>
                     </ul>
                     <% } %>
@@ -46,8 +46,8 @@
         </nav>
         <div class="container" id="content-panel">
         </div>
-        <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script> 
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
+        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/script.js"></script>
     </body>
 </html>

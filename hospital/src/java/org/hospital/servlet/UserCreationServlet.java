@@ -25,7 +25,6 @@ public class UserCreationServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(UserCreationServlet.class);
     
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

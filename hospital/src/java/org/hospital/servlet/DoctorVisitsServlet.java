@@ -22,10 +22,10 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(urlPatterns = {"/PatientVisitServlet"})
-public class PatientVisitServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/DoctorVisitsServlet"})
+public class DoctorVisitsServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(PatientVisitServlet.class);
+    Logger logger = LoggerFactory.getLogger(DoctorVisitsServlet.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,13 +41,15 @@ public class PatientVisitServlet extends HttpServlet {
         CallableStatement cs = null;
         ResultSet rs = null;
         int PatientVisits = 0;
+        String cpso = null;
+        String datetime = null;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         try {
-            String cpso = request.getParameter("cpso");
-            String datetime = request.getParameter("searchtime");
+            cpso = request.getParameter("cpso");
+            datetime = request.getParameter("searchtime");
             logger.info(datetime);
             if (cpso != "" && datetime != "") {
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT);
@@ -80,6 +82,7 @@ public class PatientVisitServlet extends HttpServlet {
             if (PatientVisits > 0) 
             {
                 request.getSession().setAttribute("PatientVisits", PatientVisits);
+                request.getSession().setAttribute("DesiredDoctor", cpso);
             }
         }
         getServletContext().getRequestDispatcher("/jsp/view_finance_results.jsp").forward(request, response);

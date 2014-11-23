@@ -39,7 +39,7 @@
                         if (!legalName.isEmpty()) {
                      %>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="../index.jsp">Logout</a></li>
+                        <li><a href="javascript:logout();">Logout</a></li>
                         <li><a href="#">Welcome&nbsp;<%=legalName%></a></li>
                     </ul>
                     <% } %>

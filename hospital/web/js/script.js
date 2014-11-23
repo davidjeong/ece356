@@ -83,3 +83,14 @@ function untruncateCpso(value) {
     }
     return fixed;
 }
+
+function logout() {
+    $.ajax({
+        type: "POST",
+        url: "../DeleteSessionServlet",
+        dataType: "JSON",
+        success: function () {
+            window.location.replace("../index.jsp");
+        }
+    });
+}

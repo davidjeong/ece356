@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(name = "CountDoctorVisitsServlet", urlPatterns = {"/CountDoctorVisitsServlet"})
 public class CountDoctorVisitsServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
+    Logger logger = LoggerFactory.getLogger(CountDoctorVisitsServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,7 +39,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
         List<Patient> patientList = null;
         StringBuilder output = null;
         boolean success = false;
-        String userType = request.getSession().getAttribute("usertype").toString();
+        int distinctPatients = 0;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -50,8 +49,8 @@ public class CountDoctorVisitsServlet extends HttpServlet {
             output = new StringBuilder();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
-            long start_time = sdf.parse(request.getParameter("start_range").toString()).getTime();
-            long end_time = sdf.parse(request.getParameter("end_range").toString()).getTime();
+            long start_time = sdf.parse(request.getParameter("start_range")).getTime();
+            long end_time = sdf.parse(request.getParameter("end_range")).getTime();
             Timestamp time1 = new Timestamp(start_time);
             Timestamp time2 = new Timestamp(end_time);
 
@@ -71,7 +70,10 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                 }
                 success = true;
             }
-            
+            if (rs != null)
+            { 
+            //need to do the count here
+            } 
         }
         catch (SQLException e)
         {
@@ -107,6 +109,26 @@ public class CountDoctorVisitsServlet extends HttpServlet {
             
             output = new StringBuilder();
             if (patientList != null) {
+                output.append("<table class='table table-hover'>");
+                output.append("<thead>");
+                output.append("<tr>");
+                output.append("<th>CPSO Number</th>");
+                output.append("<th>Start Time</th>");
+                output.append("<th>End Time</th>");
+                output.append("<th>Distinct Patients Seen</th>");
+                output.append("</tr>");
+                output.append("</thead>");              
+           
+                output.append("<tbody>");
+                output.append("<tr>");
+                output.append("<td>").append(request.getParameter("cpso")).append("</td>");
+                output.append("<td>").append(request.getParameter("start_range")).append("</td>");
+                output.append("<td>").append(request.getParameter("end_range")).append("</td>");
+                output.append("<td>").append(distinctPatients).append("</td>");
+                output.append("</tr>");
+                output.append("</tbody>");
+                output.append("</table>");
+                
                 output.append("<table class='table table-hover'>");
                 output.append("<thead>");
                 output.append("<tr>");

@@ -109,7 +109,7 @@ public class ViewPatientsServlet extends HttpServlet {
                     output.append("<tbody>");
                     for (Patient p : patientList) {
                         output.append("<tr>");
-                        output.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
+                        output.append("<td><a href='javascript:openModal(").append(p.getPatientId()).append(");'>").append(p.getPatientId()).append("</a></td>");
                         output.append("<td>").append(p.getLegalName()).append("</td>");
                         output.append("<td>").append(p.getDefaultDoctor()).append("</td>");
                         output.append("<td>").append(p.getHealthStatus()).append("</td>");

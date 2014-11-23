@@ -73,7 +73,7 @@ public class ViewPatientsServlet extends HttpServlet {
                 if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
                     //int i=0;
                     cs.setString(1, cpsoNumber);
-                    rs = cs.executeQuery();
+                    rs = cs.executeQuery();   
                     if (rs != null)
                     { 
                         patientList = new ArrayList();

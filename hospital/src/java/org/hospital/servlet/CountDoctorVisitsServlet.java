@@ -31,6 +31,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(CountDoctorVisitsServlet.class);
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         

@@ -20,7 +20,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hospital.entities.Patient;
 import org.hospital.entities.VisitRecord;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
@@ -65,7 +64,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
                 while (rs.next())
                 {
                     VisitRecord v = new VisitRecord(rs.getInt("patient_id"),
-                            rs.getString("cpso_number"), rs.getDate("start_time"), rs.getDate("end_time"),
+                            rs.getString("cpso_number"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"),
                     rs.getString("surgery_name"), rs.getString("prescription"),
                             rs.getString("comments"), rs.getString("diagnosis"));
                     visitRecordList.add(v);

@@ -15,20 +15,20 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="start_range" class="col-sm-2 control-label">Start Date*</label>
+                <label for="start_range" class="col-sm-2 control-label">Start Date Time*</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="start_range" id="start_range" value="" style="cursor: pointer;" placeholder="Empty Timestamp">
                 </div>
             </div>
             <div class="form-group">
-                <label for="end_range" class="col-sm-2 control-label">End Date*</label>
+                <label for="end_range" class="col-sm-2 control-label">End Date Time*</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="end_range" id="end_range" value="" style="cursor: pointer;" placeholder="Empty Timestamp">
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button id="CountPatientVisits" type="submit" class="btn btn-default" >Submit</button>
+                    <button id="CountPatientVisits" type="submit" class="btn btn-default">Submit</button>
                 </div>
             </div>
             <div class="summary-panel" id="summaryVisitsDiv">

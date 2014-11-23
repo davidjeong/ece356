@@ -31,6 +31,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -40,7 +41,6 @@ public class CountPatientVisitsServlet extends HttpServlet {
         StringBuilder summaryOutput = null;
         StringBuilder allOutput = null;
         boolean success = false;
-        String NumberVisits = null;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -129,7 +129,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
                         summaryOutput.append("</tr>");
                         summaryOutput.append("</tbody>");
                         summaryOutput.append("</table>");
-                        /////
+                        
                         allOutput.append("<table class='table table-hover'>");
                         allOutput.append("<thead>");
                         allOutput.append("<tr>");
@@ -160,12 +160,12 @@ public class CountPatientVisitsServlet extends HttpServlet {
                         allOutput.append("</table>");
                     }
                     else {
-                        summaryOutput.append("<p>There are no summary for this patient.</p>");
+                        summaryOutput.append("<p>There is no summary for this patient.</p>");
                         allOutput.append("<p>There are no records for this patient.</p>");
                     }
                     out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"" + summaryOutput.toString() + "\", \"allOutput\":\"" + allOutput.toString() + "\"} ");
                 } else {
-                    out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"<p>There are no records for all patients.</p>\", \"allOutput\":\"<p>There are no records for all patients.</p>\"} ");
+                    out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"<p>There are no records for this patient.</p>\", \"allOutput\":\"<p>There are no records for this patient.</p>\"} ");
                 }
             } else {
                 out.println("{ \"success\":\"" + success + "\", \"output\":\"Mandatory fields are empty.\" }");

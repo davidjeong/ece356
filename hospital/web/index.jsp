@@ -14,7 +14,7 @@
                     <div class="bg"></div>
                     <div class="container">
                         <h1>Welcome to MediCare</h1>
-                        <p>An all-in-one health care management tool</p>
+                        <p class="lead">An all-in-one health care management tool</p>
                         <p>
                             User Name:&nbsp;<input id="login_username" type="text" name="username">
                         </p>

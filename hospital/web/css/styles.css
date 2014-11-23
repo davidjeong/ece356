@@ -67,3 +67,7 @@
 .mandatory-message {
     padding-top: 10px;
 }
+
+.modal-body {
+    max-width: 1000px;
+}

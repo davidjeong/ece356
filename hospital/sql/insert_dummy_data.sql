@@ -79,6 +79,8 @@ INSERT INTO surgery_schema (surgery_name, cost) VALUES
 ('broken bone', '69');
 
 INSERT INTO user_patient_view_schema (user_name, patient_id) VALUES
+('patient','1'),
+('doctor','1'),
 ('doctor', '2'),
 ('doctor', '3'),
 ('doctor', '4'),

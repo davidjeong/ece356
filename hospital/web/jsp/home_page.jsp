@@ -5,6 +5,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/jquery-ui.theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/jquery-ui-timepicker-addon.css">
         <link rel="stylesheet" type="text/css" href="../css/styles.css">
         <title>Welcome to MediCare</title>
     </head>
@@ -20,7 +23,6 @@
                         <% String userType = session.getAttribute("usertype").toString(); 
                         if ((userType).equals(SQLConstants.Doctor)) { %>
                             <li><a href="#" onclick="load_patients();">My Patients</a></li>
-                            <li><a href="#">My History</a></li>
                             <li><a href="#" onclick="load_visits();">My Appointments</a></li>
                             <li><a href="#" onclick="manage_doctor_patient_viewing();">Manage Patients</a></li>
                         <% } 
@@ -45,9 +47,11 @@
             </div>
         </nav>
         <div class="container" id="content-panel">
-        </div>
+            
         <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
         <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../js/jquery-ui-timepicker-addon.js"></script>
         <script type="text/javascript" src="../js/script.js"></script>
     </body>
 </html>

@@ -78,6 +78,18 @@ INSERT INTO surgery_schema (surgery_name, cost) VALUES
 ('test', '1'),
 ('broken bone', '69');
 
+INSERT INTO user_patient_view_schema (user_name, patient_id) VALUES
+('doctor', '2'),
+('doctor', '3'),
+('doctor', '4'),
+('mbyrd', '2'),
+('mbyrd', '3'),
+('mbyrd', '4'),
+('awallis1', '2'),
+('staff', '2'),
+('staff', '3'),
+('aflores02', '3');
+
 INSERT INTO visit_schema (patient_id, cpso_number, start_time, end_time, surgery_name, prescription, comments, diagnosis) VALUES
 ('4', '000000', '2014-11-21:23:00:00', '2014-11-21:23:30:00', 'test', 'test', 'test', 'CAncer1'),
 ('1', '000000', '2014-11-21:22:00:00', '2014-11-21:22:30:00', 'test', 'test', 'test', 'CAncer2'),

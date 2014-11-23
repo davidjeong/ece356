@@ -158,7 +158,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
                 output.append("</table>");
                  out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
             } else {
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Failed to retrieve patients." + "\"} ");
+                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Invalid Patient ID, please try again." + "\"} ");
             }
             out.close();
         }

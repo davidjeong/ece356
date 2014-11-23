@@ -154,7 +154,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                 output.append("</table>");
                  out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
             } else {
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Failed to retrieve patients." + "\"} ");
+                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Invalid CPSO Number, please try again." + "\"} ");
             }
             out.close();
         }

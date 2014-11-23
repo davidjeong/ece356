@@ -33,6 +33,7 @@
                         if ((userType).equals(SQLConstants.Finance)) { %>
                              <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
                              <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
+                             <li><a href="#" onclick="revenue();">Hospital Revenue</a></li>
                         <% } %>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 

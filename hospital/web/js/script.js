@@ -22,6 +22,10 @@ function patient_visits() {
      $("#content-panel").load("../jsp/patient_visits.jsp");
 }
 
+function revenue() {
+     $("#content-panel").load("../jsp/revenue.jsp");
+}
+
 function manage_doctor_patient_viewing() {
     $("#content-panel").load("../jsp/doctor_patient_viewing.jsp");
 }

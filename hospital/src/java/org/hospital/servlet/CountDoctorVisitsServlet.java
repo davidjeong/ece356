@@ -39,7 +39,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
         List<Patient> patientList = null;
         StringBuilder output = null;
         boolean success = false;
-        int distinctPatients = 0;
+        String distinctPatients = null;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -70,9 +70,16 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                 }
                 success = true;
             }
+            
+            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_COUNT_PATIENT_VISIT);
+            cs.setString(1, request.getParameter("cpso"));
+            rs = cs.executeQuery();
             if (rs != null)
             { 
-            //need to do the count here
+                while (rs.next())
+                {
+                    distinctPatients = rs.getString("count(distinct v.patient_id)");
+                }
             } 
         }
         catch (SQLException e)

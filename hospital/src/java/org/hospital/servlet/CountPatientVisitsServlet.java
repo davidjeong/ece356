@@ -21,12 +21,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hospital.entities.Patient;
+import org.hospital.entities.VisitRecord;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(name = "CountPatientVisits", urlPatterns = {"/CountPatientVisits"})
+@WebServlet(name = "CountPatientVisitsServlet", urlPatterns = {"/CountPatientVisitsServlet"})
 public class CountPatientVisitsServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
@@ -36,9 +37,10 @@ public class CountPatientVisitsServlet extends HttpServlet {
         
         CallableStatement cs = null;
         ResultSet rs = null;
-        List<Patient> patientList = null;
+        List<VisitRecord> visitRecordList = null;
         StringBuilder output = null;
         boolean success = false;
+        String NumberVisits = null;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -59,18 +61,19 @@ public class CountPatientVisitsServlet extends HttpServlet {
             rs = cs.executeQuery();
             if (rs != null)
             { 
-                patientList = new ArrayList();
+                visitRecordList = new ArrayList();
                 while (rs.next())
                 {
-                    Patient p = new Patient();
-                    p.setPatientId(rs.getInt("patient_id"));
-                    patientList.add(p);
-                    logger.info("Adding [" + p + "] to patient list");
+                    VisitRecord v = new VisitRecord(rs.getInt("patient_id"),
+                            rs.getInt("cpso_number"), rs.getDate("start_time"), rs.getDate("end_time"),
+                    rs.getString("surgery_name"), rs.getString("prescription"),
+                            rs.getString("comments"), rs.getString("diagnosis"));
+                    visitRecordList.add(v);
+                    logger.info("Adding [" + v + "] to visit list");
                 }
                 success = true;
             }
-            
-        }
+        }   
         catch (SQLException e)
         {
             logger.error(e.toString());
@@ -104,18 +107,50 @@ public class CountPatientVisitsServlet extends HttpServlet {
             response.setHeader("Access-Control-Max-Age", "86400");
             
             output = new StringBuilder();
-            if (patientList != null) {
+            if (visitRecordList != null) {
                 output.append("<table class='table table-hover'>");
                 output.append("<thead>");
                 output.append("<tr>");
                 output.append("<th>Patient ID</th>");
+                output.append("<th>Start Time</th>");
+                output.append("<th>End Time</th>");
+                output.append("<th>Total Number of Visits</th>");
+                output.append("</tr>");
+                output.append("</thead>");              
+           
+                output.append("<tbody>");
+                output.append("<tr>");
+                output.append("<td>").append(request.getParameter("requested_patient_id")).append("</td>");
+                output.append("<td>").append(request.getParameter("start_range")).append("</td>");
+                output.append("<td>").append(request.getParameter("end_range")).append("</td>");
+                output.append("<td>").append(visitRecordList.size()).append("</td>");
+                output.append("</tr>");
+                output.append("</tbody>");
+                output.append("</table>");
+                
+                output.append("<table class='table table-hover'>");
+                output.append("<thead>");
+                output.append("<tr>");
+                output.append("<th>Patient ID</th>");
+                output.append("<th>CPSO Number</th>");
+                output.append("<th>Start Time</th>");
+                output.append("<th>End Time</th>");
+                output.append("<th>Surgery Name</th>");
+                output.append("<th>Prescription</th>");
+                output.append("<th>Comments</th>");
                 output.append("</tr>");
                 output.append("</thead>");
-                if (patientList.size() > 0) {
+                if (visitRecordList.size() > 0) {
                     output.append("<tbody>");
-                    for (Patient p : patientList) {
+                    for (VisitRecord v : visitRecordList) {
                         output.append("<tr>");
-                        output.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
+                        output.append("<td>").append(v.getPatientID()).append("</td>");
+                        output.append("<td>").append(v.getCPSONumber()).append("</td>");
+                        output.append("<td>").append(v.getStartTime()).append("</td>");
+                        output.append("<td>").append(v.getEndTime()).append("</td>");
+                        output.append("<td>").append(v.getSurgeryName()).append("</td>");
+                        output.append("<td>").append(v.getPrescription()).append("</td>");
+                        output.append("<td>").append(v.getComments()).append("</td>");
                         output.append("</tr>");
                     }
                     output.append("</tbody>");

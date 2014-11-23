@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Patient Visits</title>
     </head>
     <body>
         <form name="input" id="ajaxRequestPatientVisits" class="form-horizontal" role="form" method="POST">
@@ -38,7 +38,7 @@
             );
  
             $("#CountPatientVisits").click(function(e) { 
-                dataString = $("#ajaxRequestPatentVisits").serialize();
+                dataString = $("#ajaxRequestPatientVisits").serialize();
 
                 $.ajax({
                     type: "POST",

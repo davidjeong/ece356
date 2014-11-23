@@ -33,7 +33,7 @@ public class SQLConstants {
     public static String VIEW_DOCTORS_FOR_STAFF = "{ call ViewDoctorsForStaff(?) }";
     public static String VIEW_VISIT_RECORDS_FOR_USER = "{ call ViewVisitRecord (?) }";
     public static String VIEW_ALL_VISIT_RECORDS = "{ call ViewAllVisitRecords () }";
-    public static String VIEW_PATIENT_VISIT = "{ call CountDoctorVisits(?,?) }";    
+    public static String VIEW_DOCTOR_VISIT = "{ call CountDoctorVisits(?,?,?) }";    
     public static String All_DOCTOR_INFORMATION = "{ call AllDoctorInformation }";
     public static String VIEW_ALL_PATIENT = "{ call ViewAllPatients }";
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";

@@ -11,6 +11,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,17 +22,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hospital.entities.Patient;
-import org.hospital.other.SQLConstants;
 import org.hospital.other.MySQLConnection;
+import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(name = "ViewPatientsServlet", urlPatterns = {"/ViewPatientsServlet"})
-public class ViewPatientsServlet extends HttpServlet {
+@WebServlet(name = "CountDoctorVisitsServlet", urlPatterns = {"/CountDoctorVisitsServlet"})
+public class CountDoctorVisitsServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -46,33 +46,40 @@ public class ViewPatientsServlet extends HttpServlet {
             MySQLConnection.establish();
         }
         try {
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
-            String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
+            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_DOCTOR_VISIT);
+            output = new StringBuilder();
 
-            if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
-                //int i=0;
-                cs.setString(1, cpsoNumber);
-                rs = cs.executeQuery();
-                if (rs != null)
-                { 
-                    patientList = new ArrayList();
-                    while (rs.next())
-                    {
-                        Patient p = new Patient();
-                        p.setPatientId(rs.getInt("patient_id"));
-                        p.setLegalName(rs.getString("patient_legal_name"));
-                        p.setDefaultDoctor(rs.getString("doctor_legal_name"));
-                        p.setHealthStatus(rs.getString("health_status"));
-                        patientList.add(p);
-                        logger.info("Adding [" + p + "] to patient list");
-                    }
-                    success = true;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+            long start_time = sdf.parse(request.getParameter("start_range").toString()).getTime();
+            long end_time = sdf.parse(request.getParameter("end_range").toString()).getTime();
+            Timestamp time1 = new Timestamp(start_time);
+            Timestamp time2 = new Timestamp(end_time);
+
+            cs.setString(1, request.getParameter("cpso"));
+            cs.setTimestamp(2, time1);
+            cs.setTimestamp(3, time2);
+            rs = cs.executeQuery();
+            if (rs != null)
+            { 
+                patientList = new ArrayList();
+                while (rs.next())
+                {
+                    Patient p = new Patient();
+                    p.setPatientId(rs.getInt("patient_id"));
+                    patientList.add(p);
+                    logger.info("Adding [" + p + "] to patient list");
                 }
-            }            
+                success = true;
+            }
+            
         }
         catch (SQLException e)
         {
             logger.error(e.toString());
+        }
+        catch (ParseException e)    
+        {
+            
         }
         finally {
             if (cs != null) {
@@ -104,9 +111,6 @@ public class ViewPatientsServlet extends HttpServlet {
                 output.append("<thead>");
                 output.append("<tr>");
                 output.append("<th>Patient ID</th>");
-                output.append("<th>Legal Name</th>");
-                output.append("<th>Default Doctor</th>");
-                output.append("<th>Health Status</th>");
                 output.append("</tr>");
                 output.append("</thead>");
                 if (patientList.size() > 0) {
@@ -114,9 +118,6 @@ public class ViewPatientsServlet extends HttpServlet {
                     for (Patient p : patientList) {
                         output.append("<tr>");
                         output.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
-                        output.append("<td>").append(p.getLegalName()).append("</td>");
-                        output.append("<td>").append(p.getDefaultDoctor()).append("</td>");
-                        output.append("<td>").append(p.getHealthStatus()).append("</td>");
                         output.append("</tr>");
                     }
                     output.append("</tbody>");

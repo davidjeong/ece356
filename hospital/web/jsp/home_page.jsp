@@ -37,12 +37,14 @@
                         if ((userType).equals(SQLConstants.Patient)) { %>
                              <li><a href="#" onclick="load_appointments();">My Visits</a></li>
                         <% }%>
+                             <li><a href="#" onclick="revenue();">Hospital Revenue</a></li>
+                        <% } %>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 
                         if (!legalName.isEmpty()) {
                      %>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="../index.jsp">Logout</a></li>
+                        <li><a href="javascript:logout();">Logout</a></li>
                         <li><a href="#">Welcome&nbsp;<%=legalName%></a></li>
                     </ul>
                     <% } %>

@@ -47,6 +47,11 @@
     margin-bottom: 100px;
 }
 
+.summary-panel {
+    display: none;
+    margin-bottom: 100px;
+}
+
 .message {
     font-size: 14px;
 }

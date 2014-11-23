@@ -37,7 +37,8 @@ public class CountPatientVisitsServlet extends HttpServlet {
         CallableStatement cs = null;
         ResultSet rs = null;
         List<VisitRecord> visitRecordList = null;
-        StringBuilder output = null;
+        StringBuilder summaryOutput = null;
+        StringBuilder allOutput = null;
         boolean success = false;
         String NumberVisits = null;
         
@@ -46,7 +47,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
         }
         try {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT);
-            output = new StringBuilder();
+            summaryOutput = new StringBuilder();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
             long start_time = sdf.parse(request.getParameter("start_range")).getTime();
@@ -79,7 +80,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
         }
         catch (ParseException e)    
         {
-            
+            logger.error(e.toString());
         }
         finally {
             if (cs != null) {
@@ -105,58 +106,69 @@ public class CountPatientVisitsServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
             
-            output = new StringBuilder();
-            if (visitRecordList != null) {
-                output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>Patient ID</th>");
-                output.append("<th>Start Time</th>");
-                output.append("<th>End Time</th>");
-                output.append("<th>Total Number of Visits</th>");
-                output.append("</tr>");
-                output.append("</thead>");              
-                output.append("<tbody>");
-                output.append("<tr>");
-                output.append("<td>").append(request.getParameter("requested_patient_id")).append("</td>");
-                output.append("<td>").append(request.getParameter("start_range")).append("</td>");
-                output.append("<td>").append(request.getParameter("end_range")).append("</td>");
-                output.append("<td>").append(visitRecordList.size()).append("</td>");
-                output.append("</tr>");
-                output.append("</tbody>");
-                output.append("</table>");
-                
-                output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>Patient ID</th>");
-                output.append("<th>CPSO Number</th>");
-                output.append("<th>Start Time</th>");
-                output.append("<th>End Time</th>");
-                output.append("<th>Surgery Name</th>");
-                output.append("<th>Prescription</th>");
-                output.append("<th>Comments</th>");
-                output.append("</tr>");
-                output.append("</thead>");
-                if (visitRecordList.size() > 0) {
-                    output.append("<tbody>");
-                    for (VisitRecord v : visitRecordList) {
-                        output.append("<tr>");
-                        output.append("<td>").append(v.getPatientID()).append("</td>");
-                        output.append("<td>").append(v.getCPSONumber()).append("</td>");
-                        output.append("<td>").append(v.getStartTime()).append("</td>");
-                        output.append("<td>").append(v.getEndTime()).append("</td>");
-                        output.append("<td>").append(v.getSurgeryName()).append("</td>");
-                        output.append("<td>").append(v.getPrescription()).append("</td>");
-                        output.append("<td>").append(v.getComments()).append("</td>");
-                        output.append("</tr>");
+            if (success) {
+                summaryOutput = new StringBuilder();
+                allOutput = new StringBuilder();
+                if (visitRecordList != null) {
+                    if (!visitRecordList.isEmpty()) {
+                        summaryOutput.append("<table class='table table-hover'>");
+                        summaryOutput.append("<thead>");
+                        summaryOutput.append("<tr>");
+                        summaryOutput.append("<th>Patient ID</th>");
+                        summaryOutput.append("<th>Start Time</th>");
+                        summaryOutput.append("<th>End Time</th>");
+                        summaryOutput.append("<th>Total Number of Visits</th>");
+                        summaryOutput.append("</tr>");
+                        summaryOutput.append("</thead>");              
+                        summaryOutput.append("<tbody>");
+                        summaryOutput.append("<tr>");
+                        summaryOutput.append("<td>").append(request.getParameter("requested_patient_id")).append("</td>");
+                        summaryOutput.append("<td>").append(request.getParameter("start_range")).append("</td>");
+                        summaryOutput.append("<td>").append(request.getParameter("end_range")).append("</td>");
+                        summaryOutput.append("<td>").append(visitRecordList.size()).append("</td>");
+                        summaryOutput.append("</tr>");
+                        summaryOutput.append("</tbody>");
+                        summaryOutput.append("</table>");
+                        /////
+                        allOutput.append("<table class='table table-hover'>");
+                        allOutput.append("<thead>");
+                        allOutput.append("<tr>");
+                        allOutput.append("<th>Patient ID</th>");
+                        allOutput.append("<th>CPSO Number</th>");
+                        allOutput.append("<th>Start Time</th>");
+                        allOutput.append("<th>End Time</th>");
+                        allOutput.append("<th>Surgery Name</th>");
+                        allOutput.append("<th>Prescription</th>");
+                        allOutput.append("<th>Comments</th>");
+                        allOutput.append("</tr>");
+                        allOutput.append("</thead>");
+                        if (visitRecordList.size() > 0) {
+                            allOutput.append("<tbody>");
+                            for (VisitRecord v : visitRecordList) {
+                                allOutput.append("<tr>");
+                                allOutput.append("<td>").append(v.getPatientID()).append("</td>");
+                                allOutput.append("<td>").append(v.getCPSONumber()).append("</td>");
+                                allOutput.append("<td>").append(v.getStartTime()).append("</td>");
+                                allOutput.append("<td>").append(v.getEndTime()).append("</td>");
+                                allOutput.append("<td>").append(v.getSurgeryName()).append("</td>");
+                                allOutput.append("<td>").append(v.getPrescription()).append("</td>");
+                                allOutput.append("<td>").append(v.getComments()).append("</td>");
+                                allOutput.append("</tr>");
+                            }
+                            allOutput.append("</tbody>");
+                        }
+                        allOutput.append("</table>");
                     }
-                    output.append("</tbody>");
+                    else {
+                        summaryOutput.append("<p>There are no summary for this patient.</p>");
+                        allOutput.append("<p>There are no records for this patient.</p>");
+                    }
+                    out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"" + summaryOutput.toString() + "\", \"allOutput\":\"" + allOutput.toString() + "\"} ");
+                } else {
+                    out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"<p>There are no records for all patients.</p>\", \"allOutput\":\"<p>There are no records for all patients.</p>\"} ");
                 }
-                output.append("</table>");
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
             } else {
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Invalid Patient ID, please try again." + "\"} ");
+                out.println("{ \"success\":\"" + success + "\", \"output\":\"Mandatory fields are empty.\" }");
             }
             out.close();
         }

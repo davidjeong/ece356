@@ -42,5 +42,6 @@ public class SQLConstants {
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctr(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";
+    public static String VIEW_EARNING_BY_DOCTOR = "{ call ViewEarningByDoctor(?,?,?) }";
 
 }

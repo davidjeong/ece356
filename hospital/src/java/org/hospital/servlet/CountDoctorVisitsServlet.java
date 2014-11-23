@@ -43,6 +43,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
         StringBuilder allOutput = null;
         boolean success = false;
         int distinctPatients = 0;
+        int doctorRevenue = 0;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -89,6 +90,19 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         if(rs.next()) 
                         {
                             distinctPatients = rs.getInt("patients");
+                        }
+                    }
+                    
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_EARNING_BY_DOCTOR);
+                    cs.setString(1, request.getParameter("cpso"));
+                    cs.setTimestamp(2, time1);
+                    cs.setTimestamp(3, time2);
+                    rs = cs.executeQuery();
+                    if (rs != null)
+                    { 
+                        if(rs.next()) 
+                        {
+                            doctorRevenue = rs.getInt("earning");
                         }
                     }
                     success = true;
@@ -140,6 +154,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         summaryOutput.append("<th>Start Time</th>");
                         summaryOutput.append("<th>End Time</th>");
                         summaryOutput.append("<th>Distinct Patients Seen</th>");
+                        summaryOutput.append("<th>Revenue Generated($)</th>");
                         summaryOutput.append("</tr>");
                         summaryOutput.append("</thead>");              
 
@@ -149,6 +164,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         summaryOutput.append("<td>").append(request.getParameter("start_range")).append("</td>");
                         summaryOutput.append("<td>").append(request.getParameter("end_range")).append("</td>");
                         summaryOutput.append("<td>").append(distinctPatients).append("</td>");
+                        summaryOutput.append("<td>").append(doctorRevenue).append("</td>");
                         summaryOutput.append("</tr>");
                         summaryOutput.append("</tbody>");
                         summaryOutput.append("</table>");

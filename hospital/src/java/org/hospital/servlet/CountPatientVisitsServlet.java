@@ -116,7 +116,6 @@ public class CountPatientVisitsServlet extends HttpServlet {
                 output.append("<th>Total Number of Visits</th>");
                 output.append("</tr>");
                 output.append("</thead>");              
-           
                 output.append("<tbody>");
                 output.append("<tr>");
                 output.append("<td>").append(request.getParameter("requested_patient_id")).append("</td>");

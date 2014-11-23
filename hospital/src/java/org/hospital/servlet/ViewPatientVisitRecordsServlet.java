@@ -47,39 +47,35 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
         }
         
         try {
-            
             String userType = request.getSession().getAttribute("usertype").toString();
-            if(userType.equals(SQLConstants.Doctor) || 
-               userType.equals(SQLConstants.Staff) ) {
-
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT_RECORDS);
-                String pID = request.getParameter("patient_id");
-                if (!pID.isEmpty() && !pID.equals("")) {
-                    int i=0;
-                    cs.setString(++i, pID);
-                    rs = cs.executeQuery();
-                }
-                
-            }
             
-            if (rs != null) { 
-                visitList = new ArrayList();
-                while (rs.next())
-                {   
-                    VisitRecord vr = new VisitRecord( rs.getInt("patient_id"),
-                                                      rs.getString("cpso_number"),
-                                                      rs.getTimestamp("start_time"),
-                                                      rs.getTimestamp("end_time"),
-                                                      rs.getString("surgery_name"),
-                                                      rs.getString("prescription"),
-                                                      rs.getString("comments"),
-                                                      rs.getString("diagnosis"));
-                    visitList.add(vr);
-                    logger.info("Adding [" + vr + "] to visit list");
+            if(userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff) ) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT_RECORDS);
+                String patientId = request.getParameter("patient_id");
+                if (!patientId.isEmpty()) {
+                    int i=0;
+                    cs.setString(++i, patientId);
+                    rs = cs.executeQuery();
+                    
+                    if (rs != null) { 
+                        visitList = new ArrayList();
+                        while (rs.next())
+                        {   
+                            VisitRecord vr = new VisitRecord( rs.getInt("patient_id"),
+                                                              rs.getString("cpso_number"),
+                                                              rs.getTimestamp("start_time"),
+                                                              rs.getTimestamp("end_time"),
+                                                              rs.getString("surgery_name"),
+                                                              rs.getString("prescription"),
+                                                              rs.getString("comments"),
+                                                              rs.getString("diagnosis"));
+                            visitList.add(vr);
+                            logger.info("Adding [" + vr + "] to visit list");
+                        }
+                        success = true;
+                    }
                 }
-                success = true;
             }
-
         } catch (SQLException e) {
             logger.error(e.toString());
         } catch (Exception e) {
@@ -154,15 +150,4 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
             out.close();
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

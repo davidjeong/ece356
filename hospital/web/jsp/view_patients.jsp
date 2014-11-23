@@ -73,12 +73,11 @@
             
             
             function openModal(id) {
-                dataString = "{\"patient_id\": \"" + id + "\"}";
                 console.log(dataString);
                 $.ajax({
                     type: "POST",
                     url: "../ViewPatientVisitRecordsServlet",
-                    data: dataString,
+                    data: {patient_id: id},
                     dataType: "JSON",
                     success: function (data) {
                         if (data.success === 'true') {

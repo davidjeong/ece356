@@ -11,7 +11,7 @@
         <script type="text/javascript">
             var cpso = "";
             $(document).ready(function() {
-                cpso = untruncateCpso(${sessionScope.cpsonumber}.toString());
+                cpso = untruncateCpso(${sessionScope.cpsonumber});
                 dataString = " {\"cpsonumber\":\"" + cpso + "\"}";
                 
                 $.ajax({

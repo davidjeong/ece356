@@ -114,19 +114,21 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
             output = new StringBuilder();
             if (visitList != null) {
                 output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>Patient ID</th>");
-                output.append("<th>CPSO Number</th>");
-                output.append("<th>Start Time</th>");
-                output.append("<th>End Time</th>");
-                output.append("<th>Prescription</th>");
-                output.append("<th>Surgery Name</th>");
-                output.append("<th>Diagnosis</th>");
-                output.append("<th>Comments</th>");
-                output.append("</tr>");
-                output.append("</thead>");
+                
                 if (visitList.size() > 0) {
+                    output.append("<thead>");
+                    output.append("<tr>");
+                    output.append("<th>Patient ID</th>");
+                    output.append("<th>CPSO Number</th>");
+                    output.append("<th>Start Time</th>");
+                    output.append("<th>End Time</th>");
+                    output.append("<th>Prescription</th>");
+                    output.append("<th>Surgery Name</th>");
+                    output.append("<th>Diagnosis</th>");
+                    output.append("<th>Comments</th>");
+                    output.append("</tr>");
+                    output.append("</thead>");
+                    
                     output.append("<tbody>");
                     for (VisitRecord vr : visitList) {
                         output.append("<tr>");
@@ -141,6 +143,12 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
                         output.append("</tr>");
                     }
                     output.append("</tbody>");
+                } else {
+                    output.append("<thead>");
+                    output.append("<tr>");
+                    output.append("<td> There are no visitation records for this patient. </td> ");
+                    output.append("</tr>");
+                    output.append("</thead>");
                 }
                 output.append("</table>");
                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");

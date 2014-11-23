@@ -19,7 +19,6 @@
               <div class="modal-body" id="modalBody">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -82,7 +81,9 @@
                     success: function (data) {
                         if (data.success === 'true') {
                             $("#modalBody").html(data.output);
+                            $("#myModalLabel").html("Visit Records for Patient "+id)
                         } else if (data.success === 'false') {
+                            $("#modalBody").html("Sorry, an error occured. Please contact an administrator");
                             console.log("failure");
                         }
                         $('#myModal').modal({

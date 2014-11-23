@@ -135,11 +135,9 @@
                         if (data.success === 'true') {
                             $("#creation_message").removeClass();
                             $("#creation_message").addClass("alert alert-success message");
-                            console.log("success");
                         } else if (data.success === 'false') {
                             $("#creation_message").removeClass();
                             $("#creation_message").addClass("alert alert-danger message");
-                            console.log("false");
                         }
                     }
                 });

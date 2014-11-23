@@ -20,7 +20,7 @@ CREATE PROCEDURE ViewUpcomingVisitRecord(IN username varchar(32))
 	WHERE 
 		up.user_name = username
 	AND
-		v.end_time >= CURTIME()
+		v.start_time >= CURTIME()
 	ORDER BY v.start_time ASC;
 	END //
 DELIMITER ;

@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewPatientRecords(IN patient_id_ INT)
+CREATE PROCEDURE CountPatientVisits(IN patient_id_ INT, IN start_time_ DATETIME, IN end_time_ DATETIME)
 	BEGIN
     SELECT 
 		v.patient_id,
@@ -15,6 +15,6 @@ CREATE PROCEDURE ViewPatientRecords(IN patient_id_ INT)
 	FROM
 		visit_schema v
 	WHERE
-		v.patient_id = patient_id_;
+		v.patient_id = patient_id_ and v.start_time>=start_time_ and v.end_time <=end_time_;
 	END //
 DELIMITER ;

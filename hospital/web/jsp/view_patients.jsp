@@ -16,7 +16,7 @@
             
             var cpso = "";
             $(document).ready(function() {
-                cpso = untruncateCpso(${sessionScope.cpsonumber}.toString());
+                cpso = untruncateCpso(${sessionScope.cpsonumber});
                 dataString = " {\"cpsonumber\":\"" + cpso + "\"}";
                 
                 $.ajax({
@@ -37,7 +37,7 @@
             });
 
             $("#refreshViewPatients").click(function(e) {
-                dataString = "{\"cpsonumber\":\"\${sessionScope.cpsonumber}\"";
+                dataString = "{\"cpsonumber\":\"" + cpso + "\"}";
                 console.log(dataString);
                 $.ajax({
                     type: "POST",

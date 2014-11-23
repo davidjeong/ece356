@@ -56,8 +56,8 @@ public class ViewAppointmentServlet extends HttpServlet {
                     {   
                         vr = new VisitRecord( rs.getInt("patient_id"),
                                                           rs.getString("cpso_number"),
-                                                          rs.getDate("start_time"),
-                                                          rs.getDate("end_time"),
+                                                          rs.getTimestamp("start_time"),
+                                                          rs.getTimestamp("end_time"),
                                                           rs.getString("surgery_name"),
                                                           rs.getString("prescription"),
                                                           rs.getString("comments"),
@@ -75,8 +75,8 @@ public class ViewAppointmentServlet extends HttpServlet {
                     while (rs.next()) {
                         vr = new VisitRecord( rs.getInt("patient_id"),
                                                           rs.getString("cpso_number"),
-                                                          rs.getDate("start_time"),
-                                                          rs.getDate("end_time"),
+                                                          rs.getTimestamp("start_time"),
+                                                          rs.getTimestamp("end_time"),
                                                           rs.getString("surgery_name"),
                                                           rs.getString("prescription"),
                                                           rs.getString("comments"),
@@ -120,7 +120,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     upcomingSb.append("<th>Comments</th>");
                     upcomingSb.append("</tr>");
                     upcomingSb.append("</thead>");
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm");
                     for (VisitRecord vr : upcomingList) {
                         String startTime = sdf.format(vr.getStartTime());
                         String endTime = sdf.format(vr.getEndTime());
@@ -161,7 +161,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     pastSb.append("<th>Comments</th>");
                     pastSb.append("</tr>");
                     pastSb.append("</thead>");
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm");
                     for (VisitRecord vr : pastList) {
                         String startTime = sdf.format(vr.getStartTime());
                         String endTime = sdf.format(vr.getEndTime());

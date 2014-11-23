@@ -47,39 +47,35 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
         }
         
         try {
-            
             String userType = request.getSession().getAttribute("usertype").toString();
-            if(userType.equals(SQLConstants.Doctor) || 
-               userType.equals(SQLConstants.Staff) ) {
-
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT_RECORDS);
-                String pID = request.getParameter("patient_id");
-                if (!pID.isEmpty() && !pID.equals("")) {
-                    int i=0;
-                    cs.setString(++i, pID);
-                    rs = cs.executeQuery();
-                }
-                
-            }
             
-            if (rs != null) { 
-                visitList = new ArrayList();
-                while (rs.next())
-                {   
-                    VisitRecord vr = new VisitRecord( rs.getInt("patient_id"),
-                                                      rs.getInt("cpso_number"),
-                                                      rs.getDate("start_time"),
-                                                      rs.getDate("end_time"),
-                                                      rs.getString("surgery_name"),
-                                                      rs.getString("prescription"),
-                                                      rs.getString("comments"),
-                                                      rs.getString("diagnosis"));
-                    visitList.add(vr);
-                    logger.info("Adding [" + vr + "] to visit list");
+            if(userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff) ) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT_RECORDS);
+                String patientId = request.getParameter("patient_id");
+                if (!patientId.isEmpty()) {
+                    int i=0;
+                    cs.setString(++i, patientId);
+                    rs = cs.executeQuery();
+                    
+                    if (rs != null) { 
+                        visitList = new ArrayList();
+                        while (rs.next())
+                        {   
+                            VisitRecord vr = new VisitRecord( rs.getInt("patient_id"),
+                                                              rs.getString("cpso_number"),
+                                                              rs.getTimestamp("start_time"),
+                                                              rs.getTimestamp("end_time"),
+                                                              rs.getString("surgery_name"),
+                                                              rs.getString("prescription"),
+                                                              rs.getString("comments"),
+                                                              rs.getString("diagnosis"));
+                            visitList.add(vr);
+                            logger.info("Adding [" + vr + "] to visit list");
+                        }
+                        success = true;
+                    }
                 }
-                success = true;
             }
-
         } catch (SQLException e) {
             logger.error(e.toString());
         } catch (Exception e) {
@@ -118,19 +114,21 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
             output = new StringBuilder();
             if (visitList != null) {
                 output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>Patient ID</th>");
-                output.append("<th>CPSO Number</th>");
-                output.append("<th>Start Time</th>");
-                output.append("<th>End Time</th>");
-                output.append("<th>Prescription</th>");
-                output.append("<th>Surgery Name</th>");
-                output.append("<th>Diagnosis</th>");
-                output.append("<th>Comments</th>");
-                output.append("</tr>");
-                output.append("</thead>");
+                
                 if (visitList.size() > 0) {
+                    output.append("<thead>");
+                    output.append("<tr>");
+                    output.append("<th>Patient ID</th>");
+                    output.append("<th>CPSO Number</th>");
+                    output.append("<th>Start Time</th>");
+                    output.append("<th>End Time</th>");
+                    output.append("<th>Prescription</th>");
+                    output.append("<th>Surgery Name</th>");
+                    output.append("<th>Diagnosis</th>");
+                    output.append("<th>Comments</th>");
+                    output.append("</tr>");
+                    output.append("</thead>");
+                    
                     output.append("<tbody>");
                     for (VisitRecord vr : visitList) {
                         output.append("<tr>");
@@ -145,6 +143,12 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
                         output.append("</tr>");
                     }
                     output.append("</tbody>");
+                } else {
+                    output.append("<thead>");
+                    output.append("<tr>");
+                    output.append("<td> There are no visitation records for this patient. </td> ");
+                    output.append("</tr>");
+                    output.append("</thead>");
                 }
                 output.append("</table>");
                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
@@ -154,15 +158,4 @@ public class ViewPatientVisitRecordsServlet extends HttpServlet {
             out.close();
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

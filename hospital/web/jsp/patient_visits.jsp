@@ -7,14 +7,43 @@
     </head>
     <body>
         <form name="input" id="ajaxRequestPatientVisits" class="form-horizontal" role="form" method="POST">
-            <input type ="hidden" name="usertype" value="<%=session.getAttribute("usertype").toString() %>" >
-            <p>Patient ID: <input type="text" name="requested_patient_id"><p>  
-            <p>Start Date Time: <input type="text" name="start_range" id="start_range" value="" style="cursor: pointer;"><p>
-            <p>End Date Time: <input type="text" name="end_range" id="end_range" value="" style="cursor: pointer;"><p>
-            <div>
-                <button id="CountPatientVisits" type="submit" class="btn btn-default" >Submit</button>
+            <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
+            <div class="form-group">
+                <label for="requested_patient_id" class="col-sm-2 control-label">Patient ID*</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="requested_patient_id" placeholder="Patient ID">
+                </div>
             </div>
-            <div id="creation_message"></div>
+            <div class="form-group">
+                <label for="start_range" class="col-sm-2 control-label">Start Date Time*</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="start_range" id="start_range" value="" style="cursor: pointer;" placeholder="Empty Timestamp">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="end_range" class="col-sm-2 control-label">End Date Time*</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="end_range" id="end_range" value="" style="cursor: pointer;" placeholder="Empty Timestamp">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button id="CountPatientVisits" type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+            <div class="summary-panel" id="summaryVisitsDiv">
+                <p class="lead">
+                    Summary of Patient
+                </p>
+                <div id="summaryVisitsContent"></div>
+            </div>
+            <div class="summary-panel" id="detailVisitsDiv">
+                <p class="lead">
+                    Details of All Visits
+                </p>
+                <div id="detailVisitsContent"></div>
+            </div>
+            <p id="failure_message"></p>
         </form>
         <script type="text/javascript">
             $("#ajaxRequestPatientVisits").submit(function(e){
@@ -37,7 +66,7 @@
                     }
             );
  
-            $("#CountPatientVisits").click(function(e) { 
+            $("#CountPatientVisits").click(function() { 
                 dataString = $("#ajaxRequestPatientVisits").serialize();
 
                 $.ajax({
@@ -46,13 +75,18 @@
                     data: dataString,
                     dataType: "JSON",
                     success: function (data) {
-                        $("#creation_message").html(data.output);
-                        if (data.success === 'true') {
-                            $("#creation_message").html(data.output);
-                            console.log("success");
-                        } else if (data.success === 'false') {
-                            $("#creation_message").html(data.output);
-                            console.log("false");
+                        if (data.success === "true") {
+                            $("#failure_message").hide();
+                            $("#summaryVisitsContent").html(data.summaryOutput);
+                            $("#detailVisitsContent").html(data.allOutput);
+                            $("#summaryVisitsDiv").show();
+                            $("#detailVisitsDiv").show();
+                        } else if (data.success === "false") {
+                             $("#failure_message").show();
+                             $("#summaryVisitsDiv").hide();
+                             $("#detailVisitsDiv").hide();
+                             $("#failure_message").html(data.output);
+                             $("#failure_message").addClass("alert alert-danger message");
                         }
                     }
                 });

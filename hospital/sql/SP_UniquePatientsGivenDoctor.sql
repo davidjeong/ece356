@@ -3,7 +3,7 @@ USE ece356;
 DELIMITER //
 CREATE PROCEDURE UniquePatientsGivenDoctor(IN doctor_number_ varchar(32), IN start_time_ datetime, IN end_time_ datetime)
 BEGIN
-	SELECT count(distinct v.patient_id)
+	SELECT count(distinct v.patient_id) AS patients
 	FROM 
 		visit_schema v 
 	WHERE 

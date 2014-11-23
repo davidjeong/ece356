@@ -9,12 +9,20 @@
     </head>
     <body>
         <form id="ajaxRequestForLoginInfo" action="LoginServlet" method="POST">
-            <div id="login">
+            <div id="login max-window">
                 <div class="jumbotron">
                     <div class="bg"></div>
                     <div class="container">
-                        <h1>Welcome to MediCare</h1>
-                        <p>An all-in-one health care management tool</p>
+                        <h1 class="jumbotron-text">Welcome to MediCare</h1>
+                        <p class="lead">
+                            An all-in-one health care management tool.
+                        </p>
+                        <blockquote class="blockquote-reverse">
+                            <p>Excellent web service for manage small-to-large hospitals.</p>
+                            <footer>Professor from
+                                <cite>University of Waterloo</cite>
+                            </footer>
+                        </blockquote>
                         <p>
                             User Name:&nbsp;<input id="login_username" type="text" name="username">
                         </p>
@@ -52,7 +60,7 @@
                         }
                         else {
                             $("#login_error_message").html(data.output);
-                            $("#login_error_message").addClass("alert alert-danger message");
+                            $("#login_error_message").addClass("alert alert-danger message login-error");
                         }
                     }
                 });

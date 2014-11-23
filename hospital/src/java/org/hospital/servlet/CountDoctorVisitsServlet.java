@@ -31,58 +31,62 @@ public class CountDoctorVisitsServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(CountDoctorVisitsServlet.class);
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         CallableStatement cs = null;
         ResultSet rs = null;
         List<Patient> patientList = null;
-        StringBuilder output = null;
+        StringBuilder summaryOutput = null;
+        StringBuilder allOutput = null;
         boolean success = false;
-        String distinctPatients = "0";
+        int distinctPatients = 0;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         try {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_DOCTOR_VISIT);
-            output = new StringBuilder();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
             long start_time = sdf.parse(request.getParameter("start_range")).getTime();
             long end_time = sdf.parse(request.getParameter("end_range")).getTime();
             Timestamp time1 = new Timestamp(start_time);
             Timestamp time2 = new Timestamp(end_time);
-
-            cs.setString(1, request.getParameter("cpso"));
-            cs.setTimestamp(2, time1);
-            cs.setTimestamp(3, time2);
-            rs = cs.executeQuery();
-            if (rs != null)
-            { 
-                patientList = new ArrayList();
-                while (rs.next())
-                {
-                    Patient p = new Patient();
-                    p.setPatientId(rs.getInt("patient_id"));
-                    patientList.add(p);
-                    logger.info("Adding [" + p + "] to patient list");
-                }
-                
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_COUNT_PATIENT_VISIT);
-                cs.setString(1, request.getParameter("cpso"));
+            String cpso = request.getParameter("cpso");
+            
+            if (!cpso.isEmpty()) {
+                cs.setString(1, cpso);
                 cs.setTimestamp(2, time1);
                 cs.setTimestamp(3, time2);
                 rs = cs.executeQuery();
                 if (rs != null)
                 { 
+                    patientList = new ArrayList();
                     while (rs.next())
                     {
-                        distinctPatients = rs.getString("count(distinct v.patient_id)");
+                        Patient p = new Patient();
+                        p.setPatientId(rs.getInt("patient_id"));
+                        patientList.add(p);
+                        logger.info("Adding [" + p + "] to patient list");
                     }
-                }
-                success = true;
-            }  
+
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_COUNT_PATIENT_VISIT);
+                    cs.setString(1, request.getParameter("cpso"));
+                    cs.setTimestamp(2, time1);
+                    cs.setTimestamp(3, time2);
+                    rs = cs.executeQuery();
+                    if (rs != null)
+                    { 
+                        if(rs.next()) 
+                        {
+                            distinctPatients = rs.getInt("patients");
+                        }
+                    }
+                    success = true;
+                }  
+            }
         }
         catch (SQLException e)
         {
@@ -116,47 +120,59 @@ public class CountDoctorVisitsServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
             
-            output = new StringBuilder();
-            if (patientList != null) {
-                output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>CPSO Number</th>");
-                output.append("<th>Start Time</th>");
-                output.append("<th>End Time</th>");
-                output.append("<th>Distinct Patients Seen</th>");
-                output.append("</tr>");
-                output.append("</thead>");              
-           
-                output.append("<tbody>");
-                output.append("<tr>");
-                output.append("<td>").append(request.getParameter("cpso")).append("</td>");
-                output.append("<td>").append(request.getParameter("start_range")).append("</td>");
-                output.append("<td>").append(request.getParameter("end_range")).append("</td>");
-                output.append("<td>").append(distinctPatients).append("</td>");
-                output.append("</tr>");
-                output.append("</tbody>");
-                output.append("</table>");
+            if (success) {
+                summaryOutput = new StringBuilder();
+                allOutput = new StringBuilder();
                 
-                output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>Patient ID</th>");
-                output.append("</tr>");
-                output.append("</thead>");
-                if (patientList.size() > 0) {
-                    output.append("<tbody>");
-                    for (Patient p : patientList) {
-                        output.append("<tr>");
-                        output.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
-                        output.append("</tr>");
+                if (patientList != null) {
+                    if (!patientList.isEmpty()) {
+                        summaryOutput.append("<table class='table table-hover'>");
+                        summaryOutput.append("<thead>");
+                        summaryOutput.append("<tr>");
+                        summaryOutput.append("<th>CPSO Number</th>");
+                        summaryOutput.append("<th>Start Time</th>");
+                        summaryOutput.append("<th>End Time</th>");
+                        summaryOutput.append("<th>Distinct Patients Seen</th>");
+                        summaryOutput.append("</tr>");
+                        summaryOutput.append("</thead>");              
+
+                        summaryOutput.append("<tbody>");
+                        summaryOutput.append("<tr>");
+                        summaryOutput.append("<td>").append(request.getParameter("cpso")).append("</td>");
+                        summaryOutput.append("<td>").append(request.getParameter("start_range")).append("</td>");
+                        summaryOutput.append("<td>").append(request.getParameter("end_range")).append("</td>");
+                        summaryOutput.append("<td>").append(distinctPatients).append("</td>");
+                        summaryOutput.append("</tr>");
+                        summaryOutput.append("</tbody>");
+                        summaryOutput.append("</table>");
+
+                        allOutput.append("<table class='table table-hover'>");
+                        allOutput.append("<thead>");
+                        allOutput.append("<tr>");
+                        allOutput.append("<th>Patient ID</th>");
+                        allOutput.append("</tr>");
+                        allOutput.append("</thead>");
+                        if (patientList.size() > 0) {
+                            allOutput.append("<tbody>");
+                            for (Patient p : patientList) {
+                                allOutput.append("<tr>");
+                                allOutput.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
+                                allOutput.append("</tr>");
+                            }
+                            allOutput.append("</tbody>");
+                        }
+                        allOutput.append("</table>");
+                    } else {
+                        summaryOutput.append("<p>There is no summary for this doctor.</p>");
+                        allOutput.append("<p>There are no records for this doctor.</p>");
                     }
-                    output.append("</tbody>");
+                    out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"" + summaryOutput.toString() + "\", \"allOutput\":\"" + allOutput.toString() + "\"} ");
+                } else {
+                    out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"<p>There are no records for this doctor.</p>\", \"allOutput\":\"<p>There are no records for this doctor.</p>\"} ");
                 }
-                output.append("</table>");
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
-            } else {
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Invalid CPSO Number, please try again." + "\"} ");
+            }
+            else {
+                out.println("{ \"success\":\"" + success + "\", \"output\":\"Mandatory fields are empty.\" }");
             }
             out.close();
         }

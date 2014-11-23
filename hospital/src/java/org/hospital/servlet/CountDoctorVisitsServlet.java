@@ -39,7 +39,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
         List<Patient> patientList = null;
         StringBuilder output = null;
         boolean success = false;
-        String distinctPatients = null;
+        String distinctPatients = "0";
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -68,19 +68,21 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                     patientList.add(p);
                     logger.info("Adding [" + p + "] to patient list");
                 }
-                success = true;
-            }
-            
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_COUNT_PATIENT_VISIT);
-            cs.setString(1, request.getParameter("cpso"));
-            rs = cs.executeQuery();
-            if (rs != null)
-            { 
-                while (rs.next())
-                {
-                    distinctPatients = rs.getString("count(distinct v.patient_id)");
+                
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_COUNT_PATIENT_VISIT);
+                cs.setString(1, request.getParameter("cpso"));
+                cs.setTimestamp(2, time1);
+                cs.setTimestamp(3, time2);
+                rs = cs.executeQuery();
+                if (rs != null)
+                { 
+                    while (rs.next())
+                    {
+                        distinctPatients = rs.getString("count(distinct v.patient_id)");
+                    }
                 }
-            } 
+                success = true;
+            }  
         }
         catch (SQLException e)
         {

@@ -20,7 +20,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hospital.entities.Patient;
 import org.hospital.entities.VisitRecord;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;

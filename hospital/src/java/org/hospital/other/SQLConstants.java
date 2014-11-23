@@ -31,9 +31,12 @@ public class SQLConstants {
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String VIEW_ASSIGNED_DOCTOR = "{ call ViewAssignedDoctor(?) }";
     public static String VIEW_DOCTORS_FOR_STAFF = "{ call ViewDoctorsForStaff(?) }";
-    public static String VIEW_VISIT_RECORDS_FOR_USER = "{ call ViewVisitRecord (?) }";
+    public static String VIEW_PAST_VISIT_RECORD = "{ call ViewPastVisitRecord(?) }";
+    public static String VIEW_UPCOMING_VISIT_RECORD = "{ call ViewUpcomingVisitRecord(?) }";
     public static String VIEW_ALL_VISIT_RECORDS = "{ call ViewAllVisitRecords () }";
-    public static String VIEW_DOCTOR_VISIT = "{ call CountDoctorVisits(?,?,?) }";    
+    public static String VIEW_DOCTOR_VISIT = "{ call CountDoctorVisits(?,?,?) }";
+    public static String VIEW_PATIENT_VISIT =  "{ call CountPatientVisits(?,?,?) }";
+    public static String VIEW_COUNT_PATIENT_VISIT = "{call UniquePatientsGivenDoctor(?) }";
     public static String All_DOCTOR_INFORMATION = "{ call AllDoctorInformation }";
     public static String VIEW_ALL_PATIENT = "{ call ViewAllPatients }";
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";

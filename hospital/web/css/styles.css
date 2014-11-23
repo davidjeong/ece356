@@ -43,6 +43,10 @@
     float: left;
 }
 
+.appointments-panel {
+    margin-bottom: 100px;
+}
+
 .message {
     font-size: 14px;
 }

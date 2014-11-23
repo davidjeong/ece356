@@ -10,9 +10,6 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -40,7 +37,6 @@ public class ViewPatientsServlet extends HttpServlet {
         List<Patient> patientList = null;
         StringBuilder output = null;
         boolean success = false;
-        String userType = request.getSession().getAttribute("usertype").toString();
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -109,7 +105,7 @@ public class ViewPatientsServlet extends HttpServlet {
                 output.append("<th>Health Status</th>");
                 output.append("</tr>");
                 output.append("</thead>");
-                if (patientList.size() > 0) {
+                if (!patientList.isEmpty()) {
                     output.append("<tbody>");
                     for (Patient p : patientList) {
                         output.append("<tr>");

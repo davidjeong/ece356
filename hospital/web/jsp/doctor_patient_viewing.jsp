@@ -8,29 +8,29 @@
         <title>Modify Patients' Viewing Rights</title>
     </head>
     <body>
-        <jsp:include page="/DoctorPatientViewingServlet"/>
-        <% List<Patient> patientList = (List<Patient>)session.getAttribute("PatientList"); %>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Patient ID</th>
-                    <th>Legal Name</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% int i = 0;
-            while (i<patientList.size()) { 
-                Patient p = patientList.get(i); 
-                int patientId = p.getPatientId();
-                String legalName = p.getLegalName(); 
-            %>
-            <tr>
-                <td><%=patientId%></td>
-                <td><%=legalName%></td>
-            </tr>
-            </tbody>
-            <% i++; 
-            } %>
-        </table>
+        <script type="text/javascript">
+            var cpso = "";
+            $(document).ready(function() {
+                cpso = untruncateCpso(${sessionScope.cpsonumber}.toString());
+                dataString = " {\"cpsonumber\":\"" + cpso + "\"}";
+                
+                $.ajax({
+                    type: "GET",
+                    url: "../DoctorPatientViewingServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#patientsTable").html(data.outputPatient);
+                        $("#doctorsTable").html(data.outputDoctor);
+                    }
+                });
+            });
+        </script>
+        <div>
+            <div id="patientsTable" style="float: left; margin-right: 10%; width: 45%">
+            </div>
+            <div id="doctorsTable" style="float: left; width: 45%">
+            </div>
+        </div>
     </body>
 </html>

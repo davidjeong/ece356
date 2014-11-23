@@ -4,7 +4,9 @@ DELIMITER //
 CREATE PROCEDURE ViewAllDoctors()
 	BEGIN
 		SELECT
-			*
+			d.cpso_number,
+			u.legal_name,
+			d.department
 		FROM	
 			doctor_schema d,
 			user_schema u

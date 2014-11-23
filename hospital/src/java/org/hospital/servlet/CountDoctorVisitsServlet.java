@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hospital.entities.Patient;
+import org.hospital.entities.VisitRecord;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
@@ -37,11 +38,12 @@ public class CountDoctorVisitsServlet extends HttpServlet {
         
         CallableStatement cs = null;
         ResultSet rs = null;
-        List<Patient> patientList = null;
+        List<VisitRecord> visitList = null;
         StringBuilder summaryOutput = null;
         StringBuilder allOutput = null;
         boolean success = false;
         int distinctPatients = 0;
+        int doctorRevenue = 0;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -63,13 +65,19 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                 rs = cs.executeQuery();
                 if (rs != null)
                 { 
-                    patientList = new ArrayList();
+                   visitList = new ArrayList();
                     while (rs.next())
                     {
-                        Patient p = new Patient();
-                        p.setPatientId(rs.getInt("patient_id"));
-                        patientList.add(p);
-                        logger.info("Adding [" + p + "] to patient list");
+                         VisitRecord vr = new VisitRecord( rs.getInt("patient_id"),
+                                                              rs.getString("cpso_number"),
+                                                              rs.getTimestamp("start_time"),
+                                                              rs.getTimestamp("end_time"),
+                                                              rs.getString("surgery_name"),
+                                                              rs.getString("prescription"),
+                                                              rs.getString("comments"),
+                                                              rs.getString("diagnosis"));
+                            visitList.add(vr);
+                        logger.info("Adding [" + vr + "] to patient list");
                     }
 
                     cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_COUNT_PATIENT_VISIT);
@@ -82,6 +90,19 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         if(rs.next()) 
                         {
                             distinctPatients = rs.getInt("patients");
+                        }
+                    }
+                    
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_EARNING_BY_DOCTOR);
+                    cs.setString(1, request.getParameter("cpso"));
+                    cs.setTimestamp(2, time1);
+                    cs.setTimestamp(3, time2);
+                    rs = cs.executeQuery();
+                    if (rs != null)
+                    { 
+                        if(rs.next()) 
+                        {
+                            doctorRevenue = rs.getInt("earning");
                         }
                     }
                     success = true;
@@ -124,8 +145,8 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                 summaryOutput = new StringBuilder();
                 allOutput = new StringBuilder();
                 
-                if (patientList != null) {
-                    if (!patientList.isEmpty()) {
+                if ( visitList != null) {
+                    if (! visitList.isEmpty()) {
                         summaryOutput.append("<table class='table table-hover'>");
                         summaryOutput.append("<thead>");
                         summaryOutput.append("<tr>");
@@ -133,6 +154,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         summaryOutput.append("<th>Start Time</th>");
                         summaryOutput.append("<th>End Time</th>");
                         summaryOutput.append("<th>Distinct Patients Seen</th>");
+                        summaryOutput.append("<th>Revenue Generated($)</th>");
                         summaryOutput.append("</tr>");
                         summaryOutput.append("</thead>");              
 
@@ -142,6 +164,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         summaryOutput.append("<td>").append(request.getParameter("start_range")).append("</td>");
                         summaryOutput.append("<td>").append(request.getParameter("end_range")).append("</td>");
                         summaryOutput.append("<td>").append(distinctPatients).append("</td>");
+                        summaryOutput.append("<td>").append(doctorRevenue).append("</td>");
                         summaryOutput.append("</tr>");
                         summaryOutput.append("</tbody>");
                         summaryOutput.append("</table>");
@@ -150,13 +173,27 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         allOutput.append("<thead>");
                         allOutput.append("<tr>");
                         allOutput.append("<th>Patient ID</th>");
+                        allOutput.append("<th>CPSO Number</th>");
+                        allOutput.append("<th>Start Time</th>");
+                        allOutput.append("<th>End Time</th>");
+                        allOutput.append("<th>Prescription</th>");
+                        allOutput.append("<th>Surgery Name</th>");
+                        allOutput.append("<th>Diagnosis</th>");
+                        allOutput.append("<th>Comments</th>");
                         allOutput.append("</tr>");
                         allOutput.append("</thead>");
-                        if (patientList.size() > 0) {
+                        if ( visitList.size() > 0) {
                             allOutput.append("<tbody>");
-                            for (Patient p : patientList) {
+                            for (VisitRecord vr :  visitList) {
                                 allOutput.append("<tr>");
-                                allOutput.append("<td><a href='openDetails(this);'>").append(p.getPatientId()).append("</a></td>");
+                                allOutput.append("<td>").append(vr.getPatientID()).append("</td>");
+                                allOutput.append("<td>").append(vr.getCPSONumber()).append("</td>");
+                                allOutput.append("<td>").append(vr.getStartTime().toString()).append("</td>");
+                                allOutput.append("<td>").append(vr.getEndTime().toString()).append("</td>");
+                                allOutput.append("<td>").append(vr.getPrescription()).append("</td>");
+                                allOutput.append("<td>").append(vr.getSurgeryName()).append("</td>");
+                                allOutput.append("<td>").append(vr.getDiagnosis()).append("</td>");
+                                allOutput.append("<td>").append(vr.getComments()).append("</td>");
                                 allOutput.append("</tr>");
                             }
                             allOutput.append("</tbody>");

@@ -12,7 +12,7 @@
         <title>Hospital Revenue</title>
     </head>
     <body>
-        <form name="input" id="ajaxRequestPatientVisits" class="form-horizontal" role="form" method="POST">
+        <form name="input" id="ajaxRequestRevenue" class="form-horizontal" role="form" method="POST">
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
             
             <div class="form-group">
@@ -26,32 +26,32 @@
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="end_range" id="end_range" value="" style="cursor: pointer;" placeholder="Empty Timestamp">
                 </div>
-            </div>
+            </div>  
+            
             <div class="form-group">
-                <label for="end_range" class="col-sm-3 control-label" style="margin-right: 15px;">Revenue Stream*</label>
-                <div class="btn-group btn-input clearfix">
-                
-                    <button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
-                    <span data-bind="label">Select One</span> <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Item 1</a></li>
-                        <li><a href="#">Another item</a></li>
-                        <li><a href="#">This is a longer item that will not fit properly</a></li>
-                    </ul>
+                <label for="revenueStream" class="col-sm-3 control-label">Surgery*</label>
+                <div class="col-sm-8" id="surgery_list">
+                    
                 </div>
             </div>
+            
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-primary" style="vertical-align: middle;">Submit</button>
+                    <button id="getRevenue" type="button" class="btn btn-primary" style="vertical-align: middle;">Submit</button>
                 </div>
             </div>
-            
-            
         </form>
         
+        <div class="summary-panel" id="summaryDiv">
+            <p class="lead">
+                Summary
+            </p>
+            <div id="summaryContent"></div>
+        </div>
+        <p id="failure_message"></p>
+        
         <script type="text/javascript">
-            $("#ajaxRequestPatientVisits").submit(function(e){
+            $("#ajaxRequestRevenue").submit(function(e){
                 console.log("stopping");
                 e.preventDefault();
             });
@@ -71,18 +71,46 @@
                     }
             );
  
-            $( document.body ).on( 'click', '.dropdown-menu li', function( event ) {
- 
-                var $target = $( event.currentTarget );
+            $(document).ready(function() {
+                username = "${sessionScope.username}";
+                dataString = "{ \"username\": \"" + username + "\" }";
+                $.ajax({
+                    type: "POST",
+                    url: "../GetAllSurgeriesServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        
+                        $("#surgery_list").html(data.surgeries);
+                    }
+                });
+            });
 
-                $target.closest( '.btn-group' )
-                   .find( '[data-bind="label"]' ).text( $target.text() )
-                      .end()
-                   .children( '.dropdown-toggle' ).dropdown( 'toggle' );
+             
+              $("#getRevenue").click(function() { 
 
-                return false;
-
-             });
+                dataString = $("#ajaxRequestRevenue").serialize();
+                
+                console.log(dataString);
+                $.ajax({
+                    type: "POST",
+                    url: "../RevenueGeneratedServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (data.success === "true") {
+                            $("#failure_message").hide();
+                            $("#summaryContent").html(data.summaryOutput);
+                            $("#summaryDiv").show();
+                        } else if (data.success === "false") {
+                             $("#failure_message").show();
+                             $("#summaryDiv").hide();
+                             $("#failure_message").html(data.output);
+                             $("#failure_message").addClass("alert alert-danger message");
+                        }
+                    }
+                });
+            });
         </script>
     </body>
 </html>

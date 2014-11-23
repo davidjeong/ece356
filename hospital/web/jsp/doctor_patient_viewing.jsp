@@ -26,6 +26,7 @@
                 });
             });
         </script>
+        <p>Grant/Revoke other doctors viewing rights to your patients</p>
         <div>
             <div id="patientsTable" style="float: left; margin-right: 10%; width: 45%">
             </div>

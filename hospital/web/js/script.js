@@ -1,5 +1,5 @@
-function load_visits() {
-    $("#content-panel").load("../jsp/visit_record.jsp");
+function load_appointments() {
+    $("#content-panel").load("../jsp/view_appointments.jsp");
 }
             
 function load_patients() {

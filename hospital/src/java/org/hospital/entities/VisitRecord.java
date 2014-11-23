@@ -14,7 +14,7 @@ import java.util.Date;
 public class VisitRecord {
  
     private int patient_id;
-    private int cpso_number;
+    private String cpso_number;
     private Date start_time;
     private Date end_time;
     private String surgery_name;
@@ -26,7 +26,7 @@ public class VisitRecord {
         
     }
     
-    public VisitRecord (int patient_id, int cpso_number, Date start_time, Date end_time, String surgery_name, String prescription, String comments, String diagnosis) {
+    public VisitRecord (int patient_id, String cpso_number, Date start_time, Date end_time, String surgery_name, String prescription, String comments, String diagnosis) {
         this.patient_id = patient_id;
         this.cpso_number = cpso_number;
         this.start_time = start_time;
@@ -41,7 +41,7 @@ public class VisitRecord {
         return patient_id;
     }
     
-    public int getCPSONumber() {
+    public String getCPSONumber() {
         return cpso_number;
     }
     
@@ -61,7 +61,7 @@ public class VisitRecord {
         this.prescription = name;
     }
     
-    public String getPerscription() {
+    public String getPrescription() {
         return prescription;
     }
     

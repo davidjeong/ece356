@@ -23,7 +23,7 @@
                         <% String userType = session.getAttribute("usertype").toString(); 
                         if ((userType).equals(SQLConstants.Doctor)) { %>
                             <li><a href="#" onclick="load_patients();">My Patients</a></li>
-                            <li><a href="#" onclick="load_visits();">My Appointments</a></li>
+                            <li><a href="#" onclick="load_appointments();">My Appointments</a></li>
                             <li><a href="#" onclick="manage_doctor_patient_viewing();">Manage Patients</a></li>
                         <% } 
                         if ((userType).equals(SQLConstants.Staff)) { %>

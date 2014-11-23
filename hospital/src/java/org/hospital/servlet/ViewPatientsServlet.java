@@ -131,7 +131,7 @@ public class ViewPatientsServlet extends HttpServlet {
                 output.append("<th>Health Status</th>");
                 output.append("</tr>");
                 output.append("</thead>");
-                if (patientList.size() > 0) {
+                if (!patientList.isEmpty()) {
                     output.append("<tbody>");
                     for (Patient p : patientList) {
                         output.append("<tr>");

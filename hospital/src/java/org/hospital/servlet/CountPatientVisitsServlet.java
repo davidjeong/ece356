@@ -65,7 +65,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
                 while (rs.next())
                 {
                     VisitRecord v = new VisitRecord(rs.getInt("patient_id"),
-                            rs.getInt("cpso_number"), rs.getDate("start_time"), rs.getDate("end_time"),
+                            rs.getString("cpso_number"), rs.getDate("start_time"), rs.getDate("end_time"),
                     rs.getString("surgery_name"), rs.getString("prescription"),
                             rs.getString("comments"), rs.getString("diagnosis"));
                     visitRecordList.add(v);

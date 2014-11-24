@@ -37,6 +37,7 @@
                         <% }
                         if ((userType).equals(SQLConstants.Patient)) { %>
                              <li><a href="#" onclick="load_appointments();">My Visits</a></li>
+                             <li><a href="#" onclick="load_patient_info();">My Personal Information</a></li>
                         <% }%>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 

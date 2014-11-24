@@ -89,6 +89,14 @@ public class LoginServlet extends HttpServlet {
                         }
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Patient)) {
                             typeFound = true;
+                            cs = SQLConstants.CONN.prepareCall(SQLConstants.USERNAME_TO_PATIENTID);
+                            cs.setString(1, SQLConstants.USER.getUserName());
+                            rs = cs.executeQuery();
+                            if (rs.next())
+                            {
+                                String login_patientid = rs.getString("patient_id");
+                                request.getSession().setAttribute("patientid", login_patientid);
+                            }
                         }
                         else if (SQLConstants.USER.getUserType().equals(SQLConstants.Staff)) {
                             typeFound = true;

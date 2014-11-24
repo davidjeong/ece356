@@ -5,6 +5,10 @@ function load_appointments() {
 function load_patients() {
     $("#content-panel").load("../jsp/view_patients.jsp");
 }
+
+function load_patient_info() {
+    $("#content-panel").load("../jsp/patient_information.jsp");
+}
             
 function user_creation() {
     $("#content-panel").load("../jsp/user_creation.jsp");

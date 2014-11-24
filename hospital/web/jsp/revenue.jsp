@@ -42,6 +42,13 @@
             </div>
         </form>
         
+        <div class="summary-panel" id="totalDiv">
+            <p class="lead">
+                Total Cost
+            </p>
+            <div id="totalContent"></div>
+        </div>
+        
         <div class="summary-panel" id="surgeryDiv">
             <p class="lead">
                 Surgery Summary
@@ -107,6 +114,10 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#failure_message").hide();
+                            if (data.totalOuput !== ""){
+                                $("#totalDiv").show();
+                                $("#totalContent").html(data.totalOutput);
+                            }
                             $("#visitsContent").html(data.visitsOutput);
                             $("#surgeryContent").html(data.surgeriesOutput);
                             $("#visitsDiv").show();
@@ -114,6 +125,7 @@
                         } else if (data.success === "false") {
                              $("#failure_message").show();
                              $("#visitsDiv").hide();
+                             $("#surgeryDiv").hide();
                              $("#surgeryDiv").hide();
                              $("#failure_message").html(data.output);
                              $("#failure_message").addClass("alert alert-danger message");

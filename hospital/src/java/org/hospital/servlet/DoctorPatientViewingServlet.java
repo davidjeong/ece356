@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.hospital.entities.Doctor;
 import org.hospital.entities.Patient;
+import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +87,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 while (rsDoctors.next()) {
                     Doctor d = new Doctor();
                     d.setLegalName(rsDoctors.getString("legal_name"));
+                    d.setUserName(rsDoctors.getString("user_name"));
                     d.setCpsoNumber(rsDoctors.getString("cpso_number"));
                     d.setDepartment(rsDoctors.getString("department"));
                     doctorList.add(d);
@@ -158,7 +160,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 sbDoctors.append("<tbody>");
                 for (Doctor d : doctorList) {
                     sbDoctors.append("<tr>");
-                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getCpsoNumber()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
+                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getUserName()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
                     sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
                     sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
                     sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
@@ -181,6 +183,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 while (rsDoctorsAll.next()) {
                     Doctor d = new Doctor();
                     d.setLegalName(rsDoctorsAll.getString("legal_name"));
+                    d.setUserName(rsDoctorsAll.getString("user_name"));
                     d.setCpsoNumber(rsDoctorsAll.getString("cpso_number"));
                     d.setDepartment(rsDoctorsAll.getString("department"));
                     doctorAllList.add(d);
@@ -263,14 +266,14 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 sbDoctors.append("<tr>");
                 if (doctorAssignedList.contains(d.getCpsoNumber())) {
                     sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'")
-                            .append(d.getCpsoNumber()).append("\' checked=\'")
+                            .append(d.getUserName()).append("\' checked=\'")
                             .append(d.getCpsoNumber()).append("\'")
                             .append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'")
                             .append("/>")
                             .append("</td>");
                 } else {
                     sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'")
-                            .append(d.getCpsoNumber()).append("\'")
+                            .append(d.getUserName()).append("\'")
                             .append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'")
                             .append("/>")
                             .append("</td>");
@@ -293,6 +296,30 @@ public class DoctorPatientViewingServlet extends HttpServlet {
         String patientId = request.getParameter("patientId");
         String[] doctorIds = request.getParameterValues("doctors[]");
         
+        CallableStatement csDelete = null;
+        CallableStatement csInsert = null;
         
+        if (SQLConstants.CONN == null) {
+            MySQLConnection.establish();
+        }
+        
+        try {
+            // SQLConstants.CONN.setAutoCommit(false);
+            
+            csDelete = SQLConstants.CONN.prepareCall(SQLConstants.DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT);
+            csDelete.setString(1, patientId);
+            csDelete.executeUpdate();
+            
+            csInsert = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_USER_PATIENT_RIGHTS);
+            for (String doctorId : doctorIds) {
+                csInsert.setString(1, doctorId);
+                csInsert.setString(2, patientId);
+                csInsert.addBatch();
+            }
+            
+            csInsert.executeBatch();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

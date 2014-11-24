@@ -120,6 +120,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     upcomingSb.append("<th>Comments</th>");
                     upcomingSb.append("</tr>");
                     upcomingSb.append("</thead>");
+                    upcomingSb.append("<tbody>");
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm");
                     for (VisitRecord vr : upcomingList) {
                         String startTime = sdf.format(vr.getStartTime());
@@ -163,6 +164,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     pastSb.append("<th>Update</th>");
                     pastSb.append("</tr>");
                     pastSb.append("</thead>");
+                    pastSb.append("<tbody>");
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm");
                     for (VisitRecord vr : pastList) {
                         String startTime = sdf.format(vr.getStartTime());

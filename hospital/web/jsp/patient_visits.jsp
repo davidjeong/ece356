@@ -6,8 +6,12 @@
         <title>Patient Visits</title>
     </head>
     <body>
+            <div class="page-header">
+                <div class="form-inline">
+                    <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
+                </div>
+            </div>
         <form name="input" id="ajaxRequestPatientVisits" class="form-horizontal" role="form" method="POST">
-            <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
             <div class="form-group">
                 <label for="requested_patient_id" class="col-sm-2 control-label">Patient ID*</label>
                 <div class="col-sm-10">
@@ -47,7 +51,6 @@
         </form>
         <script type="text/javascript">
             $("#ajaxRequestPatientVisits").submit(function(e){
-                console.log("stopping");
                 e.preventDefault();
             });
             

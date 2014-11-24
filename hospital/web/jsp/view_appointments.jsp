@@ -7,8 +7,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <div class="clearfix">
-            <button id="refreshViewAppointments" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+        <div class="page-header refresh-header">
+            <div class="form-inline">
+                <button id="refreshViewAppointments" type="button" class="btn btn-primary">Refresh Data</button>
+            </div>
         </div> 
         <div class="appointments-panel" id="upcomingAppointmentsDiv">
             <p class="lead">

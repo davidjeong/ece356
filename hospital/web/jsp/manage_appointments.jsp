@@ -8,35 +8,208 @@
         <title>Manage Appointments</title>
     </head>
     <body>
-        <jsp:include page="/ManageAppointmentServlet" />
-        <% List<Doctor> doctorList = (List<Doctor>)session.getAttribute("doctorList"); %>
-        <div class="dropdown clearfix">
-            <p class=navbar-brand">Select the doctor which you wish to view appointments:&nbsp;</p>
-            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Doctors&nbsp;<span class="caret"></span></button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                <% int i = 0;
-                while (i<doctorList.size()) {
-                    Doctor doctor = doctorList.get(i);
-                    String legalName = doctor.getLegalName();
-                    String cpsoNumber = doctor.getCpsoNumber();
-                %>
-                <li role="presentation"><a role="menuitem" tabindex="<%=i%>" value="<%=cpsoNumber%>"href="#"><%=legalName%></a></li>
-                <% i++; } %>
-            </ul>
+        <div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="inputLabel">New Appointment Form</h4>
+                <p class="mandatory-message" style="text-align: right"><strong>* marks mandatory fields.</strong></p>
+              </div>
+              <div class="modal-body" id="modalBody">
+                  <div>
+                      <form name="input" id="ajaxRequesetCreateNewAppointment" class="form-horizontal" role="form" method="POST">
+                            <div class="form-group">
+                                <label for="cpso" class="col-sm-2 control-label">CPSO Number*</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="cpso" placeholder="CPSO Number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="patient_id" class="col-sm-2 control-label">Patient ID*</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="patient_id" placeholder="Patient ID">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="start_range" class="col-sm-2 control-label">Start Date Time*</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="start_range" name="start_range" style="cursor: pointer;" placeholder="Empty Timestamp">
+                                </div>
+                            </div><div class="form-group">
+                                <label for="end_range" class="col-sm-2 control-label">End Date Time*</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="end_range" name="end_range" style="cursor: pointer;"placeholder="Empty Timestamp">
+                                </div>
+                            </div>
+                          <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <p id="error_message"></p>
+                                </div>
+                          </div>
+                          <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="formSubmit" type="submit" class="btn btn-primary">Submit Form</button>
+                                </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row">
-            <div id="calendar" class="cal-context" style="width: 100%;">
-                <div class="cal-week-box">
-                    <div class="cal-offset1 cal-column"></div>
-                    <div class="cal-offset2 cal-column"></div>
-                    <div class="cal-offset3 cal-column"></div>
-                    <div class="cal-offset4 cal-column"></div>
-                    <div class="cal-offset5 cal-column"></div>
-                    <div class="cal-offset6 cal-column"></div>
-                    <div class="cal-offset7 cal-column"></div>
-                    <div class="cal-row-fluid cal-row-head"></div>
+        
+        <div class="page-header">
+            <div class="form-inline">
+                <p id="creation_message"></p>
+                <button id="createAppointment" class="btn nav-btn">Create Appointment</button>
+                <div class="btn-group nav-btn">
+                    <button class="btn btn-primary nav-button" data-calendar-nav="prev">&lt;&lt; Prev</button>
+                    <button class="btn nav-button" data-calendar-nav="today">Today</button>
+                    <button  class="btn btn-primary nav-button" data-calendar-nav="next">Next &gt;&gt;</button>
+                </div>
+                <div class="btn-group nav-btn">
+                    <button class="btn btn-warning view-button" data-calendar-view="week">Week</button>
+                    <button class="btn btn-warning view-button" data-calendar-view="day">Day</button>
                 </div>
             </div>
         </div>
+        <div>
+            <p class="lead">
+                Schedules For All Doctors
+            </p>
+            <p id="date_status" class="lead date-status"></p>
+        </div>
+        <div id="calendar" class="cal-context"></div>
+        <script type="text/javascript">
+
+            $("#ajaxRequesetCreateNewAppointment").submit(function(e){
+                e.preventDefault();
+            });
+            
+            function retrieveCalendar() {
+                 $.ajax({
+                     type: "POST",
+                     url: "../ViewDoctorSchedulesServlet",
+                     data: {username: username},
+                     dataType: "JSON",
+                     success: function(data) {
+                        calendar = $("#calendar").calendar({
+                            view: "week",
+                            events_source: data.events_source
+                        });
+                       
+                        var s = calendar.options.position.start.toDateString();
+                        var e = calendar.options.position.end.toDateString();
+                        var str = "";
+                        if (s !== e) {
+                            str += s + " - " + e;
+                           }
+                        else {
+                            str = s;
+                        }
+                        $("#date_status").html(str);
+                        }
+                 });
+            }
+
+            var username = "";
+            var calendar = null;
+            $(document).ready(function() {
+                username = "${sessionScope.username}";
+                retrieveCalendar();
+            });
+            
+            
+            
+            $(".nav-button").click(function() {
+                calendar.navigate($(this).data('calendar-nav'));
+                var s = calendar.options.position.start.toDateString();
+                var e = calendar.options.position.end.toDateString();
+                var str = "";
+                if (calendar.options.view === "week") {
+                    str += s + " - " + e;
+                }
+                else {
+                    str += s;
+                }
+                $("#date_status").html(str);
+            });
+
+            $(".view-button").click(function() {
+                calendar.view($(this).data('calendar-view'));
+                var s = calendar.options.position.start.toDateString();
+                var e = calendar.options.position.end.toDateString();
+                var str = "";
+                if (calendar.options.view === "week") {
+                    str += s + " - " + e;
+                }
+                else {
+                    str += s;
+                }
+                $("#date_status").html(str);
+            });
+            
+            function showForm() {
+                $("#inputModal").modal({
+                    show: true
+                });
+            }
+            
+            $("#createAppointment").click(function() {
+               showForm();
+            });
+            
+            var startDateTextBox = $('#start_range');
+            var endDateTextBox = $('#end_range');
+
+            $.timepicker.datetimeRange(
+                    startDateTextBox,
+                    endDateTextBox,
+                    {
+                            minInterval: (1000*60*60), // 1hr
+                            dateFormat: 'dd M yy', 
+                            timeFormat: 'HH:mm',
+                            start: {}, // start picker options
+                            end: {} // end picker options					
+                    }
+            );
+    
+            $("#formSubmit").click(function() {
+                
+               dataString = $("#ajaxRequesetCreateNewAppointment").serialize();
+               
+               $.ajax({
+                   type: "POST",
+                   url: "../CreateNewAppointmentServlet",
+                   data: dataString,
+                   dataType: "JSON",
+                   success: function(data) {
+                         if (data.inserted !== "0") {
+                             //new appointment created.
+                             $("#creation_message").html("Appointment Created.");
+                             $("#creation_message").addClass("alert alert-success message");
+                             $("#ajaxRequesetCreateNewAppointment")[0].reset();
+                             $("#inputModal").modal('toggle');
+                             retrieveCalendar();
+                        } else {
+                           $("#error_message").addClass("alert alert-danger message");
+                           if (data.conflicted === "true") {
+                               $("#error_message").html("There is already an appointment for this doctor at the selected times.");
+                           } else {
+                               if (data.empty === "true") {
+                                    $("#error_message").html("Mandatory fields are empty.");
+                                }
+                                else {
+                                    $("#error_message").html("Selected doctor cannot view selected patient.");
+                                }
+                            }
+                        }
+                     }
+                });
+            });
+        </script>
     </body>
 </html>

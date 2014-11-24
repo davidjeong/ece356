@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewDoctorEarning(IN cpso_number_ VARCHAR (6), IN start_time_ DATETIME, IN end_time_ DATETIME)
+CREATE PROCEDURE ViewEarningByDoctor(IN cpso_number_ VARCHAR (6), IN start_time_ DATETIME, IN end_time_ DATETIME)
 BEGIN
 	SELECT sum(s.cost + v.standard_cost) as earning
 	FROM 

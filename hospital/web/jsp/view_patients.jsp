@@ -23,10 +23,12 @@
             </div>
           </div>
         </div>
-        <div>
-            <button id="refreshViewPatients" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
-            <div id="viewPatientContent"></div>
+        <div class="page-header refresh-header">
+            <div class="form-inline">
+                <button id="refreshViewPatients" type="button" class="btn btn-primary">Refresh Data</button>
+            </div>
         </div>
+        <div id="viewPatientContent"></div>
         <script type="text/javascript">
             
             var cpso = "";
@@ -43,17 +45,13 @@
                         $("#creation_message").html(data.output);
                         if (data.success === 'true') {
                             $("#viewPatientContent").html(data.output);
-                        } else if (data.success === 'false') {
-                            console.log("failure");
-                        }
-                        console.log(data.output);
+                        } 
                     }
                 });
             });
 
             $("#refreshViewPatients").click(function(e) {
                 dataString = "{\"cpsonumber\":\"" + cpso + "\"}";
-                console.log(dataString);
                 $.ajax({
                     type: "POST",
                     url: "../ViewPatientsServlet",
@@ -63,8 +61,6 @@
                         $("#creation_message").html(data.output);
                         if (data.success === 'true') {
                             $("#viewPatientContent").html(data.output);
-                        } else if (data.success === 'false') {
-                            console.log("failure");
                         }
                     }
                 });
@@ -72,7 +68,6 @@
             
             
             function openModal(id) {
-                console.log(dataString);
                 $.ajax({
                     type: "POST",
                     url: "../ViewPatientVisitRecordsServlet",
@@ -84,7 +79,6 @@
                             $("#myModalLabel").html("Visit Records for Patient "+id)
                         } else if (data.success === 'false') {
                             $("#modalBody").html("Sorry, an error occured. Please contact an administrator");
-                            console.log("failure");
                         }
                         $('#myModal').modal({
                             show: true

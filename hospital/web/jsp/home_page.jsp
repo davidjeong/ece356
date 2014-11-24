@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="../css/jquery-ui.min.css">
         <link rel="stylesheet" type="text/css" href="../css/jquery-ui.theme.min.css">
         <link rel="stylesheet" type="text/css" href="../css/jquery-ui-timepicker-addon.css">
+        <link rel="stylesheet" type="text/css" href="../css/calendar.min.css">
         <link rel="stylesheet" type="text/css" href="../css/styles.css">
         <title>Welcome to MediCare</title>
     </head>
@@ -33,7 +34,12 @@
                         if ((userType).equals(SQLConstants.Finance)) { %>
                              <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
                              <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
-                        <% } %>
+                             <li><a href="#" onclick="revenue();">Hospital Revenue</a></li>
+                        <% }
+                        if ((userType).equals(SQLConstants.Patient)) { %>
+                             <li><a href="#" onclick="load_appointments();">My Visits</a></li>
+                             <li><a href="#" onclick="load_patient_info();">My Personal Information</a></li>
+                        <% }%>
                      </ul>
                      <% String legalName = session.getAttribute("legalname").toString(); 
                         if (!legalName.isEmpty()) {
@@ -52,6 +58,8 @@
         <script type="text/javascript" src="../js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="../js/jquery-ui-timepicker-addon.js"></script>
+        <script type="text/javascript" src="../js/underscore-min.js"></script>
+        <script type="text/javascript" src="../js/calendar.min.js"></script>
         <script type="text/javascript" src="../js/script.js"></script>
     </body>
 </html>

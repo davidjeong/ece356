@@ -64,4 +64,6 @@ public class SQLConstants {
     public static String DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT = "{ call DeleteDoctorPatientRightsForPatient(?) }";
     public static String INSERT_NEW_USER_PATIENT_RIGHTS = "{ call InsertNewUserPatientViewingRights(?,?) }";
     public static String VIEW_ALL_STAFF = "{ call ViewAllStaff }";
+    public static String DELETE_ALL_DOCTOR_STAFF_ASSIGNMENT_FOR_DOCTOR = "{ call DeleteAllDoctorStaffAssignmentsForDoctor(?) }";
+    public static String INSERT_NEW_DOCTOR_STAFF_ASSIGNMENT= "{ call InsertNewDoctorStaffAssignment(?,?) }";
 }

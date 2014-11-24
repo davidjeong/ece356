@@ -226,8 +226,8 @@
                     }
             );
     
-            var startupDateTextBox = $('#start_update_range');
-            var endupDateTextBox = $('#end_update_range');
+            var startupDateTextBox = $('#start_updated_range');
+            var endupDateTextBox = $('#end_updated_range');
             
             $.timepicker.datetimeRange(
                     startupDateTextBox,
@@ -256,7 +256,7 @@
                              //new appointment created.
                              $("#creation_message").html("Appointment Created.");
                              $("#creation_message").addClass("alert alert-success message");
-                             $("#ajaxRequesetCreateNewAppointment")[0].reset();
+                             $("#ajaxRequestCreateNewAppointment")[0].reset();
                              $("#inputModal").modal('toggle');
                              retrieveCalendar();
                         } else {
@@ -323,41 +323,35 @@
                 
                 new_start = $("#start_updated_range").val();
                 new_end = $("#end_updated_range").val();
-                console.log()
                 
-                if (new_start !== null && new_end !== null) {
-                    $.ajax({
-                        type: "POST",
-                        url: "../UpdateAppointmentServlet",
-                        data: 
-                        { 
-                            cpso_number: cpso,
-                            start_time: start_time,
-                            new_start: new_start,
-                            new_end: new_end
-                        },
-                        dataType: "JSON",
-                        success: function(data) {
-                            if (data.count !== "0") {
-                                 $("#creation_message").html("Appointment Updated.");
-                                 $("#creation_message").addClass("alert alert-success message");
-                                 $("#ajaxRequestUpdateAppointment")[0].reset();
-                                 $("#modifyModal").modal('toggle');
+                $.ajax({
+                    type: "POST",
+                    url: "../UpdateAppointmentServlet",
+                    data: 
+                    { 
+                        cpso_number: cpso,
+                        start_time: start_time,
+                        new_start: new_start,
+                        new_end: new_end
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.count !== "0") {
+                             $("#creation_message").html("Appointment Updated.");
+                             $("#creation_message").addClass("alert alert-success message");
+                             $("#ajaxRequestUpdateAppointment")[0].reset();
+                             $("#modifyModal").modal('toggle');
 
-                                 $("#start_updated_range").val("");
-                                 $("#end_updated_range").val("");
+                             $("#start_updated_range").val("");
+                             $("#end_updated_range").val("");
 
-                                 retrieveCalendar();
-                            } else {
-                                $("#error_update_message").html("Cannot delete appointment.");
-                                $("#error_update_message").addClass("alert alert-danger message");
-                            }
-                        } 
-                    });
-                } else {
-                    $("#error_update_message").html("Empty Field.");
-                    $("#error_update_message").addClass("alert alert-danger message");
-                }
+                             retrieveCalendar();
+                        } else {
+                            $("#error_update_message").html("Cannot delete appointment.");
+                            $("#error_update_message").addClass("alert alert-danger message");
+                        }
+                    } 
+                });
             }
             
         </script>

@@ -34,9 +34,11 @@ public class UpdateAppointmentServlet extends HttpServlet {
         StringBuilder output = null;
         int res = 0;
         List<VisitRecord> visitList = null;
+        boolean success = false;
         boolean conflicted = false;
         
         String cpsoNumber = request.getParameter("cpso_number");
+        String s = request.getParameter("start_time");
         
         try {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS);

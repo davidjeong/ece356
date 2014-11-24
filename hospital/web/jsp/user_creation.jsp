@@ -7,7 +7,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <jsp:include page="/UserCreationServlet" />
         <% List<Doctor> doctorList = (List<Doctor>)session.getAttribute("allDoctorList"); %>
         <div class="page-header">
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
@@ -71,21 +70,10 @@
                 </div>
             </div>
             <div class="form-group patient-field">
-                <label for="default_doctor" class="col-sm-2 control-label">Default Doctor</label>
-                <div class="col-sm-10">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="default_doctor_dropdown" data-toggle="dropdown">Doctors&nbsp;<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <% int i = 0;
-                        while (i<doctorList.size()) {
-                            Doctor doctor = doctorList.get(i);
-                            String legalName = doctor.getLegalName();
-                            String cpsoNumber = doctor.getCpsoNumber();
-                        %>
-                        <li value="<%=cpsoNumber%> role="presentation"><a role="menuitem" tabindex="<%=i%>" href="#" onclick="changeDefaultDoctor(this);"><%=legalName%></a></li>
-                        <% i++; } %>
-                    </ul>
-                    <input name="default_doctor" type="hidden" id="default_doctor" value="">
+                <label for="default_doctor" class="col-sm-2 control-label">Default Doctor*</label>
+                <div id="default_doctor_div" class="col-sm-10">                    
                 </div>
+                <input name="default_doctor" type="hidden" id="default_doctor" value="">
             </div>
             <div class="form-group patient-field">
                 <label for="health_status" class="col-sm-2 control-label">Health Status</label>
@@ -122,8 +110,34 @@
             $("#ajaxRequestForUserCreation").submit(function(e){
                 e.preventDefault();
             });
+            
+            function getDoctorList() {
+                $.ajax({
+                   type: "POST",
+                   url: "../GetAllDoctorsServlet",
+                   data: {},
+                   dataType: "JSON",
+                   success: function(data) {
+                       if (data.success === "true") {
+                            var html = "<button class='btn btn-default dropdown-toggle' type='button' id='default_doctor_dropdown' data-toggle='dropdown'>Doctors&nbsp;<span class='caret'></span></button>";
+                             html += "<ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>";
+                             for (var i = 0; i < data.output.length; i++) {
+                                html += "<li value='" + data.output[i].cpso_number + "' role='presentation'><a role='menuitem' tabindex='" + i + "' href='#' onclick='changeDefaultDoctor(this);'>" + data.output[i].legal_name + "</a></li>";
+                            }
+                            html += "</ul>";
+                        } else {
+                               var html = "<p>There are no doctors</p>";
+                        }
+                        $("#default_doctor_div").html(html);
+                   }
+                });
+            }
+            
+            $(document).ready(function() {
+                getDoctorList();
+            });
 
-            $("#newUserSubmit").click(function(e) { 
+            $("#newUserSubmit").click(function() { 
                 dataString = $("#ajaxRequestForUserCreation").serialize();
 
                 $.ajax({
@@ -136,6 +150,7 @@
                         if (data.success === 'true') {
                             $("#creation_message").removeClass();
                             $("#creation_message").addClass("alert alert-success message");
+                            getDoctorList();
                         } else if (data.success === 'false') {
                             $("#creation_message").removeClass();
                             $("#creation_message").addClass("alert alert-danger message");
@@ -143,6 +158,7 @@
                     }
                 });
             });
+            
         </script>
     </body>
 </html>

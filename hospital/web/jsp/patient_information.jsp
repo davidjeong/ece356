@@ -36,7 +36,7 @@
                       </thead>
                       <tbody>
                           <tr>
-                              <td><p id="Health_Card_Number" name="Health_Card_Number"></p></td>
+                              <td><input id="Health_Card_Number" type="text" class="form-control" name="Health_Card_Number"></td>
                               <td><input id="Sin_Number" type="text" class="form-control" name="Sin_Number" value=""></td>
                               <td><input id="Phone_Number" type="text" class="form-control" name="Phone_Number" value=""></td>
                               <td><input id="Address" type="text" class="form-control" name="Address" value="">
@@ -127,7 +127,7 @@
                    dataType: "JSON",
                    success: function(data) {
                        if (data.output !== null) {
-                            $("#Health_Card_Number").html(data.output.Health_Card_Number);
+                            $("#Health_Card_Number").val(data.output.Health_Card_Number);
                             $("#Sin_Number").val(data.output.Sin_Number);
                             $("#Phone_Number").val(data.output.Phone_Number);
                             $("#Address").val(data.output.Address);
@@ -142,23 +142,7 @@
                     show: true
                 });
             }
-            
-             
-            //NOT USED
-            $("#UpdatePatientInformation").submit(function(e) { 
-                dataString = $("#ajaxRequestPatientInformation").serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "../PatientInformationServlet",
-                    data: dataString,
-                    dataType: "JSON",
-                    success: function (data) {
-                        if (data.success === "true") {
-                            loadData()
-                        }
-                    }
-                });
-            });
+      
         </script>
     </body>
 </html>

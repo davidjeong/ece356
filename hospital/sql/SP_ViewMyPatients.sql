@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewAssignedDoctor(IN cpso_number_ INT)
+CREATE PROCEDURE ViewMyPatients(IN cpso_number_ INT)
 	BEGIN
     SELECT
 		p.patient_id,

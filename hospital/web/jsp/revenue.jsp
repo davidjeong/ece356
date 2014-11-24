@@ -101,7 +101,7 @@
             });
 
              
-              $("#getRevenue").click(function() { 
+            $("#getRevenue").click(function() { 
 
                 dataString = $("#ajaxRequestRevenue").serialize();
                 
@@ -126,7 +126,7 @@
                              $("#failure_message").show();
                              $("#visitsDiv").hide();
                              $("#surgeryDiv").hide();
-                             $("#surgeryDiv").hide();
+                             $("#totalDiv").hide();
                              $("#failure_message").html(data.output);
                              $("#failure_message").addClass("alert alert-danger message");
                         }

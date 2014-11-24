@@ -34,6 +34,10 @@ function manage_doctor_patient_viewing() {
     $("#content-panel").load("../jsp/doctor_patient_viewing.jsp");
 }
 
+function search_patient() {
+    $("#content-panel").load("../jsp/search_patient.jsp");
+}
+
 function showDoctorDiv() {
     hideAll();
     $("#usertype").val("doctor");

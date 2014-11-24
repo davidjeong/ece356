@@ -114,7 +114,7 @@ public class CreateNewAppointmentServlet extends HttpServlet {
                 empty = true;
             }
         } catch (SQLException e) {
-            logger.error(e.toString());
+             logger.error(e.toString());
         } catch (ParseException e) {
             logger.error(e.toString());
             empty = true;

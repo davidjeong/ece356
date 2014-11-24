@@ -5,6 +5,7 @@ CREATE PROCEDURE ViewAllDoctors()
 	BEGIN
 		SELECT
 			d.cpso_number,
+			u.user_name,
 			u.legal_name,
 			d.department
 		FROM	

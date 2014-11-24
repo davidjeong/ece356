@@ -42,11 +42,11 @@
             </div>
         </form>
         
-        <div class="summary-panel" id="summaryDiv">
+        <div class="summary-panel" id="surgeryDiv">
             <p class="lead">
-                Summary
+                Surgery Summary
             </p>
-            <div id="summaryContent"></div>
+            <div id="surgeryContent"></div>
         </div>
         
         <div class="summary-panel" id="visitsDiv">
@@ -108,11 +108,13 @@
                         if (data.success === "true") {
                             $("#failure_message").hide();
                             $("#visitsContent").html(data.visitsOutput);
-                            console.log(data.visitsOutput);
+                            $("#surgeryContent").html(data.surgeriesOutput);
                             $("#visitsDiv").show();
+                            $("#surgeryDiv").show();
                         } else if (data.success === "false") {
                              $("#failure_message").show();
                              $("#visitsDiv").hide();
+                             $("#surgeryDiv").hide();
                              $("#failure_message").html(data.output);
                              $("#failure_message").addClass("alert alert-danger message");
                         }

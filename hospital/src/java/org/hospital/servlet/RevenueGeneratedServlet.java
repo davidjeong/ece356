@@ -53,7 +53,7 @@ public class RevenueGeneratedServlet extends HttpServlet {
         
         try {
             
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm");
             long start_time = sdf.parse(request.getParameter("start_range")).getTime();
             long end_time = sdf.parse(request.getParameter("end_range")).getTime();
             Timestamp time1 = new Timestamp(start_time);

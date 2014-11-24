@@ -1,5 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package org.hospital.servlet;
-
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,9 +22,12 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(name = "EditPatientVisitRecordsServlet", urlPatterns = {"/EditPatientVisitRecordsServlet"})
-public class EditPatientVisitRecordsServlet extends HttpServlet {
-
+/**
+ *
+ * @author Leo Zhao
+ */
+@WebServlet(name = "EditPatientInformationServlet", urlPatterns = {"/EditPatientInformationServlet"})
+public class EditPatientInformationServlet extends HttpServlet {
    Logger logger = LoggerFactory.getLogger(EditPatientVisitRecordsServlet.class);
 
     @Override
@@ -30,11 +37,12 @@ public class EditPatientVisitRecordsServlet extends HttpServlet {
         CallableStatement cs = null;
         StringBuilder output = null;
         
-        String prescription = request.getParameter("prescription");
-        String diagnosis = request.getParameter("diagnosis");
-        String comments = request.getParameter("comments");
-        String cpso = request.getParameter("cpso_number");
+        String Health_Card_Number = request.getParameter("Health_Card_Number");
+        String Sin_Number = request.getParameter("Sin_Number");
+        String Phone_Number = request.getParameter("Phone_Number");
+        String Address = request.getParameter("Address");
         
+        int patient_id = Integer.parseInt(request.getSession().getAttribute("patientid").toString());
         int res = 0;
         
         if (SQLConstants.CONN == null) {
@@ -42,23 +50,17 @@ public class EditPatientVisitRecordsServlet extends HttpServlet {
         }
         
         try {
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.UPDATE_VISIT_RECORD);
+            cs = SQLConstants.CONN.prepareCall(SQLConstants.UPDATE_PATIENT_RECORD);
             int i = 0;
-            cs.setString(++i, cpso);
-            
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-            long start_time = sdf.parse(request.getParameter("start_time")).getTime();
-            Timestamp ts = new Timestamp(start_time);
-            cs.setTimestamp(++i, ts);
-            cs.setString(++i, prescription);
-            cs.setString(++i, comments);
-            cs.setString(++i, diagnosis);
+            cs.setInt(++i, patient_id);
+            cs.setString(++i, Health_Card_Number);
+            cs.setString(++i, Sin_Number);
+            cs.setString(++i, Phone_Number);
+            cs.setString(++i, Address);
             
             res = cs.executeUpdate();
             
         } catch (SQLException e) {
-            logger.error(e.toString());
-        } catch (ParseException e) {
             logger.error(e.toString());
         }
         finally {
@@ -90,6 +92,4 @@ public class EditPatientVisitRecordsServlet extends HttpServlet {
             out.close();
         }
     }
-  
-
 }

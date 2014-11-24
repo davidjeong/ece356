@@ -18,7 +18,7 @@
               </div>
               <div class="modal-body" id="modalBody">
                   <div>
-                      <form name="input" id="ajaxRequesetCreateNewAppointment" class="form-horizontal" role="form" method="POST">
+                      <form name="input" id="ajaxRequestCreateNewAppointment" class="form-horizontal" role="form" method="POST">
                             <div class="form-group">
                                 <label for="cpso" class="col-sm-2 control-label">CPSO Number*</label>
                                 <div class="col-sm-10">
@@ -43,6 +43,10 @@
                                 </div>
                             </div>
                           <div class="form-group">
+                                <label for="surgeryName" class="col-sm-2 control-label">Surgery</label>
+                                <div class="col-sm-10" id="surgery_list"></div>
+                          </div>
+                          <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <p id="error_message"></p>
                                 </div>
@@ -55,8 +59,6 @@
                       </form>
                   </div>
               </div>
-              <div class="modal-footer">
-              </div>
             </div>
           </div>
         </div>
@@ -65,11 +67,32 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="modifyModal">Modal title</h4>
+                <h4 class="modal-title" id="modifyLabel">Modal title</h4>
+                <p class="mandatory-message" style="text-align: right"><strong>* marks mandatory fields.</strong></p>
               </div>
               <div class="modal-body" id="modalBody">
-              </div>
-              <div class="modal-footer">
+                  <form name="input" id="ajaxRequestUpdateAppointment" class="form-horizontal" role="form" method="POST">
+                    <div class="form-group">
+                        <label for="start_updated_range" class="col-sm-2 control-label">Start Date Time*</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="start_updated_range" name="start_updated_range" style="cursor: pointer;" placeholder="Empty Timestamp">
+                        </div>
+                    </div><div class="form-group">
+                        <label for="end_updated_range" class="col-sm-2 control-label">End Date Time*</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="end_updated_range" name="end_updated_range" style="cursor: pointer;"placeholder="Empty Timestamp">
+                        </div>
+                    </div>
+                      <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <p id="error_update_message"></p>
+                            </div>
+                      </div>
+                      <div class="btn-group nav-btn">
+                          <button id="delete_btn" class="btn btn-danger">Delete</button>
+                          <button id="update_btn" class="btn btn-warning">Apply</button>
+                     </div>
+                  </form>
               </div>
             </div>
           </div>
@@ -98,7 +121,11 @@
         <div id="calendar" class="cal-context"></div>
         <script type="text/javascript">
 
-            $("#ajaxRequesetCreateNewAppointment").submit(function(e){
+            $("#ajaxRequestCreateNewAppointment").submit(function(e){
+                e.preventDefault();
+            });
+            
+            $("#ajaxRequestUpdateAppointment").submit(function(e){
                 e.preventDefault();
             });
             
@@ -135,8 +162,6 @@
                 retrieveCalendar();
             });
             
-            
-            
             $(".nav-button").click(function() {
                 calendar.navigate($(this).data('calendar-nav'));
                 var s = calendar.options.position.start.toDateString();
@@ -149,6 +174,7 @@
                     str += s;
                 }
                 $("#date_status").html(str);
+                clearMessages();
             });
 
             $(".view-button").click(function() {
@@ -163,21 +189,34 @@
                     str += s;
                 }
                 $("#date_status").html(str);
+                clearMessages();
             });
             
-            function showForm() {
+            function showCreateForm() {
+                
+                dataString = "{ \"username\": \"" + username + "\" }";
+                $.ajax({
+                    type: "POST",
+                    url: "../GetAllSurgeriesServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#surgery_list").html(data.surgeries);
+                    }
+                });
+                
                 $("#inputModal").modal({
                     show: true
                 });
             }
             
             $("#createAppointment").click(function() {
-               showForm();
+               showCreateForm();
             });
             
             var startDateTextBox = $('#start_range');
             var endDateTextBox = $('#end_range');
-
+   
             $.timepicker.datetimeRange(
                     startDateTextBox,
                     endDateTextBox,
@@ -190,9 +229,25 @@
                     }
             );
     
+            var startupDateTextBox = $('#start_updated_range');
+            var endupDateTextBox = $('#end_updated_range');
+            
+            $.timepicker.datetimeRange(
+                    startupDateTextBox,
+                    endupDateTextBox,
+                    {
+                            minInterval: (1000*60*60), // 1hr
+                            dateFormat: 'dd M yy', 
+                            timeFormat: 'HH:mm',
+                            start: {}, // start picker options
+                            end: {} // end picker options					
+                    }
+            );
+    
             $("#formSubmit").click(function() {
                 
-               dataString = $("#ajaxRequesetCreateNewAppointment").serialize();
+               dataString = $("#ajaxRequestCreateNewAppointment").serialize();
+               console.log(dataString);
                
                $.ajax({
                    type: "POST",
@@ -204,7 +259,7 @@
                              //new appointment created.
                              $("#creation_message").html("Appointment Created.");
                              $("#creation_message").addClass("alert alert-success message");
-                             $("#ajaxRequesetCreateNewAppointment")[0].reset();
+                             $("#ajaxRequestCreateNewAppointment")[0].reset();
                              $("#inputModal").modal('toggle');
                              retrieveCalendar();
                         } else {
@@ -223,6 +278,103 @@
                      }
                 });
             });
+            
+            function modifyAppointment(cpso_number, patient_id, start_time) {
+                var date = new Date(start_time);
+                var dateString = date.toLocaleDateString();
+                var timeString = date.toLocaleTimeString();
+                
+                $("#modifyLabel").html("Appointment For Patient " + patient_id + " At " + dateString + " " + timeString);
+                $("#delete_btn").attr("onclick", "javascript:deleteAppointment('" + cpso_number + "','" + start_time + "');");
+                $("#update_btn").attr("onclick", "javascript:updateAppointment('" + cpso_number + "','" + start_time + "');");
+                $("#modifyModal").modal({
+                    show: true
+                });
+            }
+            
+            function deleteAppointment(cpso, start_time) {
+                               
+                $.ajax({
+                    type: "POST",
+                    url: "../DeleteAppointmentServlet",
+                    data: 
+                    { 
+                        cpso_number: cpso,
+                        start_time: start_time
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.count !== "0") {
+                             $("#creation_message").html("Appointment Deleted.");
+                             $("#creation_message").addClass("alert alert-success message");
+                             $("#ajaxRequestUpdateAppointment")[0].reset();
+                             $("#modifyModal").modal('toggle');
+
+                             $("#start_updated_range").val("");
+                             $("#end_updated_range").val("");
+
+                             retrieveCalendar();
+                        } else {
+                            $("#error_update_message").html("Cannot delete appointment.");
+                            $("#error_update_message").addClass("alert alert-danger message");
+                        }
+                    } 
+                });
+            } 
+            
+            function clearMessages() {
+                $("#error_update_message").removeAttr("class");
+                $("#error_message").removeAttr("class");
+                $("#creation_message").removeAttr("class");
+                
+                $("#error_update_message").html("");
+                $("#error_message").html("");
+                $("#creation_message").html("");
+            }
+            
+            function updateAppointment(cpso, start_time) {
+                
+                new_start = $("#start_updated_range").val();
+                new_end = $("#end_updated_range").val();
+                
+                $.ajax({
+                    type: "POST",
+                    url: "../UpdateAppointmentServlet",
+                    data: 
+                    { 
+                        cpso_number: cpso,
+                        start_time: start_time,
+                        new_start: new_start,
+                        new_end: new_end
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.updated !== "0") {
+                             $("#creation_message").html("Appointment Updated.");
+                             $("#creation_message").addClass("alert alert-success message");
+                             $("#ajaxRequestUpdateAppointment")[0].reset();
+                             $("#modifyModal").modal('toggle');
+
+                             $("#start_updated_range").val("");
+                             $("#end_updated_range").val("");
+
+                             retrieveCalendar();
+                        } else {
+                            $("#error_update_message").addClass("alert alert-danger message");
+                            if (data.conflicted === "true") {
+                                $("#error_update_message").html("There is already an appointment for this doctor at the selected times.");
+                            } else {
+                                if (data.empty === "true") {
+                                    $("#error_update_message").html("Mandatory fields are empty.");
+                                } else {
+                                    $("#error_update_message").html("Selected doctor cannot view selected patient.");
+                                }
+                            }
+                        }
+                    } 
+                });
+            }
+            
         </script>
     </body>
 </html>

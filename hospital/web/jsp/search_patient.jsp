@@ -55,7 +55,7 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#failure_message").hide();
-                                $("#result").html(data.output);
+                            $("#result").html(data.output);
                             $("#result").show();
                         } else if (data.success === "false") {
                              $("#failure_message").show();

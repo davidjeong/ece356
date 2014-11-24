@@ -44,7 +44,7 @@
         
         <div class="summary-panel" id="totalDiv">
             <p class="lead">
-                Total Cost
+                Total Revenue
             </p>
             <div id="totalContent"></div>
         </div>
@@ -114,7 +114,8 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#failure_message").hide();
-                            if (data.totalOuput !== ""){
+                            if (data.totalOuput !== "undefined"){
+                                console.log(data.totalOuput);
                                 $("#totalDiv").show();
                                 $("#totalContent").html(data.totalOutput);
                             }

@@ -37,6 +37,9 @@ function manage_doctor_patient_viewing() {
 function search_patient() {
     $("#content-panel").load("../jsp/search_patient.jsp");
 }
+function manage_doctor_staff() {
+    $("#content-panel").load("../jsp/doctor_staff_assignment.jsp");
+}
 
 function showDoctorDiv() {
     hideAll();

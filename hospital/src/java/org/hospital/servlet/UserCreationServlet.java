@@ -3,10 +3,7 @@ package org.hospital.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.CallableStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -63,7 +60,17 @@ public class UserCreationServlet extends HttpServlet {
                     if (newUser.getUserType().equals(SQLConstants.Patient)) {
                         Patient patient = new Patient();
                         patient.setUserName(request.getParameter("username"));
-                        patient.setDefaultDoctor(request.getParameter("default_doctor"));
+                        
+                        String defaultDoctor = request.getParameter("default_doctor");
+                        if (defaultDoctor.length() < 6) {
+                            int j = defaultDoctor.length();
+                            while (j< 6) {
+                                defaultDoctor = "0" + defaultDoctor;
+                                j++;
+                            }
+                        }
+                        
+                        patient.setDefaultDoctor(defaultDoctor);
                         patient.setHealthStatus(request.getParameter("health_status"));
                         patient.setHealthCardNumber(request.getParameter("health_card_number"));
                         patient.setSinNumber(request.getParameter("sin_number"));

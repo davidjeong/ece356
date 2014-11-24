@@ -107,16 +107,18 @@ public class PatientInformationServlet extends HttpServlet {
                     summaryOutput.append("<th>Sin Number</th>");
                     summaryOutput.append("<th>Phone Number</th>");
                     summaryOutput.append("<th>Address</th>");
+                    summaryOutput.append("<th></th>");
                     summaryOutput.append("</tr>");
                     summaryOutput.append("</thead>");              
 
                     summaryOutput.append("<tbody>");
                     summaryOutput.append("<tr>");
-                    summaryOutput.append("<td>").append(PatientInfo.getPatientId()).append("</td>");
+                    summaryOutput.append("<td id ='patient_id'>").append(PatientInfo.getPatientId()).append("</td>");
                     summaryOutput.append("<td>").append(PatientInfo.getHealthCardNumber()).append("</td>");
                     summaryOutput.append("<td>").append(PatientInfo.getSinNumber()).append("</td>");
                     summaryOutput.append("<td>").append(PatientInfo.getPhoneNumber()).append("</td>");
                     summaryOutput.append("<td>").append(PatientInfo.getAddress()).append("</td>"); 
+                    summaryOutput.append("<td>").append("<a href='javascript:openPatientModal(").append(PatientInfo.getPatientId()).append(");', class='btn btn-primary'>Edit</a>").append("</td>");
                     summaryOutput.append("</tr>");
                     summaryOutput.append("</tbody>");
                     summaryOutput.append("</table>");

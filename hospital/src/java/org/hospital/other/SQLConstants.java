@@ -27,10 +27,14 @@ public class SQLConstants {
     public static String INSERT_NEW_USER = "{ call InsertNewUserRecord(?,?,?,?)}";
     public static String INSERT_NEW_PATIENT = "{ call InsertNewPatientRecord(?,?,?,?,?,?,?) }";
     public static String INSERT_NEW_DOCTOR = "{ call InsertNewDoctorRecord(?,?,?) }";
-    public static String INSERT_NEW_VISIT_RECORD = " { call InsertNewVisitRecord(?,?,?,?) } ";
+    public static String INSERT_NEW_VISIT_RECORD = " { call InsertNewVisitRecord(?,?,?,?,?) } ";
     public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
-    public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?,?) }";
+
+    public static String UPDATE_PATIENT_RECORD =" { call UpdatePatientRecord(?,?,?,?,?) }";
     
+
+    public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?) }";
+    public static String DELETE_VISIT_RECORD = " { call DeleteVisitRecord(?,?) } ";
     
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String USERNAME_TO_PATIENTID = " { call UsernameToPatientID(?) }";
@@ -48,6 +52,7 @@ public class SQLConstants {
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS_FOR_START_TIME = "{ call ViewPatientRecordsForStartTime(?,?) } ";
+    public static String VIEW_PATIENT_INFORMATION = "{ call ViewPatientInformation(?)}";
     public static String VIEW_ALL_DOCTOR_WEEKLY_RECORDS = " { call ViewAllDoctorWeeklyRecords } ";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
     public static String VIEW_DOCTORS_FOR_PATIENT = "{ call ViewDoctorsForPatient(?) }";
@@ -58,4 +63,8 @@ public class SQLConstants {
     public static String COUNT_REVENUE_FROM_ALL_SURGERIES = "{ call CountRevenueFromAllSurgeries(?,?) }";
     public static String DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT = "{ call DeleteDoctorPatientRightsForPatient(?) }";
     public static String INSERT_NEW_USER_PATIENT_RIGHTS = "{ call InsertNewUserPatientViewingRights(?,?) }";
+    public static String VIEW_ALL_STAFF = "{ call ViewAllStaff }";
+    public static String UPDATE_APPOINTMENT = " { call UpdateAppointment(?,?,?,?) } ";
+    public static String DELETE_ALL_DOCTOR_STAFF_ASSIGNMENT_FOR_DOCTOR = "{ call DeleteAllDoctorStaffAssignmentsForDoctor(?) }";
+    public static String INSERT_NEW_DOCTOR_STAFF_ASSIGNMENT= "{ call InsertNewDoctorStaffAssignment(?,?) }";
 }

@@ -42,15 +42,15 @@ public class ViewExistingVisitInformation extends HttpServlet {
         
         try {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT_RECORDS_FOR_START_TIME);
-            int patientId = Integer.parseInt(request.getParameter("patient_id"));
+            String cpsoNumber = request.getParameter("cpso_number");
             String start_time = request.getParameter("start_time");
             if (!start_time.isEmpty()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 Date parsed = sdf.parse(start_time);
                 Timestamp ts = new Timestamp(parsed.getTime());
                 
                 int i=0;
-                cs.setInt(++i, patientId);
+                cs.setString(++i, cpsoNumber);
                 cs.setTimestamp(++i, ts);
                 rs = cs.executeQuery();
 

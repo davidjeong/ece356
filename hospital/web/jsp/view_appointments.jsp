@@ -140,12 +140,14 @@
             });
             
            function openVisitModal(id, start_time) {
+               cpso = "${sessionScope.cpsonumber}";
                $.ajax({
                    type: "POST",
                    url: "../ViewExistingVisitInformation",
-                   data: {patient_id: id, start_time: start_time},
+                   data: {cpso_number: cpso, start_time: start_time},
                    dataType: "JSON",
                    success: function(data) {
+                       console.log(data);
                        if (data.output !== null) {
                             $("#surgery_name").html(data.output.surgery_name);
                             $("#prescription").val(data.output.prescription);

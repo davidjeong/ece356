@@ -26,41 +26,43 @@
                             <li><a href="#" onclick="load_patients();">My Patients</a></li>
                             <li><a href="#" onclick="load_appointments();">My Appointments</a></li>
                             <li><a href="#" onclick="manage_doctor_patient_viewing();">Manage Patients</a></li>
-                            <li><a href="#" onclick="search_patient();">Search Patients</a></li>
-                        <% } 
-                        if ((userType).equals(SQLConstants.Staff)) { %>
-                            <li><a href="#" onclick="user_creation();">Create New User</a></li>
-                            <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
-                        <% } 
-                        if ((userType).equals(SQLConstants.Finance)) { %>
-                             <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
-                             <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
-                             <li><a href="#" onclick="revenue();">Hospital Revenue</a></li>
+                            <li><a href="#" onclick="manage_doctor_staff();">Manage Staff</a></li>
+                            <li><a href="#" onclick="search_patient();">Search Patients</a></li> 
+
                         <% }
-                        if ((userType).equals(SQLConstants.Patient)) { %>
-                             <li><a href="#" onclick="load_appointments();">My Visits</a></li>
-                             <li><a href="#" onclick="load_patient_info();">My Personal Information</a></li>
+                            if ((userType).equals(SQLConstants.Staff)) {%>
+                        <li><a href="#" onclick="user_creation();">Create New User</a></li>
+                        <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
+                        <% }
+                            if ((userType).equals(SQLConstants.Finance)) {%>
+                        <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
+                        <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
+                        <li><a href="#" onclick="revenue();">Hospital Revenue</a></li>
+                        <% }
+                            if ((userType).equals(SQLConstants.Patient)) {%>
+                        <li><a href="#" onclick="load_appointments();">My Visits</a></li>
+                        <li><a href="#" onclick="load_patient_info();">My Personal Information</a></li>
                         <% }%>
-                     </ul>
-                     <% String legalName = session.getAttribute("legalname").toString(); 
+                    </ul>
+                    <% String legalName = session.getAttribute("legalname").toString();
                         if (!legalName.isEmpty()) {
-                     %>
+                    %>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="javascript:logout();">Logout</a></li>
                         <li><a href="#">Welcome&nbsp;<%=legalName%></a></li>
                     </ul>
-                    <% } %>
+                    <% }%>
                 </div>
             </div>
         </nav>
         <div class="container" id="content-panel">
-            
-        <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
-        <script type="text/javascript" src="../js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="../js/jquery-ui-timepicker-addon.js"></script>
-        <script type="text/javascript" src="../js/underscore-min.js"></script>
-        <script type="text/javascript" src="../js/calendar.min.js"></script>
-        <script type="text/javascript" src="../js/script.js"></script>
+
+            <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
+            <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="../js/jquery-ui-timepicker-addon.js"></script>
+            <script type="text/javascript" src="../js/underscore-min.js"></script>
+            <script type="text/javascript" src="../js/calendar.min.js"></script>
+            <script type="text/javascript" src="../js/script.js"></script>
     </body>
 </html>

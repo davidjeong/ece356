@@ -8,5 +8,3 @@ BEGIN
 	ORDER BY surgery_name;
 END //
 DELIMITER ;
-
-call GetAllSurgeries();

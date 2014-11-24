@@ -15,10 +15,10 @@ CREATE PROCEDURE ViewUpcomingVisitRecord(IN username varchar(32))
     FROM	
 		visit_schema v
 	INNER JOIN
-		user_patient_view_schema up
-        ON up.patient_id = v.patient_id
+		doctor_schema d
+        ON d.cpso_number = v.cpso_number
 	WHERE 
-		up.user_name = username
+		d.user_name = username
 	AND
 		v.start_time >= CURTIME()
 	ORDER BY v.start_time ASC;

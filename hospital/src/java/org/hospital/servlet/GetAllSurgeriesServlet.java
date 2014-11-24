@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
@@ -10,7 +5,6 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -23,10 +17,6 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author l22fu
- */
 @WebServlet(name = "GetAllSurgeriesServlet", urlPatterns = {"/GetAllSurgeriesServlet"})
 public class GetAllSurgeriesServlet extends HttpServlet {
 Logger logger = LoggerFactory.getLogger(GetAllSurgeriesServlet.class);
@@ -76,7 +66,6 @@ Logger logger = LoggerFactory.getLogger(GetAllSurgeriesServlet.class);
             if (surgeries != null && !surgeries.isEmpty()) {
                 
                 sb.append(" <select class='form-control' id='surgeryName' name='surgeryName'> ");
-                sb.append("<option>All</option>");
                 for (String s : surgeries) {
                     sb.append("<option>");
                     sb.append(s);
@@ -105,14 +94,4 @@ Logger logger = LoggerFactory.getLogger(GetAllSurgeriesServlet.class);
         }
         
     }
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

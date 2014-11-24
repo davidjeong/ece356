@@ -82,7 +82,12 @@ public class CreateNewAppointmentServlet extends HttpServlet {
                     //here is where you check if your time is conflicting with the time we have in db.
                     if (visitList != null && !visitList.isEmpty()) {
                         for (VisitRecord vr : visitList) {
-
+                            
+                            if ((time1.equals(vr.getStartTime())) || time2.equals(vr.getEndTime())) {
+                                conflicted = true;
+                                break;
+                            }
+                            
                             if ((time1.before(vr.getEndTime()) && time1.after(vr.getStartTime())) || (time2.before(vr.getEndTime()) && time2.after(vr.getStartTime()))) {
                                 conflicted = true;
                                 break;

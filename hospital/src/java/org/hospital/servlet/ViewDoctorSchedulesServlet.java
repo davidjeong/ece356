@@ -40,7 +40,6 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
            
             String username = request.getParameter("username");
             if (username != null && !username.isEmpty()) {
-                int i = 0;
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_DOCTOR_WEEKLY_RECORDS);
                 rs = cs.executeQuery();
                 

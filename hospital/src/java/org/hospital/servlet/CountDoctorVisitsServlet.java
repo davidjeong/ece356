@@ -154,7 +154,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                         summaryOutput.append("<th>Start Time</th>");
                         summaryOutput.append("<th>End Time</th>");
                         summaryOutput.append("<th>Distinct Patients Seen</th>");
-                        summaryOutput.append("<th>Revenue Generated($)</th>");
+                        summaryOutput.append("<th>Revenue Generated ($)</th>");
                         summaryOutput.append("</tr>");
                         summaryOutput.append("</thead>");              
 

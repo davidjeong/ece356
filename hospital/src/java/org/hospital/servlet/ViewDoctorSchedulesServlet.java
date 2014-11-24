@@ -94,7 +94,7 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
                         output.append(delim).append(" { ");
                         output.append("\"id\":\"").append(String.valueOf(i)).append("\",");
                         output.append("\"title\":\"Patient ID ").append(String.valueOf(vr.getPatientID())).append(" - ").append(vr.getCPSONumber()).append("\",");
-                        output.append("\"url\":\"#\",");
+                        output.append("\"url\":\"javascript:modifyAppointment(&#39;").append(vr.getCPSONumber()).append("&#39;, ").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);\",");
                         output.append("\"class\":\"event-info\",");
                         long startMillis = vr.getStartTime().getTime();
                         long endMillis = vr.getEndTime().getTime();

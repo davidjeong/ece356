@@ -199,7 +199,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                             pastSb.append("<td>").append(vr.getComments()).append("</td>");
                         }
                         if (userType.equals(SQLConstants.Doctor)) {
-                            pastSb.append("<td>").append("<a href='javascript:openVisitModal(").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);' class='btn btn-primary'>Edit</a>").append("</td>");
+                            pastSb.append("<td>").append("<a href='javascript:openVisitModal(&#39;").append(vr.getCPSONumber()).append("&#39;, &#39;").append(vr.getStartTime()).append("&#39;);' class='btn btn-primary'>Edit</a>").append("</td>");
                         }
                         pastSb.append("</tr>");
                     }

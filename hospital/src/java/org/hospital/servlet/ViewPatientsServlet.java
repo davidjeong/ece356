@@ -34,24 +34,24 @@ public class ViewPatientsServlet extends HttpServlet {
         
         CallableStatement cs = null;
         ResultSet rs = null;
-        List<Patient> patientList = null;
-        StringBuilder output = null;
-        boolean success = false;
+        List<Patient> myList = null;
+        List<Patient> otherList = null;
+        StringBuilder mySb = null;
+        StringBuilder otherSb = null;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         try {
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
             String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
-
             if (cpsoNumber != null && !cpsoNumber.isEmpty()) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_MY_PATIENTS);
                 //int i=0;
                 cs.setString(1, cpsoNumber);
                 rs = cs.executeQuery();
                 if (rs != null)
                 { 
-                    patientList = new ArrayList();
+                    myList = new ArrayList();
                     while (rs.next())
                     {
                         Patient p = new Patient();
@@ -59,10 +59,28 @@ public class ViewPatientsServlet extends HttpServlet {
                         p.setLegalName(rs.getString("patient_legal_name"));
                         p.setDefaultDoctor(rs.getString("doctor_legal_name"));
                         p.setHealthStatus(rs.getString("health_status"));
-                        patientList.add(p);
+                        myList.add(p);
                         logger.info("Adding [" + p + "] to patient list");
                     }
-                    success = true;
+                }
+                
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_OTHER_PATIENTS);
+                //int i=0;
+                cs.setString(1, cpsoNumber);
+                rs = cs.executeQuery();
+                if (rs != null)
+                { 
+                    otherList = new ArrayList();
+                    while (rs.next())
+                    {
+                        Patient p = new Patient();
+                        p.setPatientId(rs.getInt("patient_id"));
+                        p.setLegalName(rs.getString("patient_legal_name"));
+                        p.setDefaultDoctor(rs.getString("doctor_legal_name"));
+                        p.setHealthStatus(rs.getString("health_status"));
+                        otherList.add(p);
+                        logger.info("Adding [" + p + "] to patient list");
+                    }
                 }
             }            
         }
@@ -83,6 +101,67 @@ public class ViewPatientsServlet extends HttpServlet {
                 } catch (SQLException ex) {
                 }
             }
+            
+            boolean wrote = false;
+            mySb = new StringBuilder();
+            if (myList != null) {
+                if (!myList.isEmpty()) {
+                    mySb.append("<table class='table table-hover'>");
+                    mySb.append("<thead>");
+                    mySb.append("<tr>");
+                    mySb.append("<th>Patient ID</th>");
+                    mySb.append("<th>Legal Name</th>");
+                    mySb.append("<th>Default Doctor</th>");
+                    mySb.append("<th>Health Status</th>");
+                    mySb.append("</tr>");
+                    mySb.append("</thead>");
+                    mySb.append("<tbody>");
+                    for (Patient p : myList) {
+                        mySb.append("<tr>");
+                        mySb.append("<td><a href='javascript:openModal(").append(p.getPatientId()).append(");'>").append(p.getPatientId()).append("</a></td>");
+                        mySb.append("<td>").append(p.getLegalName()).append("</td>");
+                        mySb.append("<td>").append(p.getDefaultDoctor()).append("</td>");
+                        mySb.append("<td>").append(p.getHealthStatus()).append("</td>");
+                        mySb.append("</tr>");
+                    }
+                    mySb.append("</table>");
+                    wrote = true;
+                }
+            }
+            if (!wrote) {
+                mySb.append("<p>You have no default patients.</p>");
+            }
+            wrote = false;
+            otherSb = new StringBuilder();
+            if (otherList != null) {
+                if (!otherList.isEmpty()) {
+                    otherSb.append("<table class='table table-hover'>");
+                    otherSb.append("<thead>");
+                    otherSb.append("<tr>");
+                    otherSb.append("<th>Patient ID</th>");
+                    otherSb.append("<th>Legal Name</th>");
+                    otherSb.append("<th>Default Doctor</th>");
+                    otherSb.append("<th>Health Status</th>");
+                    otherSb.append("</tr>");
+                    otherSb.append("</thead>");
+                    otherSb.append("<tbody>");
+                    for (Patient p : otherList) {
+                        otherSb.append("<tr>");
+                        otherSb.append("<td><a href='javascript:openModal(").append(p.getPatientId()).append(");'>").append(p.getPatientId()).append("</a></td>");
+                        otherSb.append("<td>").append(p.getLegalName()).append("</td>");
+                        otherSb.append("<td>").append(p.getDefaultDoctor()).append("</td>");
+                        otherSb.append("<td>").append(p.getHealthStatus()).append("</td>");
+                        otherSb.append("</tr>");
+                    }
+                    otherSb.append("</tbody>");
+                    otherSb.append("</table>");
+                    wrote = true;
+                }
+            }
+            if (!wrote) {
+                otherSb.append("<p>You have no other patients.</p>");
+            }
+            
             PrintWriter out = response.getWriter();
             response.setContentType("text/html");
             response.setHeader("Cache-control", "no-cache, no-store");
@@ -94,34 +173,7 @@ public class ViewPatientsServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
             
-            output = new StringBuilder();
-            if (patientList != null) {
-                output.append("<table class='table table-hover'>");
-                output.append("<thead>");
-                output.append("<tr>");
-                output.append("<th>Patient ID</th>");
-                output.append("<th>Legal Name</th>");
-                output.append("<th>Default Doctor</th>");
-                output.append("<th>Health Status</th>");
-                output.append("</tr>");
-                output.append("</thead>");
-                if (!patientList.isEmpty()) {
-                    output.append("<tbody>");
-                    for (Patient p : patientList) {
-                        output.append("<tr>");
-                        output.append("<td><a href='javascript:openModal(").append(p.getPatientId()).append(");'>").append(p.getPatientId()).append("</a></td>");
-                        output.append("<td>").append(p.getLegalName()).append("</td>");
-                        output.append("<td>").append(p.getDefaultDoctor()).append("</td>");
-                        output.append("<td>").append(p.getHealthStatus()).append("</td>");
-                        output.append("</tr>");
-                    }
-                    output.append("</tbody>");
-                }
-                output.append("</table>");
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
-            } else {
-                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Failed to retrieve patients." + "\"} ");
-            }
+            out.println(" { \"myPatients\": \"" + mySb.toString() + "\", \"otherPatients\":\"" + otherSb.toString() + "\" } ");
             out.close();
         }
     }

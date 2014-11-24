@@ -28,7 +28,18 @@
                 <button id="refreshViewPatients" type="button" class="btn btn-primary">Refresh Data</button>
             </div>
         </div>
-        <div id="viewPatientContent"></div>
+        <div class="appointments-panel" id="myPatientsDiv">
+            <p class="lead">
+                My Patients
+            </p>
+            <div id="myPatientsContent"></div>
+        </div>
+        <div class="appointments-panel" id="otherPatientsDiv">
+            <p class="lead">
+                Other Patients
+            </p>
+            <div id="otherPatientsContent"></div>
+        </div>
         <script type="text/javascript">
             
             var cpso = "";
@@ -42,10 +53,8 @@
                     data: dataString,
                     dataType: "JSON",
                     success: function (data) {
-                        $("#creation_message").html(data.output);
-                        if (data.success === 'true') {
-                            $("#viewPatientContent").html(data.output);
-                        } 
+                        $("#myPatientsContent").html(data.myPatients);
+                        $("#otherPatientsContent").html(data.otherPatients);
                     }
                 });
             });
@@ -85,9 +94,7 @@
                         });
                     }
                 });
-            }
-
-                  
+            }   
         </script>
     </body>
 </html>

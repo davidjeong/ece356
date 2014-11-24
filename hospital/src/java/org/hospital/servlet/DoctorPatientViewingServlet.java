@@ -44,7 +44,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
             ArrayList<Patient> patientList = new ArrayList<>();
 
             try {
-                csPatients = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
+                csPatients = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_MY_PATIENTS);
                 csPatients.setString(1, cpsoNumber);
                 rsPatients = csPatients.executeQuery();
 

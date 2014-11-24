@@ -8,7 +8,20 @@
         <title>Modify Patients' Viewing Rights</title>
     </head>
     <body>
-        <script type="text/javascript">
+         <div class="page-header refresh-header">
+            <div class="form-inline">
+                <p class="mandatory-message" style="text-align: left;"><strong>* Apply changes per patient</strong></p>
+                    <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
+                    <button id="refreshViewPatients" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+            </div>
+        </div>
+        <div>
+            <div id="patientsTable" style="float: left; margin-right: 10%; width: 45%; overflow: auto">
+            </div>
+            <div id="doctorsTable" style="float: left; width: 45%; overflow: auto">
+            </div>
+            
+            <script type="text/javascript">
             var cpso = "";
             $(document).ready(function() {
                 cpso = untruncateCpso(${sessionScope.cpsonumber});
@@ -93,12 +106,6 @@
                 });
             });
         </script>
-        <div>
-            <div id="patientsTable" style="float: left; margin-right: 10%; width: 45%; overflow: auto">
-            </div>
-            <div id="doctorsTable" style="float: left; width: 45%; overflow: auto">
-            </div>
-            <button id="submit" type="button" class="btn btn-primary refresh-button">Apply</button>
         </div>
     </body>
 </html>

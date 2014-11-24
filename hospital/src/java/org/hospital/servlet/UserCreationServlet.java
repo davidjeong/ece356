@@ -24,50 +24,6 @@ import org.slf4j.LoggerFactory;
 public class UserCreationServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(UserCreationServlet.class);
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        CallableStatement cs = null;
-        ResultSet rs = null;
-        
-        List<Doctor> doctorList = null;
-        
-        try {
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.All_DOCTOR_INFORMATION);
-            rs = cs.executeQuery();
-            
-            if (rs != null) {
-                doctorList = new ArrayList<Doctor>();
-                while (rs.next()) {
-                    Doctor d = new Doctor();
-                    d.setLegalName(rs.getString("legal_name"));
-                    d.setCpsoNumber(rs.getString("cpso_number"));
-                    doctorList.add(d);
-                }
-            }
-        }
-        catch (SQLException e) {
-            logger.error(e.toString());
-        }
-        finally {
-            if (cs != null) {
-                try {
-                    cs.close();
-                } catch (SQLException ex) {
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                }
-            }
-            if (doctorList != null) {
-                request.getSession().setAttribute("allDoctorList", doctorList);
-            }
-        }
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -29,298 +29,52 @@ public class DoctorPatientViewingUpdateServlet extends HttpServlet {
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
+        String patientId = request.getParameter("patientId");
+        String[] doctorIds = request.getParameterValues("doctors[]");
 
-        String cpso = request.getParameter("cpsonumber");
-        String patientId = request.getParameter("patient_id");
+        boolean success = true;
 
-        if (cpso != null) {
-            CallableStatement csPatients = null;
-            ResultSet rsPatients = null;
-            ArrayList<Patient> patientList = new ArrayList<>();
+        PrintWriter out = response.getWriter();
+
+        if (patientId != null) {
+            CallableStatement csDelete = null;
+            CallableStatement csInsert = null;
+
+            if (SQLConstants.CONN == null) {
+                MySQLConnection.establish();
+            }
 
             try {
-                csPatients = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_MY_PATIENTS);
-                csPatients.setString(1, cpsoNumber);
-                rsPatients = csPatients.executeQuery();
+                csDelete = SQLConstants.CONN.prepareCall(SQLConstants.DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT);
+                csDelete.setString(1, patientId);
+                csDelete.executeUpdate();
 
-                while (rsPatients.next()) {
-                    Patient p = new Patient();
-                    p.setPatientId(rsPatients.getInt("patient_id"));
-                    p.setLegalName(rsPatients.getString("patient_legal_name"));
-                    p.setDefaultDoctor(rsPatients.getString("doctor_legal_name"));
-                    p.setHealthStatus(rsPatients.getString("health_status"));
-                    patientList.add(p);
+                csInsert = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_USER_PATIENT_RIGHTS);
+                for (String doctorId : doctorIds) {
+                    csInsert.setString(1, doctorId);
+                    csInsert.setString(2, patientId);
+                    csInsert.addBatch();
                 }
+
+                csInsert.executeBatch();
             } catch (SQLException ex) {
                 java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
-                if (csPatients != null) {
-                    try {
-                        csPatients.close();
-                    } catch (SQLException ex) {
-                        java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                if (rsPatients != null) {
-                    try {
-                        rsPatients.close();
-                    } catch (SQLException ex) {
-                        java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-
-            CallableStatement csDoctors = null;
-            ResultSet rsDoctors = null;
-            ArrayList<Doctor> doctorList = new ArrayList<>();
-
-            try {
-                csDoctors = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_DOCTORS);
-                rsDoctors = csDoctors.executeQuery();
-
-                while (rsDoctors.next()) {
-                    Doctor d = new Doctor();
-                    d.setLegalName(rsDoctors.getString("legal_name"));
-                    d.setUserName(rsDoctors.getString("user_name"));
-                    d.setCpsoNumber(rsDoctors.getString("cpso_number"));
-                    d.setDepartment(rsDoctors.getString("department"));
-                    doctorList.add(d);
-                }
-            } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (csDoctors != null) {
-                try {
-                    csDoctors.close();
-                } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (rsDoctors != null) {
-                try {
-                    rsDoctors.close();
-                } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            PrintWriter output = response.getWriter();
-            response.setContentType("text/html");
-            response.setHeader("Cache-control", "no-cache, no-store");
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Expires", "-1");
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "GET");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-            response.setHeader("Access-Control-Max-Age", "86400");
-
-            StringBuilder sbPatients = new StringBuilder();
-            sbPatients.append("<table class='table table-hover'>");
-            sbPatients.append("<thead>");
-            sbPatients.append("<tr>");
-            sbPatients.append("<th/>");
-            sbPatients.append("<th>Patient ID</th>");
-            sbPatients.append("<th>Legal Name</th>");
-            sbPatients.append("<th>Health Status</th>");
-            sbPatients.append("</tr>");
-            sbPatients.append("</thead>");
-            if (patientList.size() > 0) {
-                sbPatients.append("<tbody>");
-                for (Patient p : patientList) {
-                    sbPatients.append("<tr>");
-                    sbPatients.append("<td>").append("<input type=\'radio\'/ name=\'patients[]\'").append(" value=\'").append(p.getPatientId()).append("\' onclick=\'onPatientClick(").append(p.getPatientId()).append(");\'>").append("</td>");
-                    sbPatients.append("<td>").append(p.getPatientId()).append("</td>");
-                    sbPatients.append("<td>").append(p.getLegalName()).append("</td>");
-                    sbPatients.append("<td>").append(p.getHealthStatus()).append("</td>");
-                    sbPatients.append("</tr>");
-                }
-                sbPatients.append("</tbody>");
-            }
-            sbPatients.append("</table>");
-
-            StringBuilder sbDoctors = new StringBuilder();
-            sbDoctors.append("<table class='table table-hover'>");
-            sbDoctors.append("<thead>");
-            sbDoctors.append("<tr>");
-            sbDoctors.append("<th/>");
-            sbDoctors.append("<th>CPSO Number</th>");
-            sbDoctors.append("<th>Legal Name</th>");
-            sbDoctors.append("<th>Department</th>");
-            sbDoctors.append("</tr>");
-            sbDoctors.append("</thead>");
-            if (patientList.size() > 0) {
-                sbDoctors.append("<tbody>");
-                for (Doctor d : doctorList) {
-                    sbDoctors.append("<tr>");
-                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getUserName()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
-                    sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
-                    sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
-                    sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
-                    sbDoctors.append("</tr>");
-                }
-                sbDoctors.append("</tbody>");
-            }
-            sbDoctors.append("</table>");
-
-            output.println(" { \"outputPatient\": \"" + sbPatients.toString() + "\", \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
-        } 
-        
-        else if (patientId != null) {
-            CallableStatement csDoctorsAll = null;
-            ResultSet rsDoctorsAll = null;
-            ArrayList<Doctor> doctorAllList = new ArrayList<>();
-
-            try {
-                csDoctorsAll = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_DOCTORS);
-                rsDoctorsAll = csDoctorsAll.executeQuery();
-
-                while (rsDoctorsAll.next()) {
-                    Doctor d = new Doctor();
-                    d.setLegalName(rsDoctorsAll.getString("legal_name"));
-                    d.setUserName(rsDoctorsAll.getString("user_name"));
-                    d.setCpsoNumber(rsDoctorsAll.getString("cpso_number"));
-                    d.setDepartment(rsDoctorsAll.getString("department"));
-                    doctorAllList.add(d);
-                }
-            } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (csDoctorsAll != null) {
-                try {
-                    csDoctorsAll.close();
-                } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (rsDoctorsAll != null) {
-                try {
-                    rsDoctorsAll.close();
-                } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            CallableStatement csDoctorsAssigned = null;
-            ResultSet rsDoctorsAssigned = null;
-            ArrayList<String> doctorAssignedList = new ArrayList<>();
-
-            try {
-                csDoctorsAssigned = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_DOCTORS_FOR_PATIENT);
-                csDoctorsAssigned.setString(1, patientId);
-                rsDoctorsAssigned = csDoctorsAssigned.executeQuery();
-
-                while (rsDoctorsAssigned.next()) {
-                    String cpsoAssigned = rsDoctorsAssigned.getString("cpso_number");
-                    doctorAssignedList.add(cpsoAssigned);
-                }
-            } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (csDoctorsAll != null) {
-                try {
-                    csDoctorsAll.close();
-                } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (rsDoctorsAssigned != null) {
-                try {
-                    rsDoctorsAssigned.close();
-                } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            PrintWriter output = response.getWriter();
-            response.setContentType("text/html");
-            response.setHeader("Cache-control", "no-cache, no-store");
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Expires", "-1");
-            response.setHeader("Access-Control-Allow-Origin", "*");
-            response.setHeader("Access-Control-Allow-Methods", "GET");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
-            response.setHeader("Access-Control-Max-Age", "86400");
-
-            StringBuilder sbDoctors = new StringBuilder();
-            sbDoctors.append("<table class='table table-hover'>");
-            sbDoctors.append("<thead>");
-            sbDoctors.append("<tr>");
-            sbDoctors.append("<th/>");
-            sbDoctors.append("<th>CPSO Number</th>");
-            sbDoctors.append("<th>Legal Name</th>");
-            sbDoctors.append("<th>Department</th>");
-            sbDoctors.append("</tr>");
-            sbDoctors.append("</thead>");
-            sbDoctors.append("<tbody>");
-            for (Doctor d : doctorAllList) {
-                sbDoctors.append("<tr>");
-                if (doctorAssignedList.contains(d.getCpsoNumber())) {
-                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'")
-                            .append(d.getUserName()).append("\' checked=\'")
-                            .append(d.getCpsoNumber()).append("\'")
-                            .append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'")
-                            .append("/>")
-                            .append("</td>");
+                StringBuilder output = new StringBuilder();
+                if (success) {
+                    output.append("Changes applied successfully");
                 } else {
-                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'")
-                            .append(d.getUserName()).append("\'")
-                            .append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'")
-                            .append("/>")
-                            .append("</td>");
+                    output.append("Error applying changes");
                 }
-                sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
-                sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
-                sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
-                sbDoctors.append("</tr>");
-            }
-            sbDoctors.append("</tbody>");
-            sbDoctors.append("</table>");
-            output.write(" { \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
-        }
-    }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        
-        String patientId = request.getParameter("patientId");
-        String[] doctorIds = request.getParameterValues("doctors[]");
-        
-        CallableStatement csDelete = null;
-        CallableStatement csInsert = null;
-        
-        if (SQLConstants.CONN == null) {
-            MySQLConnection.establish();
-        }
-        
-        try {
-            // SQLConstants.CONN.setAutoCommit(false);
-            
-            csDelete = SQLConstants.CONN.prepareCall(SQLConstants.DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT);
-            csDelete.setString(1, patientId);
-            csDelete.executeUpdate();
-            
-            csInsert = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_USER_PATIENT_RIGHTS);
-            for (String doctorId : doctorIds) {
-                csInsert.setString(1, doctorId);
-                csInsert.setString(2, patientId);
-                csInsert.addBatch();
+                out.println(" { \"success\": \"" + success + "\", \"output\": \"" + output.toString() + "\"} ");
+                out.close();
             }
-            
-            csInsert.executeBatch();
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            out.println(" { \"success\": \"" + "false" + "\", \"output\": \"" + "You must select a patient to apply changes to" + "\"} ");
         }
     }
 }

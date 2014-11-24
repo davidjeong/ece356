@@ -9,6 +9,7 @@
     </head>
     <body>
         <div class="page-header refresh-header">
+            <p id="update_message" class="alert alert-success message" style="visibility: hidden"></p>
             <div class="form-inline">
                 <p class="mandatory-message" style="text-align: left;"><strong>* Apply changes per patient</strong></p>
                 <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
@@ -41,7 +42,10 @@
                     });
                 });
             
-                function onPatientClick(id) {   
+                function onPatientClick(id) {
+                    var updateMessage = document.getElementById('update_message');
+                    updateMessage.style.visibility = 'hidden';
+                    
                     console.log("onPatientClick " + id);
                     $.ajax({
                         type: "POST",
@@ -56,7 +60,10 @@
                     });
                 }
             
-                function onDoctorClick(checkbox, id) {   
+                function onDoctorClick(checkbox, id) {
+                    var updateMessage = document.getElementById('update_message');
+                    updateMessage.style.visibility = 'hidden';
+                    
                     console.log("onDoctorClick " + id + " " + checkbox.checked);
                     if (checkbox.checked) {
                         checkbox.check = checkbox.value;
@@ -101,7 +108,18 @@
                         data: {patientId: patientId, doctors: doctors},
                         dataType: "JSON",
                         success: function (data) {
-                            $("#doctorsTable").html(data.outputDoctor);
+                            var updateMessage = document.getElementById('update_message');
+                            updateMessage.style.visibility = 'visible';
+                        
+                            $("#update_message").html(data.output);
+                            if (data.success === 'true') {
+                                $("#update_message").removeClass();
+                                $("#update_message").addClass("alert alert-success message");
+                                init();
+                            } else if (data.success === 'false') {
+                                $("#update_message").removeClass();
+                                $("#update_message").addClass("alert alert-danger message");
+                            }                        
                         }
                     });
                 });

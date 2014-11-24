@@ -29,6 +29,10 @@ public class SQLConstants {
     public static String INSERT_NEW_DOCTOR = "{ call InsertNewDoctorRecord(?,?,?) }";
     public static String INSERT_NEW_VISIT_RECORD = " { call InsertNewVisitRecord(?,?,?,?,?) } ";
     public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
+
+    public static String UPDATE_PATIENT_RECORD =" { call UpdatePatientRecord(?,?,?,?,?) }";
+    
+
     public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?) }";
     public static String DELETE_VISIT_RECORD = " { call DeleteVisitRecord(?,?) } ";
     
@@ -48,6 +52,7 @@ public class SQLConstants {
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS_FOR_START_TIME = "{ call ViewPatientRecordsForStartTime(?,?) } ";
+    public static String VIEW_PATIENT_INFORMATION = "{ call ViewPatientInformation(?)}";
     public static String VIEW_ALL_DOCTOR_WEEKLY_RECORDS = " { call ViewAllDoctorWeeklyRecords } ";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
     public static String VIEW_DOCTORS_FOR_PATIENT = "{ call ViewDoctorsForPatient(?) }";
@@ -60,4 +65,6 @@ public class SQLConstants {
     public static String INSERT_NEW_USER_PATIENT_RIGHTS = "{ call InsertNewUserPatientViewingRights(?,?) }";
     public static String VIEW_ALL_STAFF = "{ call ViewAllStaff }";
     public static String UPDATE_APPOINTMENT = " { call UpdateAppointment(?,?,?,?) } ";
+    public static String DELETE_ALL_DOCTOR_STAFF_ASSIGNMENT_FOR_DOCTOR = "{ call DeleteAllDoctorStaffAssignmentsForDoctor(?) }";
+    public static String INSERT_NEW_DOCTOR_STAFF_ASSIGNMENT= "{ call InsertNewDoctorStaffAssignment(?,?) }";
 }

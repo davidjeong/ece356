@@ -5,5 +5,5 @@ INSERT INTO visit_schema (patient_id, cpso_number, start_time, end_time, surgery
 ('4', '000000', '2014-11-29:23:00:00', '2014-11-21:23:30:00', 'None', 'test', 'test', 'CAncer1'),
 ('4', '000000', '2014-12-29:23:00:00', '2014-12-21:23:30:00', 'None', 'test', 'test', 'CAncer1');
 
-Call CountRevenueFromAllSurgeries('2013-11-29:23:00:00', '2016-11-21:23:30:00')
-select count(*) from visit_schema
+
+

@@ -18,7 +18,7 @@
                 cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: "../DoctorStaffAssignmentServlet",
                     data: {
                         cpsonumber : cpso
@@ -30,9 +30,39 @@
                     }
                 });
             });
+            
+            $("#submit").click(function() {
+                var checkGroup = document.getElementsByName("staff[]");
+                var length = checkGroup.length;
+               
+                var checkedStaff = [];
+                for (var i = 0; i < length; i++) {
+                    if (checkGroup[i].checked) {
+                        checkedStaff.push(checkGroup[i].value);
+                    }
+                }
+               
+                var staffs = [];
+                
+                for (var s in checkedStaff) {
+                    var item = checkedStaff[s];
+                    console.log(item);
+                    staffs.push(item);
+                }
+                                
+                $.ajax({
+                    type: "POST",
+                    url: "../DoctorStaffAssignmentServlet",
+                    data: { staffs: staffs },
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#doctorsTable").html(data.outputDoctor);
+                    }
+                });
+            });
         </script>
         <div>
-            <div id="staffTable" style="float: left; margin-right: 10%; width: 45%; overflow: auto">
+            <div id="staffTable" style="float: left; margin-right: 2%; width: 45%; overflow: auto">
             </div>
             <button id="submit" type="button" class="btn btn-primary refresh-button">Apply</button>
         </div>

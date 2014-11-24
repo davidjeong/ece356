@@ -53,13 +53,14 @@ public class searchPatientServlet extends HttpServlet {
         }
         try {
             String sql = "select distinct(u.legal_name) as legal_name from user_schema u ";
+            sql += " INNER JOIN patient_schema p ON u.user_name = p.user_name ";
             
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             date = request.getParameter("last_visit_date");
             String name = request.getParameter("legal_name");
             pID = request.getParameter("patient_id");
             
-            if ( date != null ) {
+            if ( !date.equals("")) {
                 long start_time = sdf.parse(date).getTime();
                 Calendar c = Calendar.getInstance();
                 c.setTimeInMillis(start_time);
@@ -68,28 +69,27 @@ public class searchPatientServlet extends HttpServlet {
                 Timestamp time1 = new Timestamp(start_time);
                 Timestamp time2 = new Timestamp(c.getTime().getTime());
                 
-                sql += "INNER JOIN patient_schema p ON u.user_name = p.user_name INNER JOIN (SELECT ";
+                sql += " INNER JOIN (SELECT ";
                 sql += "patient_id FROM (SELECT patient_id,  MAX(start_time) AS start_time, MAX(end_time)";
                 sql += " AS end_time FROM visit_schema WHERE start_time <= CURTIME() GROUP BY ";
                 sql += "patient_id) v2 WHERE '"+time1.toString() + "' <= start_time AND end_time <='";
                 sql +=  time2.toString() + "')  v WHERE p.patient_id = v.patient_id";
                 if (!name.equals("")) 
-                    sql += " AND u.legal_name='" + name + "'";
+                    sql += " AND u.legal_name LIKE '%" + name + "%'";
                 if (!pID.equals(""))
                     sql += " AND p.patient_id='"+pID+"'";
                 sql += ";";
                 success = true;
                 
             } else if (!pID.equals("")) {
-                sql += "INNER JOIN patient_schema p ON u.user_name = p.user_name ";
                 sql += "WHERE p.patient_id='"+ pID +"'";
                 
                 if (!name.equals(""))
-                    sql += " AND u.legal_name='"+name+"'";
+                    sql += " AND u.legal_name LIKE '%"+name+"%'";
                 sql += ";";
                 success = true;
             } else if (!name.equals("")) {
-                sql += " WHERE u.legal_name ='"+name+"'";
+                sql += " WHERE u.legal_name LIKE '%"+name+"%'";
                 success = true;
             }
             

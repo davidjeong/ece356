@@ -13,13 +13,13 @@
     </head>
     <body>
         <script>
-            var cpso = "";
-            $(document).ready(function() {
+            
+            function init() {
                 cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                 $.ajax({
-                    type: "GET",
-                    url: "../DoctorStaffAssignmentServlet",
+                    type: "POST",
+                    url: "../DoctorListStaffAssignmentServlet",
                     data: {
                         cpsonumber : cpso
                     },
@@ -29,7 +29,15 @@
                         $("#staffTable").html(data.output);
                     }
                 });
-            });
+            }
+            
+            function onStaffClick(name) {
+                var updateMessage = document.getElementById('update_message');
+                updateMessage.style.visibility = 'hidden';
+            }
+            
+            var cpso = "";
+            $(document).ready(init);
             
             $("#submit").click(function() {
                 var checkGroup = document.getElementsByName("staff[]");
@@ -52,19 +60,31 @@
                                 
                 $.ajax({
                     type: "POST",
-                    url: "../DoctorStaffAssignmentServlet",
+                    url: "../DoctorUpdateStaffAssignmentServlet",
                     data: { staffs: staffs },
                     dataType: "JSON",
                     success: function (data) {
-                        $("#doctorsTable").html(data.outputDoctor);
+                        var updateMessage = document.getElementById('update_message');
+                        updateMessage.style.visibility = 'visible';
+                        
+                        $("#update_message").html(data.output);
+                        if (data.success === 'true') {
+                            $("#update_message").removeClass();
+                            $("#update_message").addClass("alert alert-success message");
+                            init();
+                        } else if (data.success === 'false') {
+                            $("#update_message").removeClass();
+                            $("#update_message").addClass("alert alert-danger message");
+                        }
                     }
                 });
             });
         </script>
         <div>
-            <div id="staffTable" style="float: left; margin-right: 2%; width: 45%; overflow: auto">
+            <div id="staffTable">
             </div>
             <button id="submit" type="button" class="btn btn-primary refresh-button">Apply</button>
         </div>
+        <p id="update_message" style="margin-top: 20px"></p>
     </body>
 </html>

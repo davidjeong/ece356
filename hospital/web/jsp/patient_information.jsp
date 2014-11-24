@@ -14,7 +14,7 @@
          <div class="col-sm-offset-2 col-sm-10">
             <button id="UpdatePatientInformation" type="submit" class="btn btn-default" >Submit</button>
         </div>
-            <div class="summary-panel">
+            <div class="summary-panel" id="resultsDiv">
                  <p class="lead">
                    Details of Personal Information of Patient
                  </p>
@@ -31,6 +31,7 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#summaryVisitsContent").html(data.summaryOutput);
+                            $("#resultsDiv").show();
                         }
                     }
                 });
@@ -46,6 +47,7 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#summaryVisitsContent").html(data.summaryOutput);
+                            $("#resultsDiv").show();
                         }
                     }
                 });

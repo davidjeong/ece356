@@ -133,6 +133,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                         upcomingSb.append("<td>").append(vr.getPrescription()).append("</td>");
                         upcomingSb.append("<td>").append(vr.getDiagnosis()).append("</td>");
                         upcomingSb.append("<td>").append(vr.getComments()).append("</td>");
+                        //upcomingSb.append("<td>").append("<button id=\"refreshViewAppointments\" type=\"button\" class=\"btn btn-primary refresh-button\">Refresh Data</button>").append("</td>");
                         upcomingSb.append("</tr>");
                     }
                     upcomingSb.append("</tbody>");
@@ -159,6 +160,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     pastSb.append("<th>Prescription</th>");
                     pastSb.append("<th>Diagnosis</th>");
                     pastSb.append("<th>Comments</th>");
+                    pastSb.append("<th>Update</th>");
                     pastSb.append("</tr>");
                     pastSb.append("</thead>");
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm");
@@ -174,6 +176,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                         pastSb.append("<td>").append(vr.getPrescription()).append("</td>");
                         pastSb.append("<td>").append(vr.getDiagnosis()).append("</td>");
                         pastSb.append("<td>").append(vr.getComments()).append("</td>");
+                        pastSb.append("<td>").append("<a href='#' class='btn'>omg</a>").append("</td>");
                         pastSb.append("</tr>");
                     }
                     pastSb.append("</tbody>");

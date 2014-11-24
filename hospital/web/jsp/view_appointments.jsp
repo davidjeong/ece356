@@ -53,6 +53,20 @@
                     }
                 });
             });
+            
+            $("#editAppointments").click(function() {
+                dataString = "{ \"username\": \"" + username + "\" }";
+                $.ajax({
+                    type: "POST",
+                    url: "../ViewAppointmentServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#upcomingAppointmentsContent").html(data.upcoming);
+                        $("#pastAppointmentsContent").html(data.past);
+                    }
+                });
+            });
         </script>
     </body>
 </html>

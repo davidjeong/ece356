@@ -73,8 +73,6 @@
                         checkedDoctors.push(checkGroup[i].value);
                     }
                 }
-                
-               
                
                 var doctors = [];
                 

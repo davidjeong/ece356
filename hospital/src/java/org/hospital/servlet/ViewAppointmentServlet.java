@@ -38,10 +38,11 @@ public class ViewAppointmentServlet extends HttpServlet {
             MySQLConnection.establish();
         }
         
+        String userType = request.getSession().getAttribute("usertype").toString();
+        String userName = request.getSession().getAttribute("username").toString();
+        
         try {
             
-            String userType = request.getSession().getAttribute("usertype").toString();
-            String userName = request.getSession().getAttribute("username").toString();
             if(userType.equals(SQLConstants.Doctor) ||  userType.equals(SQLConstants.Staff) || userType.equals(SQLConstants.Patient)) {
                 upcomingList = new ArrayList<VisitRecord>();
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD);
@@ -54,14 +55,19 @@ public class ViewAppointmentServlet extends HttpServlet {
                     upcomingList = new ArrayList();
                     while (rs.next())
                     {   
+                        String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
+                        String prescription = (rs.getString("prescription") == null ? "N/A" : rs.getString("prescription"));
+                        String comments = (rs.getString("comments") == null ? "N/A" : rs.getString("comments"));
+                        String diagnosis = (rs.getString("diagnosis") == null ? "N/A" : rs.getString("diagnosis"));
+                        
                         vr = new VisitRecord( rs.getInt("patient_id"),
                                                           rs.getString("cpso_number"),
                                                           rs.getTimestamp("start_time"),
                                                           rs.getTimestamp("end_time"),
-                                                          rs.getString("surgery_name"),
-                                                          rs.getString("prescription"),
-                                                          rs.getString("comments"),
-                                                          rs.getString("diagnosis"));
+                                                          surgery_name,
+                                                          prescription,
+                                                          comments,
+                                                          diagnosis);
                         upcomingList.add(vr);
                         logger.info("Adding [" + vr + "] to upcoming list");
                     }
@@ -73,14 +79,19 @@ public class ViewAppointmentServlet extends HttpServlet {
                 if (rs != null) {
                     pastList = new ArrayList();
                     while (rs.next()) {
+                        String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
+                        String prescription = (rs.getString("prescription") == null ? "N/A" : rs.getString("prescription"));
+                        String comments = (rs.getString("comments") == null ? "N/A" : rs.getString("comments"));
+                        String diagnosis = (rs.getString("diagnosis") == null ? "N/A" : rs.getString("diagnosis"));
+                        
                         vr = new VisitRecord( rs.getInt("patient_id"),
                                                           rs.getString("cpso_number"),
                                                           rs.getTimestamp("start_time"),
                                                           rs.getTimestamp("end_time"),
-                                                          rs.getString("surgery_name"),
-                                                          rs.getString("prescription"),
-                                                          rs.getString("comments"),
-                                                          rs.getString("diagnosis"));
+                                                          surgery_name,
+                                                          prescription,
+                                                          comments,
+                                                          diagnosis);
                         pastList.add(vr);
                         logger.info("Adding [" + vr + "] to past list");
                     }
@@ -117,7 +128,9 @@ public class ViewAppointmentServlet extends HttpServlet {
                     upcomingSb.append("<th>Surgery</th>");
                     upcomingSb.append("<th>Prescription</th>");
                     upcomingSb.append("<th>Diagnosis</th>");
-                    upcomingSb.append("<th>Comments</th>");
+                    if (userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff)) {
+                        upcomingSb.append("<th>Comments</th>");
+                    }
                     upcomingSb.append("</tr>");
                     upcomingSb.append("</thead>");
                     upcomingSb.append("<tbody>");
@@ -133,7 +146,9 @@ public class ViewAppointmentServlet extends HttpServlet {
                         upcomingSb.append("<td>").append(vr.getSurgeryName()).append("</td>");
                         upcomingSb.append("<td>").append(vr.getPrescription()).append("</td>");
                         upcomingSb.append("<td>").append(vr.getDiagnosis()).append("</td>");
-                        upcomingSb.append("<td>").append(vr.getComments()).append("</td>");
+                        if (userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff)) {
+                            upcomingSb.append("<td>").append(vr.getComments()).append("</td>");
+                        }
                         upcomingSb.append("</tr>");
                     }
                     upcomingSb.append("</tbody>");
@@ -159,7 +174,12 @@ public class ViewAppointmentServlet extends HttpServlet {
                     pastSb.append("<th>Surgery</th>");
                     pastSb.append("<th>Prescription</th>");
                     pastSb.append("<th>Diagnosis</th>");
-                    pastSb.append("<th>Comments</th>");
+                    if (userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff)) {
+                        pastSb.append("<th>Comments</th>");
+                    }
+                    if (userType.equals(SQLConstants.Doctor)) {
+                        pastSb.append("<th>Edit</th>");
+                    }
                     pastSb.append("</tr>");
                     pastSb.append("</thead>");
                     pastSb.append("<tbody>");
@@ -175,7 +195,12 @@ public class ViewAppointmentServlet extends HttpServlet {
                         pastSb.append("<td>").append(vr.getSurgeryName()).append("</td>");
                         pastSb.append("<td>").append(vr.getPrescription()).append("</td>");
                         pastSb.append("<td>").append(vr.getDiagnosis()).append("</td>");
-                        pastSb.append("<td>").append(vr.getComments()).append("</td>");
+                        if (userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff)) {
+                            pastSb.append("<td>").append(vr.getComments()).append("</td>");
+                        }
+                        if (userType.equals(SQLConstants.Doctor)) {
+                            pastSb.append("<td>").append("<a href='javascript:openVisitModal(").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);' class='btn btn-primary'>Edit</a>").append("</td>");
+                        }
                         pastSb.append("</tr>");
                     }
                     pastSb.append("</tbody>");

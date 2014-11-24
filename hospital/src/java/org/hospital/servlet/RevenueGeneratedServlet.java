@@ -121,6 +121,26 @@ public class RevenueGeneratedServlet extends HttpServlet {
             response.setHeader("Access-Control-Max-Age", "86400");
             
             if (success) {
+                
+                totalOutput = new StringBuilder();
+                if (surgery_name.equals("All")) {
+                    totalOutput.append("<table class='table table-hover'>");
+                    totalOutput.append("<thead>");
+                    totalOutput.append("<tr>");
+                    totalOutput.append("<th>Total Revenue in this time period</th>");
+                    totalOutput.append("</tr>");
+                    totalOutput.append("</thead>");
+                    
+                    totalOutput.append("<tbody>");
+                    totalOutput.append("<tr>");
+                    totalOutput.append("<td>").append(revenueFromSurgeries + revenueFromVisits).append("</td>");
+                    totalOutput.append("</tr>");
+                    totalOutput.append("</tbody>");
+
+                    totalOutput.append("</table>");
+                }
+                
+                
                 visitsOutput = new StringBuilder();
                 visitsOutput.append("<table class='table table-hover'>");
                 visitsOutput.append("<thead>");
@@ -166,7 +186,8 @@ public class RevenueGeneratedServlet extends HttpServlet {
                 surgeryOutput.append("</tbody>");
                 surgeryOutput.append("</table>");
                 
-                out.println(" { \"success\":\"" + success + "\", \"visitsOutput\":\"" + visitsOutput.toString() + 
+                out.println(" { \"success\":\"" + success + "\", \"visitsOutput\":\"" + visitsOutput.toString() +
+                            "\", \"totalOutput\":\"" + totalOutput.toString() +
                             "\", \"surgeriesOutput\":\"" + surgeryOutput.toString() + "\"} ");
             } else {
                 out.println("{ \"success\":\"" + success + "\", \"output\":\"Mandatory fields are empty.\" }");

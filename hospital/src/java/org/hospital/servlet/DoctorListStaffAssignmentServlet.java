@@ -102,9 +102,9 @@ public class DoctorListStaffAssignmentServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Methods", "POST");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
-
+            
             outputAll = new StringBuilder();
-            if (staffAllList != null) {
+            if (staffAllList != null && !staffAllList.isEmpty()) {
                 outputAll.append("<table class='table table-hover'>");
                 outputAll.append("<thead>");
                 outputAll.append("<tr>");
@@ -130,7 +130,7 @@ public class DoctorListStaffAssignmentServlet extends HttpServlet {
                 outputAll.append("</table>");
                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + outputAll.toString() + "\"} ");
             } else {
-                out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Failed to retrieve staff." + "\"} ");
+                out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "There are no staff members registered in the database" + "\"} ");
             }
             out.close();
         }

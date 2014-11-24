@@ -32,10 +32,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author l22fu
  */
-@WebServlet(name = "searchPatientServlet", urlPatterns = {"/searchPatientServlet"})
-public class searchPatientServlet extends HttpServlet {
+@WebServlet(name = "SearchPatientServlet", urlPatterns = {"/SearchPatientServlet"})
+public class SearchPatientServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(searchPatientServlet.class);
+    Logger logger = LoggerFactory.getLogger(SearchPatientServlet.class);
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -24,21 +24,21 @@
             <div class="form-group">
                 <label for="diagnosis" class="col-sm-2 control-label" style="margin-right: 5px;">Keyword in Diagnosis</label>
                 <div class="col-sm-8">
-                    <input name="diagnosis" type="text" class="form-control" id="diagnosis" placeholder="diagnosis">
+                    <input name="diagnosis" type="text" class="form-control" id="diagnosis" placeholder="Diagnosis">
                  </div>
             </div>
             
             <div class="form-group">
                 <label for="comments" class="col-sm-2 control-label" style="margin-right: 5px;">Keyword in Comments</label>
                 <div class="col-sm-8">
-                    <input name="comments" type="text" class="form-control" id="comments" placeholder="comments">
+                    <input name="comments" type="text" class="form-control" id="comments" placeholder="Comments">
                  </div>
             </div>
             
             <div class="form-group">
                 <label for="prescription" class="col-sm-2 control-label" style="margin-right: 5px;">Prescription Given</label>
                 <div class="col-sm-8">
-                    <input name="prescription" type="text" class="form-control" id="prescription" placeholder="prescription">
+                    <input name="prescription" type="text" class="form-control" id="prescription" placeholder="Prescription">
                  </div>
             </div>
             

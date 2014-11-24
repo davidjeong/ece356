@@ -49,7 +49,7 @@
                 console.log(dataString);
                 $.ajax({
                     type: "POST",
-                    url: "../searchPatientServlet",
+                    url: "../SearchPatientServlet",
                     data: dataString,
                     dataType: "JSON",
                     success: function (data) {

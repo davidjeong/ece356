@@ -337,7 +337,7 @@
                     },
                     dataType: "JSON",
                     success: function(data) {
-                        if (data.count !== "0") {
+                        if (data.updated !== "0") {
                              $("#creation_message").html("Appointment Updated.");
                              $("#creation_message").addClass("alert alert-success message");
                              $("#ajaxRequestUpdateAppointment")[0].reset();

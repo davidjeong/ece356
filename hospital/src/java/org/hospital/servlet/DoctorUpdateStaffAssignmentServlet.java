@@ -53,7 +53,7 @@ public class DoctorUpdateStaffAssignmentServlet extends HttpServlet {
                 csInsert.executeBatch();
             } 
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             success = false;
         } finally {
             StringBuilder output = new StringBuilder();

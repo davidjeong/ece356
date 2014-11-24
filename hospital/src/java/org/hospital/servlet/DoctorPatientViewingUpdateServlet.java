@@ -23,8 +23,8 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(urlPatterns = {"/DoctorPatientViewingServlet"})
-public class DoctorPatientViewingServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/DoctorPatientViewingUpdateServlet"})
+public class DoctorPatientViewingUpdateServlet extends HttpServlet {
 
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
 
@@ -36,7 +36,6 @@ public class DoctorPatientViewingServlet extends HttpServlet {
 
         String cpso = request.getParameter("cpsonumber");
         String patientId = request.getParameter("patient_id");
-        String doctorId = request.getParameter("doctor_id");
 
         if (cpso != null) {
             CallableStatement csPatients = null;
@@ -57,13 +56,13 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                     patientList.add(p);
                 }
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 if (csPatients != null) {
                     try {
                         csPatients.close();
                     } catch (SQLException ex) {
-                        java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
@@ -71,7 +70,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                     try {
                         rsPatients.close();
                     } catch (SQLException ex) {
-                        java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -93,14 +92,14 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                     doctorList.add(d);
                 }
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (csDoctors != null) {
                 try {
                     csDoctors.close();
                 } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -108,7 +107,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 try {
                     rsDoctors.close();
                 } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -171,7 +170,9 @@ public class DoctorPatientViewingServlet extends HttpServlet {
             sbDoctors.append("</table>");
 
             output.println(" { \"outputPatient\": \"" + sbPatients.toString() + "\", \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
-        } else if (patientId != null) {
+        } 
+        
+        else if (patientId != null) {
             CallableStatement csDoctorsAll = null;
             ResultSet rsDoctorsAll = null;
             ArrayList<Doctor> doctorAllList = new ArrayList<>();
@@ -189,14 +190,14 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                     doctorAllList.add(d);
                 }
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (csDoctorsAll != null) {
                 try {
                     csDoctorsAll.close();
                 } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -204,7 +205,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 try {
                     rsDoctorsAll.close();
                 } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -222,14 +223,14 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                     doctorAssignedList.add(cpsoAssigned);
                 }
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (csDoctorsAll != null) {
                 try {
                     csDoctorsAll.close();
                 } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -237,7 +238,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 try {
                     rsDoctorsAssigned.close();
                 } catch (SQLException ex) {
-                    java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -319,7 +320,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
             
             csInsert.executeBatch();
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

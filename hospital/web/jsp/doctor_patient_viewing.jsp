@@ -27,8 +27,8 @@
                     cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                     $.ajax({
-                        type: "GET",
-                        url: "../DoctorPatientViewingServlet",
+                        type: "POST",
+                        url: "../DoctorPatientViewingOnLoadServlet",
                         data: {
                             cpsonumber : cpso
                         },
@@ -44,8 +44,8 @@
                 function onPatientClick(id) {   
                     console.log("onPatientClick " + id);
                     $.ajax({
-                        type: "GET",
-                        url: "../DoctorPatientViewingServlet",
+                        type: "POST",
+                        url: "../DoctorPatientViewingOnPatientSelectServlet",
                         data: {
                             patient_id: id
                         },
@@ -97,7 +97,7 @@
                                 
                     $.ajax({
                         type: "POST",
-                        url: "../DoctorPatientViewingServlet",
+                        url: "../DoctorPatientViewingUpdateServlet",
                         data: {patientId: patientId, doctors: doctors},
                         dataType: "JSON",
                         success: function (data) {

@@ -118,6 +118,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     upcomingSb.append("<th>Prescription</th>");
                     upcomingSb.append("<th>Diagnosis</th>");
                     upcomingSb.append("<th>Comments</th>");
+                    upcomingSb.append("<th></th>");
                     upcomingSb.append("</tr>");
                     upcomingSb.append("</thead>");
                     upcomingSb.append("<tbody>");
@@ -134,7 +135,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                         upcomingSb.append("<td>").append(vr.getPrescription()).append("</td>");
                         upcomingSb.append("<td>").append(vr.getDiagnosis()).append("</td>");
                         upcomingSb.append("<td>").append(vr.getComments()).append("</td>");
-                        //upcomingSb.append("<td>").append("<button id=\"refreshViewAppointments\" type=\"button\" class=\"btn btn-primary refresh-button\">Refresh Data</button>").append("</td>");
+                        //upcomingSb.append("<td>").append("<a href='javascript:openModal(").append(vr.getPatientID()).append(");' class='btn btn-primary'>Edit</a>").append("</td>");
                         upcomingSb.append("</tr>");
                     }
                     upcomingSb.append("</tbody>");
@@ -161,7 +162,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                     pastSb.append("<th>Prescription</th>");
                     pastSb.append("<th>Diagnosis</th>");
                     pastSb.append("<th>Comments</th>");
-                    pastSb.append("<th>Update</th>");
+                    pastSb.append("<th></th>");
                     pastSb.append("</tr>");
                     pastSb.append("</thead>");
                     pastSb.append("<tbody>");
@@ -178,7 +179,7 @@ public class ViewAppointmentServlet extends HttpServlet {
                         pastSb.append("<td>").append(vr.getPrescription()).append("</td>");
                         pastSb.append("<td>").append(vr.getDiagnosis()).append("</td>");
                         pastSb.append("<td>").append(vr.getComments()).append("</td>");
-                        pastSb.append("<td>").append("<a href='#' class='btn'>omg</a>").append("</td>");
+                        pastSb.append("<td>").append("<a href='javascript:openVisitModal(").append(vr.getPatientID()).append(");' class='btn btn-primary'>Edit</a>").append("</td>");
                         pastSb.append("</tr>");
                     }
                     pastSb.append("</tbody>");

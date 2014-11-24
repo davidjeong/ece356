@@ -35,7 +35,7 @@ public class DeleteAppointmentServlet extends HttpServlet {
         int res = 0;
 
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             Date parsed = sdf.parse(start_time);
             Timestamp ts = new Timestamp(parsed.getTime());
             

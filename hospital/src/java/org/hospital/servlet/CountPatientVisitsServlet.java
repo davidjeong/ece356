@@ -49,7 +49,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_VISIT);
             summaryOutput = new StringBuilder();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm");
             long start_time = sdf.parse(request.getParameter("start_range")).getTime();
             long end_time = sdf.parse(request.getParameter("end_range")).getTime();
             Timestamp time1 = new Timestamp(start_time);

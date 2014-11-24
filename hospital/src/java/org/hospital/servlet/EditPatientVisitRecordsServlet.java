@@ -46,7 +46,7 @@ public class EditPatientVisitRecordsServlet extends HttpServlet {
             int i = 0;
             cs.setString(++i, cpso);
             
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
             long start_time = sdf.parse(request.getParameter("start_time")).getTime();
             Timestamp ts = new Timestamp(start_time);
             cs.setTimestamp(++i, ts);

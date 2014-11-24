@@ -45,7 +45,7 @@ public class ViewExistingVisitInformation extends HttpServlet {
             String cpsoNumber = request.getParameter("cpso_number");
             String start_time = request.getParameter("start_time");
             if (!start_time.isEmpty()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 Date parsed = sdf.parse(start_time);
                 Timestamp ts = new Timestamp(parsed.getTime());
                 

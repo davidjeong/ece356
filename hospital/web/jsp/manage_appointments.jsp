@@ -68,6 +68,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="modifyLabel">Modal title</h4>
+                <p class="mandatory-message" style="text-align: right"><strong>* marks mandatory fields.</strong></p>
               </div>
               <div class="modal-body" id="modalBody">
                   <form name="input" id="ajaxRequestUpdateAppointment" class="form-horizontal" role="form" method="POST">
@@ -347,8 +348,16 @@
 
                              retrieveCalendar();
                         } else {
-                            $("#error_update_message").html("Cannot delete appointment.");
                             $("#error_update_message").addClass("alert alert-danger message");
+                            if (data.conflicted === "true") {
+                                $("#error_update_message").html("There is already an appointment for this doctor at the selected times.");
+                            } else {
+                                if (data.empty === "true") {
+                                    $("#error_update_message").html("Mandatory fields are empty.");
+                                } else {
+                                    $("#error_update_message").html("Selected doctor cannot view selected patient.");
+                                }
+                            }
                         }
                     } 
                 });

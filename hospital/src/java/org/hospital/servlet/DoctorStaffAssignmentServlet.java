@@ -119,7 +119,7 @@ public class DoctorStaffAssignmentServlet extends HttpServlet {
                         if (staffAssignedList.contains(staff.getUserName())) {
                             outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff[]\'").append(" checked=\'").append(staff.getUserName()).append("\'").append(" value=\'").append(staff.getUserName()).append("\'").append(" onclick=\'onStaffClick(\\\"").append(staff.getUserName()).append("\\\");\'>").append("</td>");
                         } else {
-                            outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff[]\'").append(" value=\'").append(staff.getUserName()).append("\'").append(" onclick=\'onStaffClick(\\\"").append(staff.getUserName()).append("\\\");\'>").append("</td>");
+                            outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff[]\'").append(" value=\'").append(staff.getUserName()).append("\'>").append("</td>");
                         }
                         outputAll.append("<td>").append(staff.getUserName()).append("</td>");
                         outputAll.append("<td>").append(staff.getLegalName()).append("</td>");

@@ -29,7 +29,7 @@
             </div>  
             
             <div class="form-group">
-                <label for="revenueStream" class="col-sm-3 control-label">Surgery*</label>
+                <label for="surgeryName" class="col-sm-3 control-label">Surgery*</label>
                 <div class="col-sm-8" id="surgery_list">
                     
                 </div>
@@ -47,6 +47,13 @@
                 Summary
             </p>
             <div id="summaryContent"></div>
+        </div>
+        
+        <div class="summary-panel" id="visitsDiv">
+            <p class="lead">
+                Visits Summary
+            </p>
+            <div id="visitsContent"></div>
         </div>
         <p id="failure_message"></p>
         
@@ -100,11 +107,12 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#failure_message").hide();
-                            $("#summaryContent").html(data.summaryOutput);
-                            $("#summaryDiv").show();
+                            $("#visitsContent").html(data.visitsOutput);
+                            console.log(data.visitsOutput);
+                            $("#visitsDiv").show();
                         } else if (data.success === "false") {
                              $("#failure_message").show();
-                             $("#summaryDiv").hide();
+                             $("#visitsDiv").hide();
                              $("#failure_message").html(data.output);
                              $("#failure_message").addClass("alert alert-danger message");
                         }

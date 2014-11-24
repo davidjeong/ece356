@@ -174,7 +174,7 @@
                     str += s;
                 }
                 $("#date_status").html(str);
-                clearMessage();
+                clearMessages();
             });
 
             $(".view-button").click(function() {
@@ -189,7 +189,7 @@
                     str += s;
                 }
                 $("#date_status").html(str);
-                clearMessage();
+                clearMessages();
             });
             
             function showCreateForm() {

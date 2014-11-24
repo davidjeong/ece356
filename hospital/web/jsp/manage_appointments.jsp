@@ -43,6 +43,10 @@
                                 </div>
                             </div>
                           <div class="form-group">
+                                <label for="surgeryName" class="col-sm-2 control-label">Surgery</label>
+                                <div class="col-sm-10" id="surgery_list"></div>
+                          </div>
+                          <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <p id="error_message"></p>
                                 </div>
@@ -54,8 +58,6 @@
                           </div>
                       </form>
                   </div>
-              </div>
-              <div class="modal-footer">
               </div>
             </div>
           </div>
@@ -166,6 +168,18 @@
             });
             
             function showForm() {
+                
+                dataString = "{ \"username\": \"" + username + "\" }";
+                $.ajax({
+                    type: "POST",
+                    url: "../GetAllSurgeriesServlet",
+                    data: dataString,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#surgery_list").html(data.surgeries);
+                    }
+                });
+                
                 $("#inputModal").modal({
                     show: true
                 });
@@ -193,6 +207,7 @@
             $("#formSubmit").click(function() {
                 
                dataString = $("#ajaxRequesetCreateNewAppointment").serialize();
+               console.log(dataString);
                
                $.ajax({
                    type: "POST",

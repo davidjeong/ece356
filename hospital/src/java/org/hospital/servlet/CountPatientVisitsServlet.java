@@ -139,6 +139,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
                         allOutput.append("<th>End Time</th>");
                         allOutput.append("<th>Surgery Name</th>");
                         allOutput.append("<th>Prescription</th>");
+                        allOutput.append("<th>Diagnosis</th>");
                         allOutput.append("<th>Comments</th>");
                         allOutput.append("</tr>");
                         allOutput.append("</thead>");
@@ -152,6 +153,7 @@ public class CountPatientVisitsServlet extends HttpServlet {
                                 allOutput.append("<td>").append(v.getEndTime()).append("</td>");
                                 allOutput.append("<td>").append(v.getSurgeryName()).append("</td>");
                                 allOutput.append("<td>").append(v.getPrescription()).append("</td>");
+                                allOutput.append("<td>").append(v.getDiagnosis()).append("</td>");
                                 allOutput.append("<td>").append(v.getComments()).append("</td>");
                                 allOutput.append("</tr>");
                             }

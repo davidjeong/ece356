@@ -7,7 +7,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <% List<Doctor> doctorList = (List<Doctor>)session.getAttribute("allDoctorList"); %>
         <div class="page-header">
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
         </div>

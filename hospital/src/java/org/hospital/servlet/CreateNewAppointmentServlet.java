@@ -46,6 +46,7 @@ public class CreateNewAppointmentServlet extends HttpServlet {
         try {
             String cpsoNumber = request.getParameter("cpso");
             String patientId = request.getParameter("patient_id");
+            String surgeryName = request.getParameter("surgeryName");
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm");
             long start_time = sdf.parse(request.getParameter("start_range")).getTime();
             long end_time = sdf.parse(request.getParameter("end_range")).getTime();
@@ -102,6 +103,7 @@ public class CreateNewAppointmentServlet extends HttpServlet {
                         cs.setString(++i, cpsoNumber);
                         cs.setTimestamp(++i, time1);
                         cs.setTimestamp(++i, time2);
+                        cs.setString(++i, surgeryName);
                         res = cs.executeUpdate();
                         if (res > 0) {
                             success = true;
@@ -112,7 +114,7 @@ public class CreateNewAppointmentServlet extends HttpServlet {
                 empty = true;
             }
         } catch (SQLException e) {
-            logger.error(e.toString());
+             logger.error(e.toString());
         } catch (ParseException e) {
             logger.error(e.toString());
             empty = true;

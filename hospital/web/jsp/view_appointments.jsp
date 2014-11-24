@@ -7,7 +7,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <!-- Modal -->
         <div class="modal fade" id="editVisitModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -26,26 +25,27 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <form name="input" id="ajaxEditVisitRecord" class="form-control" role="form" method="POST">
                           <tr>
                               <td><p id="surgery_name" name="surgery_name"></p></td>
                               <td><input id="prescription" type="text" class="form-control" name="prescription" value=""></td>
                               <td><input id="diagnosis" type="text" class="form-control" name="diagnosis" value=""></td>
-                              <td><input id="comments" type="text" class="form-control" name="comments" value=""></td>
+                              <td><input id="comments" type="text" class="form-control" name="comments" value="">
+                              <input type="hidden" id="start_time" value="">
+                                <input type="hidden" id="patient_id" value=""></td>
                           </tr>
-                      </form>
                       </tbody>
                   </table>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <button id = "editRecordsSaveChanges" type="button" class="btn btn-primary">Save changes</button>
+                   <button id = "editRecordsSaveChanges" type="button" class="btn btn-primary">Save changes</button>
+                   <p id="error_message"></p>
               </div>
             </div>
           </div>
         </div>
         <div class="page-header refresh-header">
             <div class="form-inline">
+                <p id="update_message"></p>
                 <button id="refreshViewAppointments" type="button" class="btn btn-primary">Refresh Data</button>
             </div>
         </div> 
@@ -62,13 +62,11 @@
             <div id="pastAppointmentsContent"></div>
         </div>
         <script type="text/javascript">
-            $("#ajaxEditRecords").submit(function(e){
-                e.preventDefault();
-            });
+            
             var username = "";
-            $(document).ready(function() {
-                username = "${sessionScope.username}";
-                dataString = "{ \"username\": \"" + username + "\" }";
+            
+            function loadData() {
+            dataString = "{ \"username\": \"" + username + "\" }";
                 $.ajax({
                     type: "POST",
                     url: "../ViewAppointmentServlet",
@@ -79,7 +77,14 @@
                         $("#pastAppointmentsContent").html(data.past);
                     }
                 });
+            }
+            
+            $(document).ready(function() {
+                username = "${sessionScope.username}";
+                loadData();
             });
+            
+            
 
             $("#refreshViewAppointments").click(function() {
                 dataString = "{ \"username\": \"" + username + "\" }";
@@ -96,36 +101,58 @@
             });
             
             $("#editRecordsSaveChanges").click(function() {
-                dataString = $("#ajaxEditRecords").serialize();
-                console.log(dataString);
+                cpso = "${sessionScope.cpsonumber}";
+                prescription = $("#prescription").val();
+                diagnosis = $("#diagnosis").val();
+                comments = $("#comments").val();
+                s_time = $("#start_time").val();
+                p_id = $("#patient_id").val();
+                
                 $.ajax({
                     type: "POST",
-                    url: "../ViewAppointmentServlet",
-                    data: dataString,
+                    url: "../EditPatientVisitRecordsServlet",
+                    data: {
+                        prescription: prescription,
+                        diagnosis: diagnosis,
+                        comments: comments,
+                        start_time: s_time,
+                        patient_id: p_id,
+                        cpso_number: cpso
+                    },
                     dataType: "JSON",
                     success: function (data) {
-                        $("#upcomingAppointmentsContent").html(data.upcoming);
-                        $("#pastAppointmentsContent").html(data.past);
+                            console.log(data);
+                            if (data.success === "true") {
+                                $("#update_message").html("Update Successful.");
+                                $("#update_message").addClass("alert alert-success message");
+                                $("#editVisitModal").modal('toggle');
+                                $("#prescription").val("");
+                                $("#diagnosis").val("");
+                                $("#comments").val("");
+                                loadData();
+                            }
+                            else {
+                                $("#error_message").addClass("alert alert-danger message");
+                                $("#error_message").html("Update failed.");
+                        }
                     }
                 });
             });
             
            function openVisitModal(id, start_time) {
-               
                $.ajax({
                    type: "POST",
                    url: "../ViewExistingVisitInformation",
                    data: {patient_id: id, start_time: start_time},
                    dataType: "JSON",
                    success: function(data) {
-                       console.log(data);
-                       console.log("ss");
                        if (data.output !== null) {
-                           console.log(data.output);
                             $("#surgery_name").html(data.output.surgery_name);
                             $("#prescription").val(data.output.prescription);
                             $("#diagnosis").val(data.output.diagnosis);
                             $("#comments").val(data.output.comments);
+                            $("#patient_id").val(id);
+                            $("#start_time").val(start_time);
                         }
                        else {
                        }

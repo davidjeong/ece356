@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +34,7 @@ public class DoctorStaffAssignmentServlet extends HttpServlet {
     Logger logger = LoggerFactory.getLogger(ViewPatientsServlet.class);
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CallableStatement csAll = null;
         CallableStatement csAssigned = null;
@@ -116,9 +117,9 @@ public class DoctorStaffAssignmentServlet extends HttpServlet {
                     for (User staff : staffAllList) {
                         outputAll.append("<tr>");
                         if (staffAssignedList.contains(staff.getUserName())) {
-                            outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff\'").append(" checked=\'").append(staff.getUserName()).append("\'").append(" value=\'").append(staff.getUserName()).append("\'").append(" onclick=\'onStaffClick(\\\"").append(staff.getUserName()).append("\\\");\'>").append("</td>");
+                            outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff[]\'").append(" checked=\'").append(staff.getUserName()).append("\'").append(" value=\'").append(staff.getUserName()).append("\'").append(" onclick=\'onStaffClick(\\\"").append(staff.getUserName()).append("\\\");\'>").append("</td>");
                         } else {
-                            outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff\'").append(" value=\'").append(staff.getUserName()).append("\'").append(" onclick=\'onStaffClick(\\\"").append(staff.getUserName()).append("\\\");\'>").append("</td>");
+                            outputAll.append("<td>").append("<input type=\'checkbox\' name=\'staff[]\'").append(" value=\'").append(staff.getUserName()).append("\'").append(" onclick=\'onStaffClick(\\\"").append(staff.getUserName()).append("\\\");\'>").append("</td>");
                         }
                         outputAll.append("<td>").append(staff.getUserName()).append("</td>");
                         outputAll.append("<td>").append(staff.getLegalName()).append("</td>");
@@ -131,6 +132,38 @@ public class DoctorStaffAssignmentServlet extends HttpServlet {
                 out.println(" { \"success\": \"" + success + "\", \"output\": \"" + "Failed to retrieve staff." + "\"} ");
             }
             out.close();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
+        String[] staffs = request.getParameterValues("staffs[]");
+        
+        CallableStatement csDelete = null;
+        CallableStatement csInsert = null;
+        
+        if (SQLConstants.CONN == null) {
+            MySQLConnection.establish();
+        }
+        
+        try {            
+            csDelete = SQLConstants.CONN.prepareCall(SQLConstants.DELETE_ALL_DOCTOR_STAFF_ASSIGNMENT_FOR_DOCTOR);
+            csDelete.setString(1, cpsoNumber);
+            csDelete.executeUpdate();
+            
+            csInsert = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_DOCTOR_STAFF_ASSIGNMENT);
+            for (String staff : staffs) {
+                csInsert.setString(1, cpsoNumber);
+                csInsert.setString(2, staff);
+                csInsert.addBatch();
+            }
+            
+            csInsert.executeBatch();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(DoctorPatientViewingServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

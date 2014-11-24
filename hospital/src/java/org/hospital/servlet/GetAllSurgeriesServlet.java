@@ -66,6 +66,7 @@ Logger logger = LoggerFactory.getLogger(GetAllSurgeriesServlet.class);
             if (surgeries != null && !surgeries.isEmpty()) {
                 
                 sb.append(" <select class='form-control' id='surgeryName' name='surgeryName'> ");
+                sb.append("<option>All</option>");
                 for (String s : surgeries) {
                     sb.append("<option>");
                     sb.append(s);

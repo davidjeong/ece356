@@ -114,11 +114,11 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#failure_message").hide();
-                            if (data.totalOuput !== "undefined"){
-                                console.log(data.totalOuput);
-                                $("#totalDiv").show();
-                                $("#totalContent").html(data.totalOutput);
-                            }
+                            
+                            console.log(data.totalOuput);
+                            $("#totalDiv").show();
+                            $("#totalContent").html(data.totalOutput);
+
                             $("#visitsContent").html(data.visitsOutput);
                             $("#surgeryContent").html(data.surgeriesOutput);
                             $("#visitsDiv").show();

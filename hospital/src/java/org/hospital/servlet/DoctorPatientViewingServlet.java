@@ -32,7 +32,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
-        
+
         String cpso = request.getParameter("cpsonumber");
         String patientId = request.getParameter("patient_id");
         String doctorId = request.getParameter("doctor_id");
@@ -134,7 +134,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 sbPatients.append("<tbody>");
                 for (Patient p : patientList) {
                     sbPatients.append("<tr>");
-                    sbPatients.append("<td>").append("<input type=\'radio\'/ name=\'patients\' onclick=\'onPatientClick(").append(p.getPatientId()).append(");\'>").append("</td>");
+                    sbPatients.append("<td>").append("<input type=\'radio\'/ name=\'patients[]\'").append(" value=\'").append(p.getPatientId()).append("\' onclick=\'onPatientClick(").append(p.getPatientId()).append(");\'>").append("</td>");
                     sbPatients.append("<td>").append(p.getPatientId()).append("</td>");
                     sbPatients.append("<td>").append(p.getLegalName()).append("</td>");
                     sbPatients.append("<td>").append(p.getHealthStatus()).append("</td>");
@@ -158,9 +158,9 @@ public class DoctorPatientViewingServlet extends HttpServlet {
                 sbDoctors.append("<tbody>");
                 for (Doctor d : doctorList) {
                     sbDoctors.append("<tr>");
-                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getCpsoNumber()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");   
+                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getCpsoNumber()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
                     sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
-                    sbDoctors.append("<td>").append(d.getLegalName()).append("</td>"); 
+                    sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
                     sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
                     sbDoctors.append("</tr>");
                 }
@@ -169,9 +169,7 @@ public class DoctorPatientViewingServlet extends HttpServlet {
             sbDoctors.append("</table>");
 
             output.println(" { \"outputPatient\": \"" + sbPatients.toString() + "\", \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
-        } 
-        
-        else if (patientId != null) {
+        } else if (patientId != null) {
             CallableStatement csDoctorsAll = null;
             ResultSet rsDoctorsAll = null;
             ArrayList<Doctor> doctorAllList = new ArrayList<>();
@@ -286,5 +284,15 @@ public class DoctorPatientViewingServlet extends HttpServlet {
             sbDoctors.append("</table>");
             output.write(" { \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        String patientId = request.getParameter("patientId");
+        String[] doctorIds = request.getParameterValues("doctors[]");
+        
+        
     }
 }

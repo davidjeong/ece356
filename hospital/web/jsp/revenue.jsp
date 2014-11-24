@@ -44,7 +44,7 @@
         
         <div class="summary-panel" id="totalDiv">
             <p class="lead">
-                Total Cost
+                Total Revenue
             </p>
             <div id="totalContent"></div>
         </div>
@@ -101,7 +101,7 @@
             });
 
              
-              $("#getRevenue").click(function() { 
+            $("#getRevenue").click(function() { 
 
                 dataString = $("#ajaxRequestRevenue").serialize();
                 
@@ -114,10 +114,11 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#failure_message").hide();
-                            if (data.totalOuput !== ""){
-                                $("#totalDiv").show();
-                                $("#totalContent").html(data.totalOutput);
-                            }
+                            
+                            console.log(data.totalOuput);
+                            $("#totalDiv").show();
+                            $("#totalContent").html(data.totalOutput);
+
                             $("#visitsContent").html(data.visitsOutput);
                             $("#surgeryContent").html(data.surgeriesOutput);
                             $("#visitsDiv").show();
@@ -126,7 +127,7 @@
                              $("#failure_message").show();
                              $("#visitsDiv").hide();
                              $("#surgeryDiv").hide();
-                             $("#surgeryDiv").hide();
+                             $("#totalDiv").hide();
                              $("#failure_message").html(data.output);
                              $("#failure_message").addClass("alert alert-danger message");
                         }

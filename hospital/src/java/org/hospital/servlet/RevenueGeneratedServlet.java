@@ -138,6 +138,8 @@ public class RevenueGeneratedServlet extends HttpServlet {
                     totalOutput.append("</tbody>");
 
                     totalOutput.append("</table>");
+                } else {
+                    totalOutput.append("<p>Select 'All' in Surgery option to see total revenue.</p>");
                 }
                 
                 

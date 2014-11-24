@@ -27,6 +27,8 @@ public class SQLConstants {
     public static String INSERT_NEW_USER = "{ call InsertNewUserRecord(?,?,?,?)}";
     public static String INSERT_NEW_PATIENT = "{ call InsertNewPatientRecord(?,?,?,?,?,?,?) }";
     public static String INSERT_NEW_DOCTOR = "{ call InsertNewDoctorRecord(?,?,?) }";
+    public static String INSERT_NEW_VISIT_RECORD = " { call InsertNewVisitRecord(?,?,?,?) } ";
+    public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
     
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String VIEW_ASSIGNED_DOCTOR = "{ call ViewAssignedDoctor(?) }";
@@ -42,5 +44,7 @@ public class SQLConstants {
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctr(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";
+    public static String VIEW_ALL_DOCTOR_WEEKLY_RECORDS = " { call ViewAllDoctorWeeklyRecords(?) } ";
+    public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
 
 }

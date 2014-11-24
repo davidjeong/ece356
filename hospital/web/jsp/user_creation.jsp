@@ -9,9 +9,11 @@
     <body>
         <jsp:include page="/UserCreationServlet" />
         <% List<Doctor> doctorList = (List<Doctor>)session.getAttribute("allDoctorList"); %>
-        
-        <form name="input" id="ajaxRequestForUserCreation" class="form-horizontal" role="form" method="POST">
+        <div class="page-header">
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
+        </div>
+        <form name="input" id="ajaxRequestForUserCreation" class="form-horizontal" role="form" method="POST">
+            
             <div class="form-group">
                 <label for="user_type" class="col-sm-2 control-label">Type of User*</label>
                 <div class="col-sm-10">
@@ -118,7 +120,6 @@
         </form>
         <script type="text/javascript">
             $("#ajaxRequestForUserCreation").submit(function(e){
-                console.log("stopping");
                 e.preventDefault();
             });
 

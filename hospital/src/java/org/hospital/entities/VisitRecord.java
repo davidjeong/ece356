@@ -38,6 +38,13 @@ public class VisitRecord {
         this.diagnosis = diagnosis;
     }
     
+    public VisitRecord (int patient_id, String cpso_number, Timestamp start_time, Timestamp end_time) {
+        this.patient_id = patient_id;
+        this.cpso_number = cpso_number;
+        this.start_time = start_time;
+        this.end_time = end_time;
+    }
+    
     public int getPatientID(){
         return patient_id;
     }

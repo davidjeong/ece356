@@ -45,7 +45,7 @@ public class ViewPatientsServlet extends HttpServlet {
             cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ASSIGNED_DOCTOR);
             String cpsoNumber = request.getSession().getAttribute("cpsonumber").toString();
 
-            if (!cpsoNumber.isEmpty() && cpsoNumber != null) {
+            if (cpsoNumber != null && !cpsoNumber.isEmpty()) {
                 //int i=0;
                 cs.setString(1, cpsoNumber);
                 rs = cs.executeQuery();

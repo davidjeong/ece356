@@ -11,6 +11,7 @@ CREATE TRIGGER AfterUpdateVisitSchema
 			start_time,
 			end_time,
             surgery_name,
+            diagnosis,
             prescription,
 			comments,
             inserted_time
@@ -22,6 +23,7 @@ CREATE TRIGGER AfterUpdateVisitSchema
             NEW.start_time,
             NEW.end_time,
             NEW.surgery_name,
+            NEW.diagnosis,
             NEW.prescription,
             NEW.comments,
             NOW()

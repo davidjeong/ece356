@@ -112,56 +112,60 @@ public class DoctorPatientViewingOnLoadServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
         response.setHeader("Access-Control-Max-Age", "86400");
 
-        StringBuilder sbPatients = new StringBuilder();
-        sbPatients.append("<table class='table table-hover'>");
-        sbPatients.append("<thead>");
-        sbPatients.append("<tr>");
-        sbPatients.append("<th/>");
-        sbPatients.append("<th>Patient ID</th>");
-        sbPatients.append("<th>Legal Name</th>");
-        sbPatients.append("<th>Health Status</th>");
-        sbPatients.append("</tr>");
-        sbPatients.append("</thead>");
-        if (patientList.size() > 0) {
-            sbPatients.append("<tbody>");
-            for (Patient p : patientList) {
-                sbPatients.append("<tr>");
-                sbPatients.append("<td>").append("<input type=\'radio\'/ name=\'patients[]\'").append(" value=\'").append(p.getPatientId()).append("\' onclick=\'onPatientClick(").append(p.getPatientId()).append(");\'>").append("</td>");
-                sbPatients.append("<td>").append(p.getPatientId()).append("</td>");
-                sbPatients.append("<td>").append(p.getLegalName()).append("</td>");
-                sbPatients.append("<td>").append(p.getHealthStatus()).append("</td>");
-                sbPatients.append("</tr>");
-            }
-            sbPatients.append("</tbody>");
-        }
-        sbPatients.append("</table>");
-
-        StringBuilder sbDoctors = new StringBuilder();
-        sbDoctors.append("<table class='table table-hover'>");
-        sbDoctors.append("<thead>");
-        sbDoctors.append("<tr>");
-        sbDoctors.append("<th/>");
-        sbDoctors.append("<th>CPSO Number</th>");
-        sbDoctors.append("<th>Legal Name</th>");
-        sbDoctors.append("<th>Department</th>");
-        sbDoctors.append("</tr>");
-        sbDoctors.append("</thead>");
-        if (patientList.size() > 0) {
-            sbDoctors.append("<tbody>");
-            for (Doctor d : doctorList) {
-                if (!d.getCpsoNumber().equals(cpsoNumber)) {
-                    sbDoctors.append("<tr>");
-                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getUserName()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
-                    sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
-                    sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
-                    sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
-                    sbDoctors.append("</tr>");
+        if (patientList != null && !patientList.isEmpty()) {
+            StringBuilder sbPatients = new StringBuilder();
+            sbPatients.append("<table class='table table-hover'>");
+            sbPatients.append("<thead>");
+            sbPatients.append("<tr>");
+            sbPatients.append("<th/>");
+            sbPatients.append("<th>Patient ID</th>");
+            sbPatients.append("<th>Legal Name</th>");
+            sbPatients.append("<th>Health Status</th>");
+            sbPatients.append("</tr>");
+            sbPatients.append("</thead>");
+            if (patientList.size() > 0) {
+                sbPatients.append("<tbody>");
+                for (Patient p : patientList) {
+                    sbPatients.append("<tr>");
+                    sbPatients.append("<td>").append("<input type=\'radio\'/ name=\'patients[]\'").append(" value=\'").append(p.getPatientId()).append("\' onclick=\'onPatientClick(").append(p.getPatientId()).append(");\'>").append("</td>");
+                    sbPatients.append("<td>").append(p.getPatientId()).append("</td>");
+                    sbPatients.append("<td>").append(p.getLegalName()).append("</td>");
+                    sbPatients.append("<td>").append(p.getHealthStatus()).append("</td>");
+                    sbPatients.append("</tr>");
                 }
+                sbPatients.append("</tbody>");
             }
-            sbDoctors.append("</tbody>");
-        }
-        sbDoctors.append("</table>");
+            sbPatients.append("</table>");
 
-        output.println(" { \"outputPatient\": \"" + sbPatients.toString() + "\", \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
+            StringBuilder sbDoctors = new StringBuilder();
+            sbDoctors.append("<table class='table table-hover'>");
+            sbDoctors.append("<thead>");
+            sbDoctors.append("<tr>");
+            sbDoctors.append("<th/>");
+            sbDoctors.append("<th>CPSO Number</th>");
+            sbDoctors.append("<th>Legal Name</th>");
+            sbDoctors.append("<th>Department</th>");
+            sbDoctors.append("</tr>");
+            sbDoctors.append("</thead>");
+            if (patientList.size() > 0) {
+                sbDoctors.append("<tbody>");
+                for (Doctor d : doctorList) {
+                    if (!d.getCpsoNumber().equals(cpsoNumber)) {
+                        sbDoctors.append("<tr>");
+                        sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getUserName()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
+                        sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
+                        sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
+                        sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
+                        sbDoctors.append("</tr>");
+                    }
+                }
+                sbDoctors.append("</tbody>");
+            }
+
+            sbDoctors.append("</table>");
+            output.println(" { \"outputPatient\": \"" + sbPatients.toString() + "\", \"outputDoctor\": \"" + sbDoctors.toString() + "\" } ");
+        } else {
+            output.println(" { \"outputPatient\": \"" + "You have no patients assigned to you" + "\", \"outputDoctor\": \"" + "\" } ");
+        }
     }
 }

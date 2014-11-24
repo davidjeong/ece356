@@ -74,7 +74,7 @@ public class DoctorPatientViewingUpdateServlet extends HttpServlet {
                 out.close();
             }
         } else {
-            out.println(" { \"success\": \"" + "false" + "\", \"output\": \"" + "You must select a patient to apply changes" + "\"} ");
+            out.println(" { \"success\": \"" + "false" + "\", \"output\": \"" + "You must have a patient selected to apply changes!" + "\"} ");
         }
     }
 }

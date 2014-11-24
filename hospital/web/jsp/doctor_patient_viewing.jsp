@@ -9,11 +9,11 @@
     </head>
     <body>
         <div class="page-header refresh-header">
-            <p id="update_message" class="alert alert-success message" style="visibility: hidden"></p>
+            <p id="update_message" class="alert alert-success message" style="visibility: hidden">Test</p>
             <div class="form-inline">
-                <p class="mandatory-message" style="text-align: left;"><strong>* Apply changes per patient</strong></p>
+                <p class="mandatory-message" style="text-align: left;"><strong>* Select a patient from the left table, and select doctors to grant/revoke them viewing permissions. Apply changes per patient.</strong></p>
                 <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
-                <button id="refreshViewPatients" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+                <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
             </div>
         </div>
         <div>
@@ -23,8 +23,7 @@
             </div>
 
             <script type="text/javascript">
-                var cpso = "";
-                $(document).ready(function() {
+                function init() {
                     cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                     $.ajax({
@@ -40,7 +39,10 @@
                             $("#doctorsTable").html(data.outputDoctor);
                         }
                     });
-                });
+                }
+                
+                var cpso = "";
+                $(document).ready(init);
             
                 function onPatientClick(id) {
                     var updateMessage = document.getElementById('update_message');
@@ -81,6 +83,12 @@
                         }
                     }
                 }
+                
+                $("#refresh").click(function() {
+                    var updateMessage = document.getElementById('update_message');
+                    updateMessage.style.visibility = 'hidden';
+                    init();
+                });
             
                 $("#submit").click(function() {
                     var checkGroup = document.getElementsByName("doctors[]");

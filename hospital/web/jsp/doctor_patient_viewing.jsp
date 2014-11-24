@@ -52,20 +52,53 @@
                 }
             }
             
+            function getSelectedPatient() {
+                var patients = document.getElementsByName("patients[]");
+                var sizes = patients.length;
+                for (i=0; i < sizes; i++) {
+                    if (patients[i].checked==true) {
+                        return patients[i].value;
+                    }
+                }
+            }
+            
             $("#submit").click(function() {
                 var checkGroup = document.getElementsByName("doctors[]");
                 var length = checkGroup.length;
-                
-                console.log(checkGroup);
+                var patientId = getSelectedPatient();
+               
+                var checkedDoctors = [];
                 for (var i = 0; i < length; i++) {
-                    console.log(checkGroup[i].value + " " + checkGroup[i].checked);
+                    if (checkGroup[i].checked) {
+                        checkedDoctors.push(checkGroup[i].value);
+                    }
                 }
+                
+               
+               
+                var doctors = [];
+                
+                for (var d in checkedDoctors) {
+                    var item = checkedDoctors[d];
+                    console.log(item);
+                    doctors.push(item);
+                }
+                                
+                $.ajax({
+                    type: "POST",
+                    url: "../DoctorPatientViewingServlet",
+                    data: {patientId: patientId, doctors: doctors},
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#doctorsTable").html(data.outputDoctor);
+                    }
+                });
             });
         </script>
         <div>
-            <div id="patientsTable" style="float: left; margin-right: 10%; width: 45%">
+            <div id="patientsTable" style="float: left; margin-right: 10%; width: 45%; overflow: auto">
             </div>
-            <div id="doctorsTable" style="float: left; width: 45%">
+            <div id="doctorsTable" style="float: left; width: 45%; overflow: auto">
             </div>
             <button id="submit" type="button" class="btn btn-primary refresh-button">Apply</button>
         </div>

@@ -95,6 +95,8 @@ INSERT INTO user_patient_view_schema (user_name, patient_id) VALUES
 INSERT INTO visit_schema (patient_id, cpso_number, start_time, end_time, surgery_name, prescription, comments, diagnosis) VALUES
 ('4', '000000', '2014-11-21:23:00:00', '2014-11-21:23:30:00', 'broken bone', 'test', 'test', 'CAncer1'),
 ('1', '000000', '2014-11-21:22:00:00', '2014-11-21:22:30:00', 'broken bone', 'test', 'test', 'CAncer2'),
+('1', '000000', '2015-11-21:22:00:00', '2015-11-21:22:30:00', 'broken bone', 'test', 'test', 'CAncer2'),
+('1', '000000', '2015-01-21:22:00:00', '2015-01-21:22:30:00', 'broken bone', 'test', 'test', 'CAncer3'),
 ('2', '000000', '2014-11-21:21:00:00', '2014-11-21:21:30:00', 'broken bone', 'test', 'test', 'CAncer3'),
 ('3', '000000', '2014-11-21:20:00:00', '2014-11-21:20:30:00', 'broken bone', 'test', 'test', 'CAncer4');
 

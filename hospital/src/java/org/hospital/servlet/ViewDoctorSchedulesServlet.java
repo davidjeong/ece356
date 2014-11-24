@@ -5,11 +5,8 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,10 +40,7 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
            
             String username = request.getParameter("username");
             if (username != null && !username.isEmpty()) {
-                int i = 0;
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_ALL_DOCTOR_WEEKLY_RECORDS);
-                cs.setString(++i, username);
-                
                 rs = cs.executeQuery();
                 
                 if (rs != null) {
@@ -110,7 +104,9 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
                         delim = ",";
                     }
                     output.append(" ] }");
-                } 
+                } else {
+                    output.append(" { \"events_source\": [] } ");
+                }
             }
             logger.info(output.toString());
             out.write(output.toString());

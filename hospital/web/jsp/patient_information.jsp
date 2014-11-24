@@ -6,9 +6,21 @@
         <title>Patient Information</title>
     </head>
     <body>
-        Missing Ability to input and change table below...
-        <button id="UpdatePatientInformation" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
-        <div id="summaryVisitsContent"></div>
+        <div class="page-header">
+            <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
+        </div>
+        <form name="input" id="ajaxRequestDoctorVisits" class="form-horizontal" role="form" method="POST">
+
+         <div class="col-sm-offset-2 col-sm-10">
+            <button id="UpdatePatientInformation" type="submit" class="btn btn-default" >Submit</button>
+        </div>
+            <div class="summary-panel" id="resultsDiv">
+                 <p class="lead">
+                   Details of Personal Information of Patient
+                 </p>
+            <div id="summaryVisitsContent"></div>
+            </div>
+        </form>
         <script type="text/javascript">
             $(document).ready(function() {
                 $.ajax({
@@ -19,12 +31,13 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#summaryVisitsContent").html(data.summaryOutput);
+                            $("#resultsDiv").show();
                         }
                     }
                 });
             });
  
-            $("#UpdatePatientInformation").click(function(e) { 
+            $("#UpdatePatientInformation").submit(function(e) { 
                 dataString = $("#ajaxRequestPatientInformation").serialize();
                 $.ajax({
                     type: "POST",
@@ -34,6 +47,7 @@
                     success: function (data) {
                         if (data.success === "true") {
                             $("#summaryVisitsContent").html(data.summaryOutput);
+                            $("#resultsDiv").show();
                         }
                     }
                 });

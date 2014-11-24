@@ -150,6 +150,7 @@
                         if (data.success === 'true') {
                             $("#creation_message").removeClass();
                             $("#creation_message").addClass("alert alert-success message");
+                            $("#ajaxRequestForUserCreation")[0].reset();
                             getDoctorList();
                         } else if (data.success === 'false') {
                             $("#creation_message").removeClass();

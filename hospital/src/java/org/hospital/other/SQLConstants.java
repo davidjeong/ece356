@@ -29,8 +29,8 @@ public class SQLConstants {
     public static String INSERT_NEW_DOCTOR = "{ call InsertNewDoctorRecord(?,?,?) }";
     public static String INSERT_NEW_VISIT_RECORD = " { call InsertNewVisitRecord(?,?,?,?,?) } ";
     public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
-    public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?,?) }";
-    
+    public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?) }";
+    public static String DELETE_VISIT_RECORD = " { call DeleteVisitRecord(?,?) } ";
     
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String USERNAME_TO_PATIENTID = " { call UsernameToPatientID(?) }";

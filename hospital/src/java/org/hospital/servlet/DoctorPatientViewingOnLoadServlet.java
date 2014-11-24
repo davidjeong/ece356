@@ -20,7 +20,6 @@ import org.hospital.other.SQLConstants;
  *
  * @author okamayana
  */
-
 @WebServlet(urlPatterns = {"/DoctorPatientViewingOnLoadServlet"})
 public class DoctorPatientViewingOnLoadServlet extends HttpServlet {
 
@@ -150,12 +149,14 @@ public class DoctorPatientViewingOnLoadServlet extends HttpServlet {
         if (patientList.size() > 0) {
             sbDoctors.append("<tbody>");
             for (Doctor d : doctorList) {
-                sbDoctors.append("<tr>");
-                sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getUserName()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
-                sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
-                sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
-                sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
-                sbDoctors.append("</tr>");
+                if (!d.getCpsoNumber().equals(cpsoNumber)) {
+                    sbDoctors.append("<tr>");
+                    sbDoctors.append("<td>").append("<input name=\'doctors[]\' type=\'checkbox\' value=\'").append(d.getUserName()).append("\'").append(" onclick=\'onDoctorClick(this, \\\"" + d.getCpsoNumber() + "\\\")\'").append("/>").append("</td>");
+                    sbDoctors.append("<td>").append(d.getCpsoNumber()).append("</td>");
+                    sbDoctors.append("<td>").append(d.getLegalName()).append("</td>");
+                    sbDoctors.append("<td>").append(d.getDepartment()).append("</td>");
+                    sbDoctors.append("</tr>");
+                }
             }
             sbDoctors.append("</tbody>");
         }

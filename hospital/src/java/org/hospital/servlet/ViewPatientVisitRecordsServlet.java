@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
@@ -23,10 +18,6 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author l22fu
- */
 @WebServlet(name = "ViewPatientVisitRecordsServlet", urlPatterns = {"/ViewPatientVisitRecordsServlet"})
 public class ViewPatientVisitRecordsServlet extends HttpServlet {
 

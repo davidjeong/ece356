@@ -1,10 +1,14 @@
+.max-window {
+    height:100%;
+    width:100%;
+}
+
 .container-fluid {
     padding-left: 0px;
 }
 
-.max-window {
-    height:100%;
-    width:100%;
+.page-header {
+    text-align: right;
 }
 
 .jumbotron-text {
@@ -22,8 +26,8 @@
     width:100%;
 }
 
-.refresh-button {
-    float: right;
+.nav-btn {
+    margin: 0px 10px 0px 0px;
 }
 
 .jumbotron .bg {
@@ -47,6 +51,10 @@
 
 .form-group {
     margin-top: 15px;
+}
+
+.date-status {
+    text-align: right;
 }
 
 .content-panel {

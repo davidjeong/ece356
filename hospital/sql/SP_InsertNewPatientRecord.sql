@@ -11,7 +11,7 @@ CREATE PROCEDURE InsertNewPatientRecord
             IN phone_number_ VARCHAR(16),
             IN address_ VARCHAR(64)
 		)
-	BEGIN
+	BEGIN 
     INSERT INTO patient_schema
     (
 		user_name,
@@ -32,5 +32,15 @@ CREATE PROCEDURE InsertNewPatientRecord
         phone_number_,
         address_
 	);
+    
+    INSERT INTO user_patient_view_schema
+    (
+		user_name,
+        patient_id
+    ) VALUES (
+		(SELECT user_name FROM doctor_schema WHERE cpso_number = default_doctor_),
+        (SELECT patient_id FROM patient_schema WHERE user_name = user_name_)
+	);
+    
 END //
 DELIMITER ;

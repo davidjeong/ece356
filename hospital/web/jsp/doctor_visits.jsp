@@ -6,10 +6,14 @@
         <title>Doctor Visits</title>
     </head>
     <body>
+        <div class="page-header">
+                <div class="form-inline">
+                    <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
+                </div>
+            </div>
         <form name="input" id="ajaxRequestDoctorVisits" class="form-horizontal" role="form" method="POST">
-            <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
             <div class="form-group">
-                <label for="requested_patient_id" class="col-sm-2 control-label">CPSO Number*</label>
+                <label for="cpso" class="col-sm-2 control-label">CPSO Number*</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="cpso" placeholder="CPSO Number">
                 </div>
@@ -46,7 +50,6 @@
         </form>
         <script type="text/javascript">
             $("#ajaxRequestDoctorVisits").submit(function(e){
-                console.log("stopping");
                 e.preventDefault();
             });
             

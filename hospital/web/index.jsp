@@ -42,7 +42,6 @@
         <script type="text/javascript" src="js/script.js"></script>
         <script type="text/javascript">
              $("#ajaxRequestForLoginInfo").submit(function(e){
-                console.log("stopping");
                 e.preventDefault();
             });
 

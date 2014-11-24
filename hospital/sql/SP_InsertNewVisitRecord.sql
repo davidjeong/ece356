@@ -5,8 +5,7 @@ CREATE PROCEDURE InsertNewVisitRecord (
 		IN patient_id_ INT,
 		IN cpso_number_ VARCHAR(6),
         IN start_time_ DATETIME,
-        IN end_time_ DATETIME,
-        IN comments_ VARCHAR(128)
+        IN end_time_ DATETIME
 	)
     BEGIN
     INSERT INTO visit_schema 
@@ -14,16 +13,14 @@ CREATE PROCEDURE InsertNewVisitRecord (
 		patient_id,
         cpso_number,
         start_time,
-        end_time,
-        comments
+        end_time
 	)
     VALUES
 	(
         patient_id_,
         cpso_number_,
         start_time_,
-        end_time_,
-        comments_
+        end_time_
 	);
 END //
 DELIMITER ;

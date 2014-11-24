@@ -31,6 +31,7 @@ public class SQLConstants {
     public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
     
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
+    public static String USERNAME_TO_PATIENTID = " { call UsernameToPatientID(?) }";
     public static String VIEW_ASSIGNED_DOCTOR = "{ call ViewAssignedDoctor(?) }";
     public static String VIEW_DOCTORS_FOR_STAFF = "{ call ViewDoctorsForStaff(?) }";
     public static String VIEW_PAST_VISIT_RECORD = "{ call ViewPastVisitRecord(?) }";
@@ -42,9 +43,13 @@ public class SQLConstants {
     public static String All_DOCTOR_INFORMATION = "{ call AllDoctorInformation }";
     public static String VIEW_ALL_PATIENT = "{ call ViewAllPatients }";
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";
-    public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctr(?) }";
+    public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";
     public static String VIEW_ALL_DOCTOR_WEEKLY_RECORDS = " { call ViewAllDoctorWeeklyRecords(?) } ";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
+    public static String VIEW_DOCTORS_FOR_PATIENT = "{ call ViewDoctorsForPatient(?) }";
+    public static String GET_ALL_SURGERIES = "{ call GetAllSurgeries }";
+    public static String VIEW_EARNING_BY_DOCTOR = "{ call ViewEarningByDoctor(?,?,?) }";
+    public static String COUNT_ALL_VISITS = "{ call CountAllVisits(?,?) }";
 
 }

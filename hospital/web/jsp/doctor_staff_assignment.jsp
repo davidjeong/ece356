@@ -14,7 +14,7 @@
     <body>
         <script>
             
-            function init() {
+            function init() {;             
                 cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                 $.ajax({
@@ -79,12 +79,25 @@
                     }
                 });
             });
+            
+            $("#refresh").click(function() {
+                var updateMessage = document.getElementById('update_message');
+                updateMessage.style.visibility = 'hidden';
+                
+                init();
+            })
         </script>
+        <div class="page-header refresh-header">
+            <p id="update_message" class="alert alert-success message" style="margin-top: 10px; visibility: hidden"></p>
+            <div class="form-inline">
+                <p class="mandatory-message" style="text-align: left;"><strong>* Assign staff members to yourself</strong></p>
+                <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
+                <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+            </div>
+        </div>
         <div>
             <div id="staffTable">
             </div>
-            <button id="submit" type="button" class="btn btn-primary refresh-button">Apply</button>
         </div>
-        <p id="update_message" style="margin-top: 20px"></p>
     </body>
 </html>

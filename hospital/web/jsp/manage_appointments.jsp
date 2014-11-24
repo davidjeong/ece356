@@ -174,6 +174,7 @@
                     str += s;
                 }
                 $("#date_status").html(str);
+                clearMessage();
             });
 
             $(".view-button").click(function() {
@@ -188,6 +189,7 @@
                     str += s;
                 }
                 $("#date_status").html(str);
+                clearMessage();
             });
             
             function showCreateForm() {
@@ -319,6 +321,16 @@
                     } 
                 });
             } 
+            
+            function clearMessages() {
+                $("#error_update_message").removeAttr("class");
+                $("#error_message").removeAttr("class");
+                $("#creation_message").removeAttr("class");
+                
+                $("#error_update_message").html("");
+                $("#error_message").html("");
+                $("#creation_message").html("");
+            }
             
             function updateAppointment(cpso, start_time) {
                 

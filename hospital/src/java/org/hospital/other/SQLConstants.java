@@ -32,7 +32,7 @@ public class SQLConstants {
     public static String COUNT_REVENUE_FROM_ALL_SURGERIES = "{ call CountRevenueFromAllSurgeries(?,?) }";
     
     public static String DELETE_ALL_DOCTOR_STAFF_ASSIGNMENT_FOR_DOCTOR = "{ call DeleteAllDoctorStaffAssignmentsForDoctor(?) }";
-    public static String DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT = "{ call DeleteDoctorPatientRightsForPatient(?) }";
+    public static String DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT = "{ call DeleteDoctorPatientRightsForPatient(?,?) }";
     public static String DELETE_PATIENT_DOCTOR_MAPPING = " { call DeletePatientDoctorMapping(?,?) } ";
     public static String DELETE_VISIT_RECORD = " { call DeleteVisitRecord(?,?) } ";
     public static String GET_ALL_SURGERIES = "{ call GetAllSurgeries }";

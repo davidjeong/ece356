@@ -27,7 +27,8 @@ public class DoctorPatientViewingUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        String doctorUserName = SQLConstants.USER.getUserName();
         String patientId = request.getParameter("patientId");
         String[] doctorIds = request.getParameterValues("doctors[]");
 
@@ -46,6 +47,7 @@ public class DoctorPatientViewingUpdateServlet extends HttpServlet {
             try {
                 csDelete = SQLConstants.CONN.prepareCall(SQLConstants.DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT);
                 csDelete.setString(1, patientId);
+                csDelete.setString(2, doctorUserName);
                 csDelete.executeUpdate();
 
                 csInsert = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_USER_PATIENT_RIGHTS);

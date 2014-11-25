@@ -4,11 +4,7 @@ DELIMITER //
 CREATE PROCEDURE ViewPatientInformation(IN patient_id_ INT)
 	BEGIN
     SELECT 
-		p.patient_id,
-        p.health_card_number,
-        p.sin_number,
-        p.phone_number,
-        p.address
+		*
 	FROM
 		patient_schema p
 	WHERE

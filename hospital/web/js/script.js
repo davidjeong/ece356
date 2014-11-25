@@ -46,6 +46,10 @@ function manage_doctor_staff() {
     $("#content-panel").load("../jsp/doctor_staff_assignment.jsp");
 }
 
+function edit_patient(){
+    $("#content-panel").load("../jsp/staff_edit_patient.jsp");
+}
+
 function showDoctorDiv() {
     hideAll();
     $("#usertype").val("doctor");

@@ -61,7 +61,7 @@ public class SQLConstants {
     public static String VIEW_OTHER_PATIENTS = " { call ViewOtherPatients(?) } ";
     
     public static String VIEW_PAST_VISIT_RECORD_FOR_DOCTOR = "{ call ViewPastVisitRecordForDoctor(?) }";
-    public static String VIEW_PAST_VISIT_RECORD_FOR_STAFF = " { call ViewPastVisitRecordForStaff(?)";
+    public static String VIEW_PAST_VISIT_RECORD_FOR_STAFF = " { call ViewPastVisitRecordForStaff(?) } ";
     public static String VIEW_PAST_VISIT_RECORD_FOR_PATIENT = "{ call ViewPastVisitRecordForPatient(?) }";
     public static String VIEW_PATIENT_INFORMATION = "{ call ViewPatientInformation(?)}";
     public static String VIEW_PATIENT_VISIT =  "{ call CountPatientVisits(?,?,?) }";
@@ -69,13 +69,17 @@ public class SQLConstants {
     public static String VIEW_PATIENT_VISIT_RECORDS_FOR_START_TIME = "{ call ViewPatientRecordsForStartTime(?,?) } ";
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
+
+    public static String VIEW_UPCOMING_VISIT_RECORD = "{ call ViewUpcomingVisitRecord(?) }";
+    public static String VIEW_STAFF_PATIENT_INFORMATION = "{ call StaffViewPatientInformation()}";
     public static String VIEW_UPCOMING_VISIT_RECORD_FOR_DOCTOR = "{ call ViewUpcomingVisitRecordForDoctor(?) }";
     public static String VIEW_UPCOMING_VISIT_RECORD_FOR_STAFF = "{ call ViewUpcomingVisitRecordForStaff(?) }";
     public static String VIEW_UPCOMING_VISIT_RECORD_FOR_PATIENT = "{ call ViewUpcomingVisitRecordForPatient(?) }";
-    
+
     public static String UPDATE_APPOINTMENT = " { call UpdateAppointment(?,?,?,?) } ";
     public static String UPDATE_PATIENT_RECORD =" { call UpdatePatientRecord(?,?,?,?,?) }";
     public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?) }";
+    public static String UPDATE_STAFF_PATIENT_RECORD = " {call StaffUpdatePatientRecord(?,?,?,?,?,?) }";
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String USERNAME_TO_PATIENTID = " { call UsernameToPatientID(?) }";
     

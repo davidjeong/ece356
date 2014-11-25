@@ -62,14 +62,25 @@ public class CountPatientVisitsServlet extends HttpServlet {
             if (rs != null)
             { 
                 visitRecordList = new ArrayList();
+                VisitRecord vr = null;
                 while (rs.next())
                 {
-                    VisitRecord v = new VisitRecord(rs.getInt("patient_id"),
-                            rs.getString("cpso_number"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"),
-                    rs.getString("surgery_name"), rs.getString("prescription"),
-                            rs.getString("comments"), rs.getString("diagnosis"));
-                    visitRecordList.add(v);
-                    logger.info("Adding [" + v + "] to visit list");
+                    vr = new VisitRecord();
+                    String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
+                    String prescription = (rs.getString("prescription") == null ? "N/A" : rs.getString("prescription"));
+                    String comments = (rs.getString("comments") == null ? "N/A" : rs.getString("comments"));
+                    String diagnosis = (rs.getString("diagnosis") == null ? "N/A" : rs.getString("diagnosis"));
+
+                    vr = new VisitRecord( rs.getInt("patient_id"),
+                                                      rs.getString("cpso_number"),
+                                                      rs.getTimestamp("start_time"),
+                                                      rs.getTimestamp("end_time"),
+                                                      surgery_name,
+                                                      prescription,
+                                                      comments,
+                                                      diagnosis);
+                    visitRecordList.add(vr);
+                    logger.info("Adding [" + vr + "] to visit list");
                 }
                 success = true;
             }

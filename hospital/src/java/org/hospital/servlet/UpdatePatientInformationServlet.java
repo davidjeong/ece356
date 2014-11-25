@@ -39,6 +39,22 @@ public class UpdatePatientInformationServlet extends HttpServlet {
         
         String old_cpso = request.getParameter("cpso");
         
+        if (cpso.length() < 6) {
+            int j = cpso.length();
+            while (j< 6) {
+                cpso = "0" + cpso;
+                j++;
+            }
+        }
+        
+        if (old_cpso.length() < 6) {
+            int j = old_cpso.length();
+            while (j< 6) {
+                old_cpso = "0" + old_cpso;
+                j++;
+            }
+        }
+        
         boolean success = false;
         
         if (SQLConstants.CONN == null) {

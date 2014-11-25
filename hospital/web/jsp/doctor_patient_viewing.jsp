@@ -9,10 +9,11 @@
     </head>
     <body>
         <div class="page-header refresh-header">
+            <p id="update_message" class="alert alert-success message" style="visibility: hidden">Test</p>
             <div class="form-inline">
-                <p class="mandatory-message" style="text-align: left;"><strong>* Apply changes per patient</strong></p>
+                <p class="mandatory-message" style="text-align: left;"><strong>* Select a patient from the left table, and select doctors to grant/revoke them viewing permissions. Apply changes per patient.</strong></p>
                 <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
-                <button id="refreshViewPatients" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+                <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
             </div>
         </div>
         <div>
@@ -22,13 +23,12 @@
             </div>
 
             <script type="text/javascript">
-                var cpso = "";
-                $(document).ready(function() {
+                function init() {
                     cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                     $.ajax({
-                        type: "GET",
-                        url: "../DoctorPatientViewingServlet",
+                        type: "POST",
+                        url: "../DoctorPatientViewingOnLoadServlet",
                         data: {
                             cpsonumber : cpso
                         },
@@ -39,13 +39,19 @@
                             $("#doctorsTable").html(data.outputDoctor);
                         }
                     });
-                });
+                }
+                
+                var cpso = "";
+                $(document).ready(init);
             
-                function onPatientClick(id) {   
+                function onPatientClick(id) {
+                    var updateMessage = document.getElementById('update_message');
+                    updateMessage.style.visibility = 'hidden';
+                    
                     console.log("onPatientClick " + id);
                     $.ajax({
-                        type: "GET",
-                        url: "../DoctorPatientViewingServlet",
+                        type: "POST",
+                        url: "../DoctorPatientViewingOnPatientSelectServlet",
                         data: {
                             patient_id: id
                         },
@@ -56,7 +62,10 @@
                     });
                 }
             
-                function onDoctorClick(checkbox, id) {   
+                function onDoctorClick(checkbox, id) {
+                    var updateMessage = document.getElementById('update_message');
+                    updateMessage.style.visibility = 'hidden';
+                    
                     console.log("onDoctorClick " + id + " " + checkbox.checked);
                     if (checkbox.checked) {
                         checkbox.check = checkbox.value;
@@ -74,6 +83,12 @@
                         }
                     }
                 }
+                
+                $("#refresh").click(function() {
+                    var updateMessage = document.getElementById('update_message');
+                    updateMessage.style.visibility = 'hidden';
+                    init();
+                });
             
                 $("#submit").click(function() {
                     var checkGroup = document.getElementsByName("doctors[]");
@@ -97,11 +112,22 @@
                                 
                     $.ajax({
                         type: "POST",
-                        url: "../DoctorPatientViewingServlet",
+                        url: "../DoctorPatientViewingUpdateServlet",
                         data: {patientId: patientId, doctors: doctors},
                         dataType: "JSON",
                         success: function (data) {
-                            $("#doctorsTable").html(data.outputDoctor);
+                            var updateMessage = document.getElementById('update_message');
+                            updateMessage.style.visibility = 'visible';
+                        
+                            $("#update_message").html(data.output);
+                            if (data.success === 'true') {
+                                $("#update_message").removeClass();
+                                $("#update_message").addClass("alert alert-success message");
+                                init();
+                            } else if (data.success === 'false') {
+                                $("#update_message").removeClass();
+                                $("#update_message").addClass("alert alert-danger message");
+                            }                        
                         }
                     });
                 });

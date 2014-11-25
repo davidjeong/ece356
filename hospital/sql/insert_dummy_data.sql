@@ -1,6 +1,7 @@
 USE ece356;
 
 INSERT INTO user_schema (legal_name, user_name, user_password, user_type) VALUES
+('LastVisit 21/11/2014', 'lastvisit', 'lastvisit', 'patient'),
 ('Generic Doctor', 'doctor', 'doctor', 'doctor'),
 ('Allycia Pheonix', 'aphoen423', 'dsjfie', 'doctor'),
 ('Agatha Wallis', 'awallis1', 'fijcxvlQ', 'doctor'),
@@ -48,6 +49,7 @@ INSERT INTO doctor_schema (user_name, cpso_number, department) VALUES
 ('aflores02', '283841', 'Physiotherapy');
 
 INSERT INTO patient_schema (user_name, default_doctor, health_status, health_card_number, sin_number, phone_number, address)  VALUES
+('lastvisit', '000000', 'rice allergies', '392817364932', '2123', '4163921219', null),
 ('patient', '000000', 'healthy', '392817364932', '2123', '4163921219', null),
 ('msimon1', '000000', 'chronic sickness', '203948574832', '2844', '4163242331', null),
 ('gcasey', '000000', 'healthy with mild diet issues', '394857481022', '8493', '4168392810', null),
@@ -90,6 +92,8 @@ INSERT INTO surgery_schema (surgery_name, cost) VALUES
 
 
 INSERT INTO user_patient_view_schema (user_name, patient_id) VALUES
+('doctor', '18'),
+('lastvisit', '18'),
 ('patient','1'),
 ('doctor','1'),
 ('doctor', '2'),

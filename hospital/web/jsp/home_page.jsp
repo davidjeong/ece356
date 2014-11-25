@@ -28,7 +28,7 @@
                             <li><a href="#" onclick="manage_doctor_patient_viewing();">Manage Patients</a></li>
                             <li><a href="#" onclick="manage_doctor_staff();">Manage Staff</a></li>
                             <li><a href="#" onclick="search_patient();">Search Patients</a></li> 
-
+                            <li><a href="#" onclick="search_visit();">Search Visits</a></li>
                         <% }
                             if ((userType).equals(SQLConstants.Staff)) {%>
                         <li><a href="#" onclick="user_creation();">Create New User</a></li>

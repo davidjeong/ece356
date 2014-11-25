@@ -33,6 +33,7 @@
                             if ((userType).equals(SQLConstants.Staff)) {%>
                         <li><a href="#" onclick="user_creation();">Create New User</a></li>
                         <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
+                        <li><a href="#" onclick="edit_patient();">Edit Patient</a></li>
                         <% }
                             if ((userType).equals(SQLConstants.Finance)) {%>
                         <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>

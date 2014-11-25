@@ -67,10 +67,12 @@ public class SQLConstants {
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
     public static String VIEW_UPCOMING_VISIT_RECORD = "{ call ViewUpcomingVisitRecord(?) }";
+    public static String VIEW_STAFF_PATIENT_INFORMATION = "{ call StaffViewPatientInformation()}";
     
     public static String UPDATE_APPOINTMENT = " { call UpdateAppointment(?,?,?,?) } ";
     public static String UPDATE_PATIENT_RECORD =" { call UpdatePatientRecord(?,?,?,?,?) }";
     public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?) }";
+    public static String UPDATE_STAFF_PATIENT_RECORD = " {call StaffUpdatePatientRecord(?,?,?,?,?,?) }";
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String USERNAME_TO_PATIENTID = " { call UsernameToPatientID(?) }";
     

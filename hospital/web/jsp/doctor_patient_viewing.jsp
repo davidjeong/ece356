@@ -37,6 +37,12 @@
                             console.log(data);
                             $("#patientsTable").html(data.outputPatient);
                             $("#doctorsTable").html(data.outputDoctor);
+                            
+                            if (data.outputPatient == "You have no patients assigned to you") {
+                                document.getElementById("submit").disabled = true;
+                            } else {
+                                document.getElementById("submit").disabled = false;
+                            }
                         }
                     });
                 }

@@ -27,6 +27,13 @@
                     success: function (data) {
                         console.log(data);
                         $("#staffTable").html(data.output);
+                        
+                        
+                        if (data.output == "There are no staff members registered in the database") {
+                            document.getElementById("submit").disabled = true;
+                        } else {
+                            document.getElementById("submit").disabled = false;
+                        }
                     }
                 });
             }

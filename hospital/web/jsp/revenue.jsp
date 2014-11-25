@@ -6,9 +6,10 @@
         <title>Hospital Revenue</title>
     </head>
     <body>
-        <form name="input" id="ajaxRequestRevenue" class="form-horizontal" role="form" method="POST">
+        <div class="page-header">
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
-            
+        </div>
+        <form name="input" id="ajaxRequestRevenue" class="form-horizontal" role="form" method="POST">
             <div class="form-group">
                 <label for="start_range" class="col-sm-3 control-label">Start Date*</label>
                 <div class="col-sm-8">

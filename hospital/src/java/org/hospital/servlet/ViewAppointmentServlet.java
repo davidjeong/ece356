@@ -82,13 +82,13 @@ public class ViewAppointmentServlet extends HttpServlet {
                     }
                 }
                 if(userType.equals(SQLConstants.Doctor)) {
-                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_DOCTOR);
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PAST_VISIT_RECORD_FOR_DOCTOR);
                 }
                 else if (userType.equals(SQLConstants.Staff)) {
-                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_STAFF);
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PAST_VISIT_RECORD_FOR_STAFF);
                 }
                 else if (userType.equals(SQLConstants.Patient)) {
-                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_PATIENT);
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PAST_VISIT_RECORD_FOR_PATIENT);
                 } 
                 i=0;
                 cs.setString(++i, userName);

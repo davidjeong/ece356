@@ -62,6 +62,9 @@ public class UpdatePatientInformationServlet extends HttpServlet {
         }
         
         try {
+            
+            SQLConstants.CONN.setAutoCommit(false);
+            
             if (!patientId.isEmpty()) {
                 cs = SQLConstants.CONN.prepareCall(SQLConstants.UPDATE_PATIENT_RECORD);
                 int i = 0;
@@ -126,6 +129,12 @@ public class UpdatePatientInformationServlet extends HttpServlet {
                     }
                 }
             }
+            if (success) {
+                SQLConstants.CONN.commit();
+            } else {
+                SQLConstants.CONN.rollback();
+            }
+            SQLConstants.CONN.setAutoCommit(true);
         }
         catch (SQLException e) {
             logger.error(e.toString());

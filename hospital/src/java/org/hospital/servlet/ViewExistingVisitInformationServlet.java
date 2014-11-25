@@ -22,10 +22,10 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(name = "ViewExistingVisitInformation", urlPatterns = {"/ViewExistingVisitInformation"})
-public class ViewExistingVisitInformation extends HttpServlet {
+@WebServlet(name = "ViewExistingVisitInformationServlet", urlPatterns = {"/ViewExistingVisitInformationServlet"})
+public class ViewExistingVisitInformationServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(ViewExistingVisitInformation.class);
+    Logger logger = LoggerFactory.getLogger(ViewExistingVisitInformationServlet.class);
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -60,9 +60,9 @@ public class ViewExistingVisitInformation extends HttpServlet {
                     while (rs.next())
                     {   
                         String surgery_name = ((rs.getString("surgery_name") == null || rs.getString("surgery_name").isEmpty()) ? "N/A" : rs.getString("surgery_name"));
-                        String prescription = ((rs.getString("prescription") == null || rs.getString("prescription").isEmpty()) ? "N/A" : rs.getString("prescription"));
-                        String comments = ((rs.getString("comments") == null || rs.getString("comments").isEmpty()) ? "N/A" : rs.getString("comments"));
-                        String diagnosis = ((rs.getString("diagnosis") == null || rs.getString("diagnosis").isEmpty()) ? "N/A" : rs.getString("diagnosis"));
+                        String prescription = ((rs.getString("prescription") == null || rs.getString("prescription").isEmpty()) ? "" : rs.getString("prescription"));
+                        String comments = ((rs.getString("comments") == null || rs.getString("comments").isEmpty()) ? "" : rs.getString("comments"));
+                        String diagnosis = ((rs.getString("diagnosis") == null || rs.getString("diagnosis").isEmpty()) ? "" : rs.getString("diagnosis"));
                         
                         vr = new VisitRecord( rs.getInt("patient_id"),
                                                           rs.getString("cpso_number"),

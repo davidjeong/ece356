@@ -141,7 +141,7 @@
                cpso = "${sessionScope.cpsonumber}";
                $.ajax({
                    type: "POST",
-                   url: "../ViewExistingVisitInformation",
+                   url: "../ViewExistingVisitInformationServlet",
                    data: {cpso_number: cpso, start_time: start_time},
                    dataType: "JSON",
                    success: function(data) {

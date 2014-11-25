@@ -19,14 +19,14 @@ CREATE TRIGGER BeforeDeleteVisitSchema
 		)
 		VALUES
         (
-			NEW.patient_id,
-            NEW.cpso_number,
-            NEW.start_time,
-            NEW.end_time,
-            NEW.surgery_name,
-            NEW.diagnosis,
-            NEW.prescription,
-            NEW.comments,
+			OLD.patient_id,
+            OLD.cpso_number,
+            OLD.start_time,
+            OLD.end_time,
+            OLD.surgery_name,
+            OLD.diagnosis,
+            OLD.prescription,
+            OLD.comments,
             NOW(),
             'DELETE'
 		);

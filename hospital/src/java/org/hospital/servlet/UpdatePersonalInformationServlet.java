@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,14 +14,11 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author Leo Zhao
- */
-@WebServlet(name = "EditPatientInformationServlet", urlPatterns = {"/EditPatientInformationServlet"})
-public class EditPatientInformationServlet extends HttpServlet {
-   Logger logger = LoggerFactory.getLogger(EditPatientVisitRecordsServlet.class);
+@WebServlet(name = "UpdatePersonalInformationServlet", urlPatterns = {"/UpdatePersonalInformationServlet"})
+public class UpdatePersonalInformationServlet extends HttpServlet {
 
+    Logger logger = LoggerFactory.getLogger(UpdatePersonalInformationServlet.class);
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,30 +26,28 @@ public class EditPatientInformationServlet extends HttpServlet {
         CallableStatement cs = null;
         StringBuilder output = null;
         
-        String Health_Card_Number = request.getParameter("Health_Card_Number");
-        String Sin_Number = request.getParameter("Sin_Number");
-        String Phone_Number = request.getParameter("Phone_Number");
-        String Address = request.getParameter("Address");
-        
-        int patient_id = Integer.parseInt(request.getSession().getAttribute("patientid").toString());
-        int res = 0;
-        
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         
+        String patientId = request.getSession().getAttribute("patientid").toString();
+        String phoneNumber = request.getParameter("phone_number");
+        String address = request.getParameter("address");
+        
+        int res = 0;
+        
         try {
-            cs = SQLConstants.CONN.prepareCall(SQLConstants.UPDATE_PATIENT_RECORD);
-            int i = 0;
-            cs.setInt(++i, patient_id);
-            cs.setString(++i, Health_Card_Number);
-            cs.setString(++i, Sin_Number);
-            cs.setString(++i, Phone_Number);
-            cs.setString(++i, Address);
-            
-            res = cs.executeUpdate();
-            
-        } catch (SQLException e) {
+            if (!patientId.isEmpty()) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.UPDATE_PERSONAL_RECORD);
+                int i = 0;
+                cs.setInt(++i, Integer.parseInt(patientId));
+                cs.setString(++i, phoneNumber);
+                cs.setString(++i, address);
+                
+                res = cs.executeUpdate();
+            }
+        }
+        catch (SQLException e) {
             logger.error(e.toString());
         }
         finally {
@@ -81,13 +68,10 @@ public class EditPatientInformationServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Methods", "POST");
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
+            
             output = new StringBuilder();
             
-            if (res > 0) {
-                output.append(" {\"success\":\"true\"} ");
-            } else {
-                output.append(" {\"success\":\"false\"} ");
-            }
+            output.append(" { \"count\":\"").append(res).append("\" } ");
             out.println(output.toString());
             out.close();
         }

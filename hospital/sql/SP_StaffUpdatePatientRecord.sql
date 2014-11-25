@@ -23,6 +23,3 @@ CREATE PROCEDURE StaffUpdatePatientRecord (
         
 END //
 DELIMITER ;
-
-
-Call StaffUpdatePatientRecord ('1','000000','123','123','123','123')

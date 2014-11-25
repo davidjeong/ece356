@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.console;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,10 +17,6 @@ import org.hospital.servlet.ViewExistingVisitInformation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author Leo Zhao
- */
 @WebServlet(urlPatterns = {"/StaffViewExistingPatientInformation"})
 public class StaffViewExistingPatientInformation extends HttpServlet {
     Logger logger = LoggerFactory.getLogger(ViewExistingVisitInformation.class);
@@ -114,12 +100,12 @@ public class StaffViewExistingPatientInformation extends HttpServlet {
                 if (patientList.size() == 1) {
                     Patient vr = patientList.get(0);
                     output.append(" { \"success\": \"").append(success).append("\", \"output\": ");
-                    output.append(" { \"Default_Doctor\":\"").append(vr.getDefaultDoctor()).append("\",");
-                    output.append(" \"Patient_Id\":\"").append(vr.getPatientId()).append("\",");        
-                    output.append(" \"Health_Card_Number\":\"").append(vr.getHealthCardNumber()).append("\",");
-                    output.append(" \"Health_Status\":\"").append(vr.getHealthStatus()).append("\",");
-                    output.append(" \"Phone_Number\":\"").append(vr.getPhoneNumber()).append("\",");
-                    output.append(" \"Address\":\"").append(vr.getAddress()).append("\" } } ");
+                    output.append(" { \"default_doctor\":\"").append(vr.getDefaultDoctor()).append("\",");
+                    output.append(" \"patient_id\":\"").append(vr.getPatientId()).append("\",");        
+                    output.append(" \"health_card_number\":\"").append(vr.getHealthCardNumber()).append("\",");
+                    output.append(" \"health_status\":\"").append(vr.getHealthStatus()).append("\",");
+                    output.append(" \"phone_number\":\"").append(vr.getPhoneNumber()).append("\",");
+                    output.append(" \"address\":\"").append(vr.getAddress()).append("\" } } ");
                 }
             } else {
                  output.append(" { \"success\": \"").append(success).append("\" } ");

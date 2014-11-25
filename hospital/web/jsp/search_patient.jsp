@@ -6,6 +6,10 @@
         <title>Search For Patient</title>
     </head>
     <body>
+        <div class="page-header">
+            <p class="mandatory-message"><strong>* Choose a combination of fields below.</strong></p>
+        </div>
+        <div>
         <form name="input" id="ajaxRequestPatients" class="form-horizontal" role="form" method="POST">
             <div class="form-group">
                 <label for="last_visit_date" class="col-sm-2 control-label" style="margin-right: 5px;">Last Visit Date</label>
@@ -34,7 +38,7 @@
                 </div>
             </div>
         </form>
-
+        </div>
         <div id="result"></div>
         <p id="failure_message"></p>
         <script type="text/javascript">

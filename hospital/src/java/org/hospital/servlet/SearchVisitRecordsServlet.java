@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
@@ -27,10 +22,6 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author l22fu
- */
 @WebServlet(name = "SearchVisitRecordsServlet", urlPatterns = {"/SearchVisitRecordsServlet"})
 public class SearchVisitRecordsServlet extends HttpServlet {
 
@@ -131,10 +122,10 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             VisitRecord vr= null;
             if (rs != null) {
                 while (rs.next()) {
-                    String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
-                    String p = (rs.getString("prescription") == null ? "N/A" : rs.getString("prescription"));
-                    String c = (rs.getString("comments") == null ? "N/A" : rs.getString("comments"));
-                    String d = (rs.getString("diagnosis") == null ? "N/A" : rs.getString("diagnosis"));
+                    String surgery_name = ((rs.getString("surgery_name") == null || rs.getString("surgery_name").isEmpty()) ? "N/A" : rs.getString("surgery_name"));
+                    String p = ((rs.getString("prescription") == null || rs.getString("prescription").isEmpty()) ? "N/A" : rs.getString("prescription"));
+                    String c = ((rs.getString("comments") == null || rs.getString("comments").isEmpty()) ? "N/A" : rs.getString("comments"));
+                    String d = ((rs.getString("diagnosis") == null || rs.getString("diagnosis").isEmpty()) ? "N/A" : rs.getString("diagnosis"));
 
                     vr = new VisitRecord( rs.getInt("patient_id"),
                                                       rs.getString("cpso_number"),

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : doctor_staff_assignment
-    Created on : 24-Nov-2014, 1:08:35 AM
-    Author     : okamayana
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +6,19 @@
         <title>Manage Staff</title>
     </head>
     <body>
+        <div class="page-header refresh-header">
+            <p id="update_message"></p>
+            <div class="form-inline">
+                <p class="mandatory-message"><strong>* Assign staff members to yourself</strong>
+                <button id="submit" type="button" style="margin-left: 20px;"class="btn btn-warning">Apply Changes</button>
+                <button id="refresh" type="button" style="margin-left: 10px;" class="btn btn-primary refresh-button">Refresh Data</button>
+                </p>
+            </div>
+        </div>
+        <div>
+            <div id="staffTable">
+            </div>
+        </div>
         <script>
             
             function init() {;             
@@ -88,23 +95,10 @@
             });
             
             $("#refresh").click(function() {
-                var updateMessage = document.getElementById('update_message');
-                updateMessage.style.visibility = 'hidden';
-                
+                $("#update_message").removeAttr("class");
+                $("#update_message").html("");
                 init();
-            })
+            });
         </script>
-        <div class="page-header refresh-header">
-            <p id="update_message" class="alert alert-success message" style="visibility: hidden"></p>
-            <div class="form-inline">
-                <p class="mandatory-message" style="text-align: left;"><strong>* Assign staff members to yourself</strong></p>
-                <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
-                <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
-            </div>
-        </div>
-        <div>
-            <div id="staffTable">
-            </div>
-        </div>
     </body>
 </html>

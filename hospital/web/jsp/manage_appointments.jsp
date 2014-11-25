@@ -53,13 +53,11 @@
                                     <p id="error_message"></p>
                                 </div>
                           </div>
-                          <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button id="formSubmit" type="submit" class="btn btn-primary" disabled>Submit Form</button>
-                                </div>
-                          </div>
                       </form>
                   </div>
+              </div>
+                <div class="modal-footer">
+                    <button id="formSubmit" type="submit" class="btn btn-primary" disabled>Submit Form</button>
               </div>
             </div>
           </div>
@@ -90,11 +88,13 @@
                                 <p id="error_update_message"></p>
                             </div>
                       </div>
-                      <div class="btn-group nav-btn">
-                          <button id="delete_btn" class="btn btn-danger">Delete</button>
-                          <button id="update_btn" class="btn btn-warning">Apply</button>
-                     </div>
                   </form>
+                  </div>
+                <div class="modal-footer">
+                    <div class="btn-group nav-btn">
+                        <button id="delete_btn" class="btn btn-danger">Delete</button>
+                        <button id="update_btn" class="btn btn-warning">Apply</button>
+                   </div>
               </div>
             </div>
           </div>
@@ -102,7 +102,7 @@
         <div class="page-header">
             <div class="form-inline">
                 <p id="creation_message"></p>
-                <button id="createAppointment" class="btn nav-btn">Create Appointment</button>
+                <button id="createAppointment" class="btn btn-default nav-btn">Create Appointment</button>
                 <div class="btn-group nav-btn">
                     <button class="btn btn-primary nav-button" data-calendar-nav="prev">&lt;&lt; Prev</button>
                     <button class="btn nav-button" data-calendar-nav="today">Today</button>

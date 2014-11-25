@@ -26,46 +26,39 @@ public class PatientInformationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        CallableStatement cs = null;
         ResultSet rs = null;
-        StringBuilder summaryOutput = null;
-        boolean success = false;
-        String patient_ID = "";
-        Patient PatientInfo = new Patient ();
-        String sql = "select * from patient_schema where patient_id=?";
+        StringBuilder output = null;
+        Patient p = null;
+        
         PreparedStatement preparedStatement = null;
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         try {
-            String userType = request.getSession().getAttribute("usertype").toString();
-            if (userType.equals("patient"))
-            {
-                patient_ID = request.getSession().getAttribute("patientid").toString();
-            }
-            else
-            {
+            
+            String patient_id = request.getSession().getAttribute("patientid").toString();
+            
+            if (!patient_id.isEmpty()) {
                 //This part needs to be verified once staff side is completed
-                patient_ID = request.getSession().getAttribute("requested_patient_id").toString();
-            }
-           
-            preparedStatement = SQLConstants.CONN.prepareStatement(sql);
-            preparedStatement.setString(1, patient_ID);
-            rs = preparedStatement.executeQuery();
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_INFORMATION);
+                cs.setInt(1, Integer.parseInt(patient_id));
+                rs = cs.executeQuery();
 
-            if (rs != null)
-            { 
-                if (rs.next())
-                {
-                    PatientInfo.setPatientId(rs.getInt("patient_id"));
-                    PatientInfo.setHealthCardNumber(rs.getString("health_card_number"));
-                    PatientInfo.setSinNumber(rs.getString("sin_number"));
-                    PatientInfo.setAddress(rs.getString("address"));
-                    PatientInfo.setPhoneNumber(rs.getString("phone_number"));
-                    logger.info("Adding [" + PatientInfo + "] to patient list");
-                }
-                success = true;
-            }  
+                if (rs != null)
+                { 
+                    if (rs.next())
+                    {
+                        p = new Patient();
+                        String address = rs.getString("address") == null ? "" : rs.getString("address");
+                        String phoneNumber = rs.getString("phone_number") == null ? "" : rs.getString("phone_number");
+                        
+                        p.setAddress(address);
+                        p.setPhoneNumber(phoneNumber);
+                    }
+                }  
+            }
         }
         catch (SQLException e)
         {
@@ -96,40 +89,14 @@ public class PatientInformationServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
             
-            if (success) {
-                summaryOutput = new StringBuilder();
-                if ( PatientInfo != null) {
-                    summaryOutput.append("<table class='table table-hover'>");
-                    summaryOutput.append("<thead>");
-                    summaryOutput.append("<tr>");
-                    summaryOutput.append("<th>PatientID</th>");
-                    summaryOutput.append("<th>Health Card Number</th>");
-                    summaryOutput.append("<th>Sin Number</th>");
-                    summaryOutput.append("<th>Phone Number</th>");
-                    summaryOutput.append("<th>Address</th>");
-                    summaryOutput.append("<th></th>");
-                    summaryOutput.append("</tr>");
-                    summaryOutput.append("</thead>");              
-
-                    summaryOutput.append("<tbody>");
-                    summaryOutput.append("<tr>");
-                    summaryOutput.append("<td id ='patient_id'>").append(PatientInfo.getPatientId()).append("</td>");
-                    summaryOutput.append("<td>").append(PatientInfo.getHealthCardNumber()).append("</td>");
-                    summaryOutput.append("<td>").append(PatientInfo.getSinNumber()).append("</td>");
-                    summaryOutput.append("<td>").append(PatientInfo.getPhoneNumber()).append("</td>");
-                    summaryOutput.append("<td>").append(PatientInfo.getAddress()).append("</td>"); 
-                    summaryOutput.append("<td>").append("<a href='javascript:openPatientModal(").append(PatientInfo.getPatientId()).append(");', class='btn btn-primary'>Edit</a>").append("</td>");
-                    summaryOutput.append("</tr>");
-                    summaryOutput.append("</tbody>");
-                    summaryOutput.append("</table>");
-                } else {
-                    summaryOutput.append("<p>There is no personal patient information available.</p>");
-                }
-                out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"" + summaryOutput.toString() + "\"} ");
+            output = new StringBuilder();
+            if (p != null) {
+                output.append(" { \"success\":\"true\", \"phone_number\":\"").append(p.getPhoneNumber()).append("\", \"address\":\"").append(p.getAddress()).append("\" } ");
+            } else {
+                output.append(" { \"success\":\"false\" } ");
             }
-            else {
-                out.println("{ \"success\":\"" + success + "\", \"output\":\"Mandatory fields are empty.\" }");
-            }
+            
+            out.println(output.toString());
             out.close();
         }
     }

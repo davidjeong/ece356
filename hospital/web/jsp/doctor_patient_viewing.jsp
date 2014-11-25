@@ -9,11 +9,12 @@
     </head>
     <body>
         <div class="page-header refresh-header">
-            <p id="update_message" class="alert alert-success message" style="visibility: hidden"></p>
+            <p id="update_message"></p>
             <div class="form-inline">
-                <p class="mandatory-message" style="text-align: left;"><strong>* Select a patient from the left table, and select doctors to grant/revoke them viewing permissions. Apply changes per patient.</strong></p>
-                <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
+                <p class="mandatory-message" style="text-align: left;"><strong>* Select a patient from the left table, and select doctors to grant/revoke them viewing permissions. Apply changes per patient.</strong>
+                <button id="submit" type="button" style="margin-right: 10px; margin-left: 10px;"class="btn btn-warning">Apply Changes</button>
                 <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
+                </p>
             </div>
         </div>
         <div>
@@ -91,8 +92,8 @@
                 }
                 
                 $("#refresh").click(function() {
-                    var updateMessage = document.getElementById('update_message');
-                    updateMessage.style.visibility = 'hidden';
+                    $("#update_message").removeAttr("class");
+                    $("#update_message").html("");
                     init();
                 });
             

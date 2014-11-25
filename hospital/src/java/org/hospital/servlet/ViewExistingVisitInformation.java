@@ -59,10 +59,10 @@ public class ViewExistingVisitInformation extends HttpServlet {
                     visitList = new ArrayList();
                     while (rs.next())
                     {   
-                        String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
-                        String prescription = (rs.getString("prescription") == null ? "" : rs.getString("prescription"));
-                        String comments = (rs.getString("comments") == null ? "" : rs.getString("comments"));
-                        String diagnosis = (rs.getString("diagnosis") == null ? "" : rs.getString("diagnosis"));
+                        String surgery_name = ((rs.getString("surgery_name") == null || rs.getString("surgery_name").isEmpty()) ? "N/A" : rs.getString("surgery_name"));
+                        String prescription = ((rs.getString("prescription") == null || rs.getString("prescription").isEmpty()) ? "N/A" : rs.getString("prescription"));
+                        String comments = ((rs.getString("comments") == null || rs.getString("comments").isEmpty()) ? "N/A" : rs.getString("comments"));
+                        String diagnosis = ((rs.getString("diagnosis") == null || rs.getString("diagnosis").isEmpty()) ? "N/A" : rs.getString("diagnosis"));
                         
                         vr = new VisitRecord( rs.getInt("patient_id"),
                                                           rs.getString("cpso_number"),

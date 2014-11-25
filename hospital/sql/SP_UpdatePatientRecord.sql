@@ -3,17 +3,20 @@ USE ece356;
 DELIMITER //
 CREATE PROCEDURE UpdatePatientRecord (
 		IN patient_id_ INT,
-		IN Health_Card_Number_ VARCHAR(32),
-        IN Sin_Number_ VARCHAR(32),
-        IN Phone_Number_ VARCHAR(32),
-        IN Address_ VARCHAR(64)
+        IN default_doctor_ VARCHAR(6),
+        IN health_status_ VARCHAR(32),
+        IN health_card_number_ VARCHAR(32),
+        IN sin_number_ VARCHAR(32),
+        IN phone_number_ VARCHAR(16),
+        IN address_ VARCHAR(64)
 	)
-    BEGIN
+	BEGIN
     UPDATE patient_schema SET 
-		patient_id = patient_id_,
-        health_card_number = Health_Card_Number_,
-        sin_number = Sin_Number_,
-        phone_number = Phone_Number_,
+		default_doctor = default_doctor_,
+        health_status = health_status_,
+        health_card_number = health_card_number_,
+        sin_number = sin_number_,
+        phone_number = phone_Number_,
         address = Address_
 	WHERE
 		patient_id = patient_id_;

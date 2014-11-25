@@ -3,10 +3,10 @@ package org.hospital.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,47 +28,49 @@ public class StaffViewPatientInformationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        CallableStatement cs = null;
         ResultSet rs = null;
-        StringBuilder summaryOutput = null;
-        boolean success = false;
-        String staff_ID = "";
-        List<Patient> PatientInfo = null;
-        PreparedStatement preparedStatement = null;
+        StringBuilder output = null;
+        List<Patient> patientList = null;
+        Hashtable<Integer, String> patientIdToNameMapping = new Hashtable<Integer, String>();
+        Hashtable<String, String> cpsoToNameMapping = new Hashtable<String, String>();
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         try {
-            String userType = request.getSession().getAttribute("usertype").toString();
-            if (userType.equals("staff"))
-            {
-                staff_ID = request.getSession().getAttribute("username").toString();
-            }
-            else
-            {
-                //This part needs to be verified once staff side is completed
-                staff_ID = request.getSession().getAttribute("username").toString();
-            }
-           
-            preparedStatement = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_STAFF_PATIENT_INFORMATION);
-            rs = preparedStatement.executeQuery();
+
+            cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PATIENT_INFORMATION_FOR_STAFF);
+            rs = cs.executeQuery();
 
             if (rs != null)
             { 
-                PatientInfo = new ArrayList();
+                patientList = new ArrayList();
+                Patient p = null;
                 while (rs.next())
                 {
-                    Patient p = new Patient (
-                            rs.getString("default_doctor"),
-                            rs.getString("health_status"),
-                            rs.getString("health_card_number"),
-                            rs.getString("phone_number"),
-                            rs.getString("address"),
-                            rs.getInt("patient_id"));
-                    PatientInfo.add(p);
-                    logger.info("Adding [" + PatientInfo + "] to patient list");
+                    
+                    String healthStatus = (rs.getString("health_status") == null || rs.getString("health_status").isEmpty()) ? "N/A" : rs.getString("health_status");
+                    String SINNumber = (rs.getString("sin_number") == null || rs.getString("sin_number").isEmpty()) ? "N/A" : rs.getString("sin_number");
+                    String phoneNumber = (rs.getString("phone_number") == null || rs.getString("phone_number").isEmpty()) ? "N/A" : rs.getString("phone_number");
+                    String address = (rs.getString("address") == null || rs.getString("address").isEmpty()) ? "N/A" : rs.getString("address");
+                    
+                    p = new Patient();
+                    p.setPatientId(rs.getInt("patient_id"));
+                    p.setDefaultDoctor(rs.getString("default_doctor"));
+                    p.setHealthStatus(healthStatus);
+                    p.setSinNumber(SINNumber);
+                    p.setHealthCardNumber(rs.getString("health_card_number"));
+                    p.setPhoneNumber(phoneNumber);
+                    p.setAddress(address);
+                    
+                    patientIdToNameMapping.put(rs.getInt("patient_id"), rs.getString("patient_legal_name"));
+                    cpsoToNameMapping.put(rs.getString("default_doctor"), rs.getString("doctor_legal_name"));
+                    
+                    patientList.add(p);
+                    
+                    logger.info("Adding [" + patientList + "] to patient list");
                 }
-                success = true;
             }  
         }
         catch (SQLException e)
@@ -76,9 +78,9 @@ public class StaffViewPatientInformationServlet extends HttpServlet {
             logger.error(e.toString());
         }
         finally {
-            if (preparedStatement != null) {
+            if (cs != null) {
                 try {
-                    preparedStatement.close();
+                    cs.close();
                     } 
                 catch (SQLException ex) {
                 }
@@ -100,47 +102,54 @@ public class StaffViewPatientInformationServlet extends HttpServlet {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setHeader("Access-Control-Max-Age", "86400");
             
-            if (success) {
-                summaryOutput = new StringBuilder();
-                if ( PatientInfo != null) {
-                    summaryOutput.append("<table class='table table-hover'>");
-                    summaryOutput.append("<thead>");
-                    summaryOutput.append("<tr>");
-                    summaryOutput.append("<th>Default Doctor</th>");
-                    summaryOutput.append("<th>Patient ID</th>");
-                    summaryOutput.append("<th>Health Card Number</th>");
-                    summaryOutput.append("<th>Health Status</th>");
-                    summaryOutput.append("<th>Phone Number</th>");
-                    summaryOutput.append("<th>Address</th>");
-                    summaryOutput.append("<th></th>");
-                    summaryOutput.append("</tr>");
-                    summaryOutput.append("</thead>");              
+            output = new StringBuilder();
+            boolean wrote = false;
+            if ( patientList != null ) {
+                if (!patientList.isEmpty()) {
+                    output.append(" { \"output\":\"");
+                    output.append("<table class='table table-hover'>");
+                    output.append("<thead>");
+                    output.append("<tr>");
+                    output.append("<th>Patient ID</th>");
+                    output.append("<th>Patient Name</th>");
+                    output.append("<th>Default Doctor</th>");
+                    output.append("<th>Health Status</th>");
+                    output.append("<th>Health Card Number</th>");
+                    output.append("<th>SIN Number</th>");
+                    output.append("<th>Phone Number</th>");
+                    output.append("<th>Address</th>");
+                    output.append("<th>Edit</th>");
+                    output.append("</tr>");
+                    output.append("</thead>");              
 
-                    if (PatientInfo.size() > 0) {
-                        summaryOutput.append("<tbody>");
-                        for(Patient p: PatientInfo){
-                            summaryOutput.append("<tr>");
-                            summaryOutput.append("<td>").append(p.getDefaultDoctor()).append("</td>");
-                            summaryOutput.append("<td id ='patient_id'>").append(p.getPatientId()).append("</td>");
-                            summaryOutput.append("<td>").append(p.getHealthCardNumber()).append("</td>");
-                            summaryOutput.append("<td>").append(p.getHealthStatus()).append("</td>");
-                            summaryOutput.append("<td>").append(p.getPhoneNumber()).append("</td>");
-                            summaryOutput.append("<td>").append(p.getAddress()).append("</td>"); 
-                            summaryOutput.append("<td>").append("<a href='javascript:openPatientModal(").append(p.getPatientId()).append(");', class='btn btn-primary'>Edit</a>").append("</td>");
-                            summaryOutput.append("</tr>");
-                        }
-                    summaryOutput.append("</tbody>");
-                    summaryOutput.append("</table>");
-                    } 
-                }
-                else {
-                    summaryOutput.append("<p>This staff does not have any patient assigned to him/her.</p>");
-                }
-                out.println(" { \"success\":\"" + success + "\", \"summaryOutput\": \"" + summaryOutput.toString() + "\"} ");
+                    output.append("<tbody>");
+                    for(Patient p: patientList){
+                        output.append("<tr>");
+                        output.append("<td>").append(p.getPatientId()).append("</td>");
+                        output.append("<td>").append(patientIdToNameMapping.get(p.getPatientId())).append("</td>");
+                        output.append("<td>").append(cpsoToNameMapping.get(p.getDefaultDoctor())).append("</td>");
+                        output.append("<td>").append(p.getHealthStatus()).append("</td>");
+                        output.append("<td>").append(p.getHealthCardNumber()).append("</td>");
+                        output.append("<td>").append(p.getSinNumber()).append("</td>");
+                        output.append("<td>").append(p.getPhoneNumber()).append("</td>");
+                        output.append("<td>").append(p.getAddress()).append("</td>"); 
+                        output.append("<td>").append("<a href='javascript:openEditModal(").append(p.getPatientId()).append(", &#39;").append(patientIdToNameMapping.get(p.getPatientId())).append("&#39;, &#39;").append(cpsoToNameMapping.get(p.getDefaultDoctor())).append("&#39;, &#39;")
+                               .append(p.getDefaultDoctor()).append("&#39;, &#39;").append(p.getHealthStatus()).append("&#39;, &#39;").append(p.getHealthCardNumber())
+                               .append("&#39;, &#39;").append(p.getSinNumber()).append("&#39;, &#39;").append(p.getPhoneNumber()).append("&#39;, &#39;")
+                               .append(p.getAddress()).append("&#39;);', class='btn btn-primary'>Edit</a>").append("</td>");
+                        output.append("</tr>");
+                    }
+                output.append("</tbody>");
+                output.append("</table>");
+                output.append("\" } ");
+                wrote = true;
+                } 
+            } 
+            if (!wrote) {
+                output.append("{ \"output\":\"<p>There are no patients.</p>\" } ");
             }
-            else {
-                out.println("{ \"success\":\"" + success + "\", \"output\":\"Mandatory fields are empty.\" }");
-            }
+            
+            out.println(output.toString());
             out.close();
         }
     }

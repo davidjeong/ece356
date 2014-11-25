@@ -11,7 +11,6 @@
             <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
         </div>
         <form name="input" id="ajaxRequestForUserCreation" class="form-horizontal" role="form" method="POST">
-            
             <div class="form-group">
                 <label for="user_type" class="col-sm-2 control-label">Type of User*</label>
                 <div class="col-sm-10">

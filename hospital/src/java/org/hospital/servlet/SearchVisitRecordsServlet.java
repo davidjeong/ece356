@@ -121,8 +121,8 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             }
             
             if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
-                    !prescription.equals("")) {
-                sql = sql.substring(0, sql.length() - 3);
+                    !prescription.equals("") || !name.equals("")) {
+                sql = sql.substring(0, sql.length() - 4); //remove "AND " from query
             }
             
             ps = SQLConstants.CONN.prepareStatement(sql);

@@ -30,16 +30,17 @@
                             <li><a href="#" onclick="search_patient();">Search Patients</a></li> 
                             <li><a href="#" onclick="search_visit();">Search Visits</a></li>
                         <% }
-                            if ((userType).equals(SQLConstants.Staff)) {%>
+                        if ((userType).equals(SQLConstants.Staff)) {%>
                         <li><a href="#" onclick="user_creation();">Create New User</a></li>
                         <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
+                         <li><a href="#" onclick="load_appointments();">View Appointments</a></li>
                         <% }
                             if ((userType).equals(SQLConstants.Finance)) {%>
                         <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
                         <li><a href="#" onclick="patient_visits();">Patient Visits</a></li>
                         <li><a href="#" onclick="revenue();">Hospital Revenue</a></li>
                         <% }
-                            if ((userType).equals(SQLConstants.Patient)) {%>
+                        if ((userType).equals(SQLConstants.Patient)) {%>
                         <li><a href="#" onclick="load_appointments();">My Visits</a></li>
                         <li><a href="#" onclick="load_patient_info();">My Personal Information</a></li>
                         <% }%>

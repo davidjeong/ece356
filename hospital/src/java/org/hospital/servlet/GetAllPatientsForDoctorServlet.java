@@ -95,7 +95,7 @@ public class GetAllPatientsForDoctorServlet extends HttpServlet {
             }
             if (output == null) {
                 output = new StringBuilder();
-                output.append(" \"success\":\"false\", \"output\":\"There are no patients for this doctor.\"");
+                output.append(" { \"success\":\"false\", \"output\":\"There are no patients for this doctor.\" } ");
             }
             out.println(output.toString());
             out.close();

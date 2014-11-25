@@ -23,7 +23,7 @@
         </nav>
         <div id="jumbotron" class="jumbotron">
             <div class="bg"></div>
-            <div class="container">
+            <div class="container" style="padding-top: 200px;">
                 <h1 class="jumbotron-text">Welcome to MediCare</h1>
                 <p class="lead">
                     An all-in-one health care management tool.

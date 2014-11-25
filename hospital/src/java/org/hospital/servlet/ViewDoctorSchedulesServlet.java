@@ -6,6 +6,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +32,8 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
         ResultSet rs = null;
         StringBuilder output = null;
         List<VisitRecord> visitList = null;
+        Hashtable<Integer, String> patientIdToNameMapping = new Hashtable<Integer, String>();
+        Hashtable<String, String> cpsoToNameMapping = new Hashtable<String, String>();
         
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
@@ -49,6 +52,8 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
                         VisitRecord vr = new VisitRecord(rs.getInt("patient_id"),
                         rs.getString("cpso_number"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"));
                         visitList.add(vr);
+                        patientIdToNameMapping.put(rs.getInt("patient_id"), rs.getString("patient_legal_name"));
+                        cpsoToNameMapping.put(rs.getString("cpso_number"), rs.getString("doctor_legal_name"));
                     }
                 }
             }
@@ -93,8 +98,8 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
                         VisitRecord vr = visitList.get(i);
                         output.append(delim).append(" { ");
                         output.append("\"id\":\"").append(String.valueOf(i)).append("\",");
-                        output.append("\"title\":\"Patient ID ").append(String.valueOf(vr.getPatientID())).append(" - ").append(vr.getCPSONumber()).append("\",");
-                        output.append("\"url\":\"javascript:modifyAppointment(&#39;").append(vr.getCPSONumber()).append("&#39;, ").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);\",");
+                        output.append("\"title\":\"").append(String.valueOf(patientIdToNameMapping.get(vr.getPatientID()))).append(" - ").append(cpsoToNameMapping.get(vr.getCPSONumber())).append("\",");
+                        output.append("\"url\":\"javascript:modifyAppointment(&#39;").append(String.valueOf(patientIdToNameMapping.get(vr.getPatientID()))).append("&#39;,&#39;").append(vr.getCPSONumber()).append("&#39;, ").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);\",");
                         output.append("\"class\":\"event-info\",");
                         long startMillis = vr.getStartTime().getTime();
                         long endMillis = vr.getEndTime().getTime();

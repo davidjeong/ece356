@@ -24,7 +24,6 @@ public class SQLConstants {
        
     // Our query names
     public static String All_DOCTOR_INFORMATION = "{ call AllDoctorInformation }";
-    public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
     
     public static String COUNT_ALL_VISITS = "{ call CountAllVisits(?,?) }";
     public static String COUNT_REVENUE_FROM_SURGERY = "{ call CountRevenueFromSurgery(?,?,?) }";
@@ -48,6 +47,7 @@ public class SQLConstants {
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";
     public static String VIEW_ALL_DOCTOR_WEEKLY_RECORDS = " { call ViewAllDoctorWeeklyRecords } ";
     public static String VIEW_ALL_PATIENT = "{ call ViewAllPatients }";
+    public static String VIEW_ALL_PATIENTS_FOR_DOCTOR = " { call ViewAllPatientsForDoctor(?) } ";
     public static String VIEW_ALL_STAFF = "{ call ViewAllStaff }";
     public static String VIEW_ALL_VISIT_RECORDS = "{ call ViewAllVisitRecords () }";
     public static String VIEW_COUNT_PATIENT_VISIT = "{call UniquePatientsGivenDoctor(?,?,?) }";

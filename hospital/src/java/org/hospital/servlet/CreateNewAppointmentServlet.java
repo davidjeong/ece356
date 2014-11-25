@@ -54,60 +54,47 @@ public class CreateNewAppointmentServlet extends HttpServlet {
             Timestamp time2 = new Timestamp(end_time);
             
             if (!cpsoNumber.isEmpty() && !patientId.isEmpty()) {
-                boolean valid = false;
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT);
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS);
                 int i = 0;
-                cs.setString(++i, patientId);
                 cs.setString(++i, cpsoNumber);
                 rs = cs.executeQuery();
+
                 if (rs != null) {
-                    if (rs.next()) {
-                        valid = true;
+                    visitList = new ArrayList<VisitRecord>();
+                    while (rs.next()) {
+                        VisitRecord vr = new VisitRecord(rs.getInt("patient_id"),
+                        rs.getString("cpso_number"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"));
+                        visitList.add(vr);
                     }
                 }
-                if (valid) {
-                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS);
+
+                //here is where you check if your time is conflicting with the time we have in db.
+                if (visitList != null && !visitList.isEmpty()) {
+                    for (VisitRecord vr : visitList) {
+
+                        if ((time1.equals(vr.getStartTime())) || time2.equals(vr.getEndTime())) {
+                            conflicted = true;
+                            break;
+                        }
+
+                        if ((time1.before(vr.getEndTime()) && time1.after(vr.getStartTime())) || (time2.before(vr.getEndTime()) && time2.after(vr.getStartTime()))) {
+                            conflicted = true;
+                            break;
+                        }
+                    }
+                }
+                if (!conflicted) {
+                    //insert
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_VISIT_RECORD);
                     i = 0;
+                    cs.setString(++i, patientId);
                     cs.setString(++i, cpsoNumber);
-                    rs = cs.executeQuery();
-
-                    if (rs != null) {
-                        visitList = new ArrayList<VisitRecord>();
-                        while (rs.next()) {
-                            VisitRecord vr = new VisitRecord(rs.getInt("patient_id"),
-                            rs.getString("cpso_number"), rs.getTimestamp("start_time"), rs.getTimestamp("end_time"));
-                            visitList.add(vr);
-                        }
-                    }
-
-                    //here is where you check if your time is conflicting with the time we have in db.
-                    if (visitList != null && !visitList.isEmpty()) {
-                        for (VisitRecord vr : visitList) {
-                            
-                            if ((time1.equals(vr.getStartTime())) || time2.equals(vr.getEndTime())) {
-                                conflicted = true;
-                                break;
-                            }
-                            
-                            if ((time1.before(vr.getEndTime()) && time1.after(vr.getStartTime())) || (time2.before(vr.getEndTime()) && time2.after(vr.getStartTime()))) {
-                                conflicted = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!conflicted) {
-                        //insert
-                        cs = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_VISIT_RECORD);
-                        i = 0;
-                        cs.setString(++i, patientId);
-                        cs.setString(++i, cpsoNumber);
-                        cs.setTimestamp(++i, time1);
-                        cs.setTimestamp(++i, time2);
-                        cs.setString(++i, surgeryName);
-                        res = cs.executeUpdate();
-                        if (res > 0) {
-                            success = true;
-                        }
+                    cs.setTimestamp(++i, time1);
+                    cs.setTimestamp(++i, time2);
+                    cs.setString(++i, surgeryName);
+                    res = cs.executeUpdate();
+                    if (res > 0) {
+                        success = true;
                     }
                 }
             } else {

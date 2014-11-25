@@ -24,7 +24,6 @@ public class SQLConstants {
        
     // Our query names
     public static String All_DOCTOR_INFORMATION = "{ call AllDoctorInformation }";
-    public static String CHECK_IF_DOCTOR_IS_ASSIGNED_TO_PATIENT = " { call CheckIfDoctorIsAssignedToPatient(?,?) } ";
     
     public static String COUNT_ALL_VISITS = "{ call CountAllVisits(?,?) }";
     public static String COUNT_REVENUE_FROM_SURGERY = "{ call CountRevenueFromSurgery(?,?,?) }";
@@ -48,6 +47,7 @@ public class SQLConstants {
     public static String VIEW_ALL_DOCTORS = "{ call ViewAllDoctors }";
     public static String VIEW_ALL_DOCTOR_WEEKLY_RECORDS = " { call ViewAllDoctorWeeklyRecords } ";
     public static String VIEW_ALL_PATIENT = "{ call ViewAllPatients }";
+    public static String VIEW_ALL_PATIENTS_FOR_DOCTOR = " { call ViewAllPatientsForDoctor(?) } ";
     public static String VIEW_ALL_STAFF = "{ call ViewAllStaff }";
     public static String VIEW_ALL_VISIT_RECORDS = "{ call ViewAllVisitRecords () }";
     public static String VIEW_COUNT_PATIENT_VISIT = "{call UniquePatientsGivenDoctor(?,?,?) }";
@@ -60,14 +60,18 @@ public class SQLConstants {
     public static String VIEW_MY_PATIENTS = "{ call ViewMyPatients(?) }";
     public static String VIEW_OTHER_PATIENTS = " { call ViewOtherPatients(?) } ";
     
-    public static String VIEW_PAST_VISIT_RECORD = "{ call ViewPastVisitRecord(?) }";
+    public static String VIEW_PAST_VISIT_RECORD_FOR_DOCTOR = "{ call ViewPastVisitRecordForDoctor(?) }";
+    public static String VIEW_PAST_VISIT_RECORD_FOR_STAFF = " { call ViewPastVisitRecordForStaff";
+    public static String VIEW_PAST_VISIT_RECORD_FOR_PATIENT = "{ call ViewPastVisitRecordForPatient(?) }";
     public static String VIEW_PATIENT_INFORMATION = "{ call ViewPatientInformation(?)}";
     public static String VIEW_PATIENT_VISIT =  "{ call CountPatientVisits(?,?,?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS_FOR_START_TIME = "{ call ViewPatientRecordsForStartTime(?,?) } ";
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
-    public static String VIEW_UPCOMING_VISIT_RECORD = "{ call ViewUpcomingVisitRecord(?) }";
+    public static String VIEW_UPCOMING_VISIT_RECORD_FOR_DOCTOR = "{ call ViewUpcomingVisitRecordForDoctor(?) }";
+    public static String VIEW_UPCOMING_VISIT_RECORD_FOR_STAFF = "{ call ViewUpcomingVisitRecordForStaff(?) }";
+    public static String VIEW_UPCOMING_VISIT_RECORD_FOR_PATIENT = "{ call ViewUpcomingVisitRecordForPatient(?) }";
     
     public static String UPDATE_APPOINTMENT = " { call UpdateAppointment(?,?,?,?) } ";
     public static String UPDATE_PATIENT_RECORD =" { call UpdatePatientRecord(?,?,?,?,?) }";

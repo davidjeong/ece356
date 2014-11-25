@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewUpcomingVisitRecord(IN username varchar(32))
+CREATE PROCEDURE ViewPastVisitRecordForDoctor(IN username varchar(32))
 	BEGIN
     SELECT
 		v.patient_id,
@@ -20,7 +20,7 @@ CREATE PROCEDURE ViewUpcomingVisitRecord(IN username varchar(32))
 	WHERE 
 		d.user_name = username
 	AND
-		v.start_time >= CURTIME()
-	ORDER BY v.start_time ASC;
+		v.end_time < CURTIME()
+	ORDER BY v.start_time DESC;
 	END //
 DELIMITER ;

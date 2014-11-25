@@ -43,9 +43,18 @@ public class ViewAppointmentServlet extends HttpServlet {
         
         try {
             
-            if(userType.equals(SQLConstants.Doctor) ||  userType.equals(SQLConstants.Staff) || userType.equals(SQLConstants.Patient)) {
+            if(userType.equals(SQLConstants.Doctor)) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_DOCTOR);
+            }
+            else if (userType.equals(SQLConstants.Staff)) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_STAFF);
+            }
+            else if (userType.equals(SQLConstants.Patient)) {
+                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_PATIENT);
+            }
+            if (userType.equals(SQLConstants.Doctor) || userType.equals(SQLConstants.Staff) || userType.equals(SQLConstants.Patient)) {
                 upcomingList = new ArrayList<VisitRecord>();
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD);
+                
                 int i=0;
                 cs.setString(++i, userName);
                 rs = cs.executeQuery();
@@ -72,7 +81,15 @@ public class ViewAppointmentServlet extends HttpServlet {
                         logger.info("Adding [" + vr + "] to upcoming list");
                     }
                 }
-                cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_PAST_VISIT_RECORD);
+                if(userType.equals(SQLConstants.Doctor)) {
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_DOCTOR);
+                }
+                else if (userType.equals(SQLConstants.Staff)) {
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_STAFF);
+                }
+                else if (userType.equals(SQLConstants.Patient)) {
+                    cs = SQLConstants.CONN.prepareCall(SQLConstants.VIEW_UPCOMING_VISIT_RECORD_FOR_PATIENT);
+                } 
                 i=0;
                 cs.setString(++i, userName);
                 rs = cs.executeQuery();

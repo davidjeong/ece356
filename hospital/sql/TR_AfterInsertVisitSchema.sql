@@ -11,7 +11,8 @@ CREATE TRIGGER AfterInsertVisitSchema
 			start_time,
 			end_time,
 			comments,
-            inserted_time
+            inserted_time,
+            status
 		)
 		VALUES
         (
@@ -20,7 +21,8 @@ CREATE TRIGGER AfterInsertVisitSchema
             NEW.start_time,
             NEW.end_time,
             NEW.comments,
-            NOW()
+            NOW(),
+            'INSERT'
 		);
 	END
     

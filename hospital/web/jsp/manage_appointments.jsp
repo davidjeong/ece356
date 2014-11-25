@@ -1,5 +1,3 @@
-<%@page import="java.util.List"%>
-<%@page import="org.hospital.entities.Doctor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -20,16 +18,20 @@
                   <div>
                       <form name="input" id="ajaxRequestCreateNewAppointment" class="form-horizontal" role="form" method="POST">
                             <div class="form-group">
-                                <label for="cpso" class="col-sm-2 control-label">CPSO Number*</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="cpso" placeholder="CPSO Number">
+                                <label for="cpso" class="col-sm-2 control-label">Doctor*</label>
+                                
+                                <div class="col-sm-10" id="doctor_div">
+                                    <p>There are no doctors.</p>
                                 </div>
+                                <input type="hidden" name="cpso" id="cpso" value="">
                             </div>
                             <div class="form-group">
-                                <label for="patient_id" class="col-sm-2 control-label">Patient ID*</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="patient_id" placeholder="Patient ID">
+                                <label for="patient_id" class="col-sm-2 control-label">Patient*</label>
+                                
+                                <div class="col-sm-10" id="patient_div">
+                                    <p>No patient for selected doctor.</p>
                                 </div>
+                                <input type="hidden" name="patient_id" id="patient_id" value="">
                             </div>
                             <div class="form-group">
                                 <label for="start_range" class="col-sm-2 control-label">Start Date Time*</label>
@@ -53,7 +55,7 @@
                           </div>
                           <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button id="formSubmit" type="submit" class="btn btn-primary">Submit Form</button>
+                                    <button id="formSubmit" type="submit" class="btn btn-primary" disabled>Submit Form</button>
                                 </div>
                           </div>
                       </form>
@@ -194,11 +196,30 @@
             
             function showCreateForm() {
                 
-                dataString = "{ \"username\": \"" + username + "\" }";
+                $.ajax({
+                   type: "POST",
+                   url: "../GetAllDoctorsServlet",
+                   data: {},
+                   dataType: "JSON",
+                   success: function(data) {
+                       if (data.success === "true") {
+                            var html = "<button class='btn btn-default dropdown-toggle' type='button' id='doctor_dropdown' data-toggle='dropdown'>Doctors&nbsp;<span class='caret'></span></button>";
+                             html += "<ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>";
+                             for (var i = 0; i < data.output.length; i++) {
+                                html += "<li value='" + data.output[i].cpso_number + "' role='presentation'><a role='menuitem' tabindex='" + i + "' href='#' onclick='getPatients(&#39;" + data.output[i].legal_name + "&#39;, &#39;" + data.output[i].cpso_number + "&#39;);'>" + data.output[i].legal_name + "</a></li>";
+                            }
+                            html += "</ul>";
+                        } else {
+                               var html = "<p>There are no doctors</p>";
+                        }
+                        $("#doctor_div").html(html);
+                   }
+                });
+                
                 $.ajax({
                     type: "POST",
                     url: "../GetAllSurgeriesServlet",
-                    data: dataString,
+                    data: {},
                     dataType: "JSON",
                     success: function (data) {
                         $("#surgery_list").html(data.surgeries);
@@ -244,11 +265,45 @@
                     }
             );
     
+            
+            function changePatient(patient, patient_id) {
+                $("#patient_id").val(patient_id);
+                $("#patient_dropdown").html(patient + "&nbsp;<span class=\"caret\"></span>");
+                $("#formSubmit").removeAttr('disabled');
+            }
+            
+            function getPatients(doctor, cpso) {
+                $("#cpso").val(cpso);
+                $("#doctor_dropdown").html(doctor + "&nbsp;<span class=\"caret\"></span>");
+                
+                $.ajax({ 
+                    type: "POST",
+                    url: "../GetAllPatientsForDoctorServlet",
+                    data: {cpso_number: cpso},
+                    dataType: "JSON",
+                    success: function(data) {
+                        if (data.success === "true") {
+                            var html = "<button class='btn btn-default dropdown-toggle' type='button' id='patient_dropdown' data-toggle='dropdown'>Patients&nbsp;<span class='caret'></span></button>";
+                             html += "<ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>";
+                             for (var i = 0; i < data.output.length; i++) {
+                                html += "<li value='" + data.output[i].cpso_number + "' role='presentation'><a role='menuitem' tabindex='" + i + "' href='#' onclick='javascript:changePatient(&#39;" + data.output[i].legal_name + "&#39;, &#39;" + data.output[i].patient_id + "&#39;);'>" + data.output[i].legal_name + "</a></li>";
+                            }
+                            html += "</ul>";
+                            $("#formSubmit").attr('disabled', 'disabled');
+                        } else {
+                               var html = "<p>There are no patients for this doctor.</p>";
+                        }
+                        $("#patient_div").html(html);
+                    }
+                });
+            }
+            
+
+    
             $("#formSubmit").click(function() {
                 
-               dataString = $("#ajaxRequestCreateNewAppointment").serialize();
-               console.log(dataString);
-               
+                dataString = $("#ajaxRequestCreateNewAppointment").serialize();
+                
                $.ajax({
                    type: "POST",
                    url: "../CreateNewAppointmentServlet",
@@ -279,12 +334,12 @@
                 });
             });
             
-            function modifyAppointment(cpso_number, patient_id, start_time) {
+            function modifyAppointment(doctor, cpso_number, patient_id, start_time) {
                 var date = new Date(start_time);
                 var dateString = date.toLocaleDateString();
                 var timeString = date.toLocaleTimeString();
                 
-                $("#modifyLabel").html("Appointment For Patient " + patient_id + " At " + dateString + " " + timeString);
+                $("#modifyLabel").html("Appointment For " + doctor + " At " + dateString + " " + timeString);
                 $("#delete_btn").attr("onclick", "javascript:deleteAppointment('" + cpso_number + "','" + start_time + "');");
                 $("#update_btn").attr("onclick", "javascript:updateAppointment('" + cpso_number + "','" + start_time + "');");
                 $("#modifyModal").modal({

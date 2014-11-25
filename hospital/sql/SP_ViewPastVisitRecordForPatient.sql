@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewPastVisitRecord(IN username varchar(32))
+CREATE PROCEDURE ViewPastVisitRecordForPatient(IN username varchar(32))
 	BEGIN
     SELECT
 		v.patient_id,
@@ -15,12 +15,12 @@ CREATE PROCEDURE ViewPastVisitRecord(IN username varchar(32))
     FROM	
 		visit_schema v
 	INNER JOIN
-		doctor_schema d
-        ON d.cpso_number = v.cpso_number
+		patient_schema p
+        ON p.patient_id = v.patient_id
 	WHERE 
-		d.user_name = username
+		p.user_name = username
 	AND
-		v.end_time < CURTIME()
-	ORDER BY v.start_time DESC;
+		v.start_time < CURTIME()
+	ORDER BY v.start_time ASC;
 	END //
 DELIMITER ;

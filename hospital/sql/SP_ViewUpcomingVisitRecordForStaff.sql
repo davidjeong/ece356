@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewUpcomingVisitRecord(IN username varchar(32))
+CREATE PROCEDURE ViewUpcomingVisitRecordForStaff(IN username varchar(32))
 	BEGIN
     SELECT
 		v.patient_id,
@@ -15,12 +15,14 @@ CREATE PROCEDURE ViewUpcomingVisitRecord(IN username varchar(32))
     FROM	
 		visit_schema v
 	INNER JOIN
-		user_patient_view_schema up
-        ON up.patient_id = v.patient_id
+		patient_schema p
+        ON p.patient_id = v.patient_id
+    INNER JOIN
+		doctor_staff_assignment_schema ds
+        ON ds.cpso_number = v.cpso_number
 	WHERE 
-		up.user_name = username
-	AND
+		ds.staff = username AND
 		v.start_time >= CURTIME()
-	ORDER BY v.start_time ASC;
+	ORDER BY v.cpso_number, v.start_time ASC;
 	END //
 DELIMITER ;

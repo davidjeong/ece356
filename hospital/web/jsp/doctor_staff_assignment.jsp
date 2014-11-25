@@ -13,13 +13,13 @@
     </head>
     <body>
         <script>
-            var cpso = "";
-            $(document).ready(function() {
+            
+            function init() {;             
                 cpso = untruncateCpso(${sessionScope.cpsonumber});
                 
                 $.ajax({
-                    type: "GET",
-                    url: "../DoctorStaffAssignmentServlet",
+                    type: "POST",
+                    url: "../DoctorListStaffAssignmentServlet",
                     data: {
                         cpsonumber : cpso
                     },
@@ -27,9 +27,24 @@
                     success: function (data) {
                         console.log(data);
                         $("#staffTable").html(data.output);
+                        
+                        
+                        if (data.output == "There are no staff members registered in the database") {
+                            document.getElementById("submit").disabled = true;
+                        } else {
+                            document.getElementById("submit").disabled = false;
+                        }
                     }
                 });
-            });
+            }
+            
+            function onStaffClick(name) {
+                var updateMessage = document.getElementById('update_message');
+                updateMessage.style.visibility = 'hidden';
+            }
+            
+            var cpso = "";
+            $(document).ready(init);
             
             $("#submit").click(function() {
                 var checkGroup = document.getElementsByName("staff[]");
@@ -52,19 +67,44 @@
                                 
                 $.ajax({
                     type: "POST",
-                    url: "../DoctorStaffAssignmentServlet",
+                    url: "../DoctorUpdateStaffAssignmentServlet",
                     data: { staffs: staffs },
                     dataType: "JSON",
                     success: function (data) {
-                        $("#doctorsTable").html(data.outputDoctor);
+                        var updateMessage = document.getElementById('update_message');
+                        updateMessage.style.visibility = 'visible';
+                        
+                        $("#update_message").html(data.output);
+                        if (data.success === 'true') {
+                            $("#update_message").removeClass();
+                            $("#update_message").addClass("alert alert-success message");
+                            init();
+                        } else if (data.success === 'false') {
+                            $("#update_message").removeClass();
+                            $("#update_message").addClass("alert alert-danger message");
+                        }
                     }
                 });
             });
+            
+            $("#refresh").click(function() {
+                var updateMessage = document.getElementById('update_message');
+                updateMessage.style.visibility = 'hidden';
+                
+                init();
+            })
         </script>
-        <div>
-            <div id="staffTable" style="float: left; margin-right: 2%; width: 45%; overflow: auto">
+        <div class="page-header refresh-header">
+            <p id="update_message" class="alert alert-success message" style="visibility: hidden">T</p>
+            <div class="form-inline">
+                <p class="mandatory-message" style="text-align: left;"><strong>* Assign staff members to yourself</strong></p>
+                <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
+                <button id="refresh" type="button" class="btn btn-primary refresh-button">Refresh Data</button>
             </div>
-            <button id="submit" type="button" class="btn btn-primary refresh-button">Apply</button>
+        </div>
+        <div>
+            <div id="staffTable">
+            </div>
         </div>
     </body>
 </html>

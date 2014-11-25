@@ -1,7 +1,7 @@
 USE ece356;
 
 DELIMITER //
-CREATE PROCEDURE ViewPastVisitRecord(IN username varchar(32))
+CREATE PROCEDURE ViewPastVisitRecordForDoctor(IN username varchar(32))
 	BEGIN
     SELECT
 		v.patient_id,

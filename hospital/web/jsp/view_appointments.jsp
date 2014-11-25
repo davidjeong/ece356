@@ -84,8 +84,6 @@
                 loadData();
             });
             
-            
-
             $("#refreshViewAppointments").click(function() {
                 dataString = "{ \"username\": \"" + username + "\" }";
                 $.ajax({

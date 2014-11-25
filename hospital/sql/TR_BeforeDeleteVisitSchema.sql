@@ -1,8 +1,8 @@
 USE ece356;
 
 DELIMITER //
-CREATE TRIGGER AfterUpdateVisitSchema
-	AFTER UPDATE ON visit_schema FOR EACH ROW
+CREATE TRIGGER BeforeDeleteVisitSchema
+	BEFORE DELETE ON visit_schema FOR EACH ROW
     BEGIN
 		INSERT INTO visit_backup_schema
 		(
@@ -19,16 +19,16 @@ CREATE TRIGGER AfterUpdateVisitSchema
 		)
 		VALUES
         (
-			NEW.patient_id,
-            NEW.cpso_number,
-            NEW.start_time,
-            NEW.end_time,
-            NEW.surgery_name,
-            NEW.diagnosis,
-            NEW.prescription,
-            NEW.comments,
+			OLD.patient_id,
+            OLD.cpso_number,
+            OLD.start_time,
+            OLD.end_time,
+            OLD.surgery_name,
+            OLD.diagnosis,
+            OLD.prescription,
+            OLD.comments,
             NOW(),
-            'UPDATE'
+            'DELETE'
 		);
 	END
     

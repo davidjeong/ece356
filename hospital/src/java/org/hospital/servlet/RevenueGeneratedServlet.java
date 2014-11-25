@@ -127,13 +127,13 @@ public class RevenueGeneratedServlet extends HttpServlet {
                     totalOutput.append("<table class='table table-hover'>");
                     totalOutput.append("<thead>");
                     totalOutput.append("<tr>");
-                    totalOutput.append("<th>Total Revenue in this time period</th>");
+                    totalOutput.append("<th>Total Revenue in this time period ($)</th>");
                     totalOutput.append("</tr>");
                     totalOutput.append("</thead>");
                     
                     totalOutput.append("<tbody>");
                     totalOutput.append("<tr>");
-                    totalOutput.append("<td>").append(revenueFromSurgeries + revenueFromVisits).append("</td>");
+                    totalOutput.append("<td>").append(revenueFromSurgeries + revenueFromVisits).append(".00").append("</td>");
                     totalOutput.append("</tr>");
                     totalOutput.append("</tbody>");
 
@@ -159,7 +159,7 @@ public class RevenueGeneratedServlet extends HttpServlet {
                 visitsOutput.append("<td>").append(request.getParameter("start_range")).append("</td>");
                 visitsOutput.append("<td>").append(request.getParameter("end_range")).append("</td>");
                 visitsOutput.append("<td>").append(numberOfVisits).append("</td>");
-                visitsOutput.append("<td>").append(revenueFromVisits).append("</td>");
+                visitsOutput.append("<td>").append(revenueFromVisits).append(".00").append("</td>");
                 visitsOutput.append("</tr>");
                 visitsOutput.append("</tbody>");
                 visitsOutput.append("</table>");
@@ -173,7 +173,7 @@ public class RevenueGeneratedServlet extends HttpServlet {
                 surgeryOutput.append("<th>End Time</th>");
                 surgeryOutput.append("<th>Surgery Name</th>");
                 surgeryOutput.append("<th>Number of Surgeries</th>");
-                surgeryOutput.append("<th>Revenue</th>");
+                surgeryOutput.append("<th>Revenue ($)</th>");
                 surgeryOutput.append("</tr>");
                 surgeryOutput.append("</thead>");  
                 
@@ -183,7 +183,7 @@ public class RevenueGeneratedServlet extends HttpServlet {
                 surgeryOutput.append("<td>").append(request.getParameter("end_range")).append("</td>");
                 surgeryOutput.append("<td>").append(surgery_name).append("</td>");
                 surgeryOutput.append("<td>").append(numberOfSurgeries).append("</td>");
-                surgeryOutput.append("<td>").append(revenueFromSurgeries).append("</td>");
+                surgeryOutput.append("<td>").append(revenueFromSurgeries).append(".00").append("</td>");
                 surgeryOutput.append("</tr>");
                 surgeryOutput.append("</tbody>");
                 surgeryOutput.append("</table>");

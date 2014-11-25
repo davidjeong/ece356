@@ -33,7 +33,9 @@
                         if ((userType).equals(SQLConstants.Staff)) {%>
                         <li><a href="#" onclick="user_creation();">Create New User</a></li>
                         <li><a href="#" onclick="manage_appointments();">Manage Appointments</a></li>
-                         <li><a href="#" onclick="load_appointments();">View Appointments</a></li>
+                        <li><a href="#" onclick="edit_patient();">Edit Patient</a></li>
+                        <li><a href="#" onclick="load_appointments();">View Appointments</a></li>
+
                         <% }
                         if ((userType).equals(SQLConstants.Finance)) {%>
                         <li><a href="#" onclick="doctor_visits();">Doctor Visits</a></li>
@@ -63,7 +65,6 @@
             </div>
         </nav>
         <div class="container" id="content-panel">
-
             <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
             <script type="text/javascript" src="../js/bootstrap.min.js"></script>
             <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
@@ -71,5 +72,11 @@
             <script type="text/javascript" src="../js/underscore-min.js"></script>
             <script type="text/javascript" src="../js/calendar.min.js"></script>
             <script type="text/javascript" src="../js/script.js"></script>
+            <script type="text/javascript">
+                $('.nav.navbar-nav > li').on('click', function(e) {
+                $('.nav.navbar-nav > li').removeClass('active');
+                $(this).addClass('active');
+            });   
+            </script>
     </body>
 </html>

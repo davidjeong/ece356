@@ -13,6 +13,15 @@ public class Patient extends User {
     public Patient() {
     }
 
+    public Patient (String defaultDoctor, String healthStatus, String healthCardNumber, String phoneNumber, String address, int patientId) {
+          this.defaultDoctor = defaultDoctor;
+          this.healthStatus = healthStatus;
+          this.healthCardNumber = healthCardNumber;
+          this.phoneNumber = phoneNumber;
+          this.address = address;
+          this.patientId = patientId;
+    }
+      
     public String getDefaultDoctor() {
         return defaultDoctor;
     }

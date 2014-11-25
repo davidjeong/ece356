@@ -16,7 +16,7 @@
 }
 
 .jumbotron {
-    position: relative;
+    position: fixed;
     z-index: 1;
     outline-width: thin; 
     outline-style: solid; 

@@ -76,6 +76,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             prescription = request.getParameter("prescription");
             
             if (!name.equals("")) {
+
                 sql += "INNER JOIN patient_schema p ON p.patient_id = v.patient_id INNER JOIN ";
                 
                 if (userType.equals(SQLConstants.Doctor)) {
@@ -85,7 +86,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                 }
                 
                 sql += " user_schema u ON u.user_name = p.user_name WHERE u.legal_name LIKE '%"+name+"%' AND ";
-                success = true;
+
             } else {
                 if (userType.equals(SQLConstants.Doctor)) {
                     sql += "INNER JOIN ( SELECT up.patient_id FROM user_patient_view_schema up INNER JOIN " +
@@ -106,56 +107,48 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                 Timestamp time2 = new Timestamp(c.getTime().getTime());
                 
                 sql += "'"+time1.toString() + "' <= start_time AND end_time <='" + time2.toString() + "' AND ";
-                success = true;
             }
             
             if (!surgery.equals("All")) {
                 sql += " v.surgery_name = '"+surgery+"' AND ";
-                success = true;
             }
             
             if (!diagnosis.equals("")) {
                 sql += " v.diagnosis LIKE '%"+diagnosis+"%' AND ";
-                success = true;
             }
             
             if (!comments.equals("")) {
                 sql += " v.comments LIKE '%"+comments+"%' AND ";
-                success = true;
             }
             
             if (!prescription.equals("")) {
                 sql += " v.prescription LIKE '%"+prescription+"%' AND ";
-                success = true;
             }
             
             sql = sql.substring(0, sql.length() - 4);
-            if (success) {
-                ps = SQLConstants.CONN.prepareStatement(sql);
-                rs = ps.executeQuery();
-                VisitRecord vr= null;
-                if (rs != null) {
-                    while (rs.next()) {
-                        String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
-                        String p = (rs.getString("prescription") == null ? "N/A" : rs.getString("prescription"));
-                        String c = (rs.getString("comments") == null ? "N/A" : rs.getString("comments"));
-                        String d = (rs.getString("diagnosis") == null ? "N/A" : rs.getString("diagnosis"));
-                        
-                        vr = new VisitRecord( rs.getInt("patient_id"),
-                                                          rs.getString("cpso_number"),
-                                                          rs.getTimestamp("start_time"),
-                                                          rs.getTimestamp("end_time"),
-                                                          surgery_name,
-                                                          p,
-                                                          c,
-                                                          d);
-                        visits.add(vr);
-                        logger.info("Adding [" + vr + "] to upcoming list");
-                    }
+            ps = SQLConstants.CONN.prepareStatement(sql);
+            rs = ps.executeQuery();
+            VisitRecord vr= null;
+            if (rs != null) {
+                while (rs.next()) {
+                    String surgery_name = (rs.getString("surgery_name") == null ? "N/A" : rs.getString("surgery_name"));
+                    String p = (rs.getString("prescription") == null ? "N/A" : rs.getString("prescription"));
+                    String c = (rs.getString("comments") == null ? "N/A" : rs.getString("comments"));
+                    String d = (rs.getString("diagnosis") == null ? "N/A" : rs.getString("diagnosis"));
+
+                    vr = new VisitRecord( rs.getInt("patient_id"),
+                                                      rs.getString("cpso_number"),
+                                                      rs.getTimestamp("start_time"),
+                                                      rs.getTimestamp("end_time"),
+                                                      surgery_name,
+                                                      p,
+                                                      c,
+                                                      d);
+                    visits.add(vr);
+                    logger.info("Adding [" + vr + "] to upcoming list");
+                    success = true;
                 }
             }
-            
-            
         } catch (SQLException e) {
             logger.error(e.toString());
         } catch (ParseException e) {

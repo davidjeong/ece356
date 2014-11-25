@@ -5,8 +5,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Patient Information</title>
     </head>
-    <body>
-        
         <div class="summary-panel" id="resultsDiv">
              <p class="lead">
                Details of Personal Information of Patient
@@ -25,16 +23,20 @@
                   <table class="table table-hover">
                       <thead>
                       <tr>
+                          <th>Default Doctor</th>
+                          <th>Patient Id</th>
                           <th>Health Card Number</th>
-                          <th>Sin Number</th>
+                          <th>Health Status</th>
                           <th>Phone Number</th>
                           <th>Address</th>
                       </tr>
                       </thead>
                       <tbody>
                           <tr>
-                              <td><input id="Health_Card_Number" type="text" class="form-control" name="Health_Card_Number"></td>
-                              <td><input id="Sin_Number" type="text" class="form-control" name="Sin_Number" value=""></td>
+                              <td><input id="Default_Doctor" type="text" class="form-control" name="Default_Doctor" value=""></td>
+                              <td><input id="Patient_Id" type="text" class="form-control" name="Patient_Id"></td>
+                              <td><input id="Health_Card_Number" type="text" class="form-control" name="Health_Card_Number" value=""></td>
+                              <td><input id="Health_Status" type="text" class="form-control" name="Health_Status"></td>
                               <td><input id="Phone_Number" type="text" class="form-control" name="Phone_Number" value=""></td>
                               <td><input id="Address" type="text" class="form-control" name="Address" value="">
                           </tr>
@@ -42,7 +44,7 @@
                   </table>
               </div>
               <div class="modal-footer">
-                   <button id = "editPatientSaveChanges" type="button" class="btn btn-primary">Save changes</button>
+                   <button id = "staffEditPatientSaveChanges" type="button" class="btn btn-primary">Save changes</button>
                    <p id="error_message"></p>
               </div>
             </div>
@@ -57,7 +59,7 @@
             function loadData() {
                 $.ajax({
                     type: "POST",
-                    url: "../PatientInformationServlet",
+                    url: "../StaffViewPatientInformationServlet",
                     dataType: "JSON",
                     success: function (data) {
                         $("#summaryPatientContent").html(data.summaryOutput);
@@ -66,34 +68,38 @@
                 });
             }
             
-            $("#editPatientSaveChanges").click(function() {
+            $("#staffEditPatientSaveChanges").click(function() {
+                Default_Doctor = $("#Default_Doctor").val();
+                p_id = $("#Patient_Id").val();
                 Health_Card_Number = $("#Health_Card_Number").val();
-                Sin_Number = $("#Sin_Number").val();
+                Health_Status = $("#Health_Status").val();
                 Phone_Number = $("#Phone_Number").val();
                 Address = $("#Address").val();
-                p_id = $("#patient_id").val();
                 console.log(p_id);
                 
                 $.ajax({
                     type: "POST",
-                    url: "../EditPatientInformationServlet",
+                    url: "../StaffEditPatientInformationServlet",
                     data: {
+                        Default_Doctor: Default_Doctor,
+                        Patient_Id: p_id,
                         Health_Card_Number: Health_Card_Number,
-                        Sin_Number: Sin_Number,
+                        Health_Status: Health_Status,
                         Phone_Number: Phone_Number,
-                        Address: Address,
-                        patient_id: p_id
-
+                        Address: Address
                     },
                     dataType: "JSON",
                     success: function (data) {
+ 
                             console.log(data);
                             if (data.success === "true") {
                                 $("#update_message").html("Update Successful.");
                                 $("#update_message").addClass("alert alert-success message");
                                 $("#editPatientModal").modal('toggle');
+                                $("#Default_Doctor").val("");
+                                $("#Patient_Id").val("");
                                 $("#Health_Card_Number").val("");
-                                $("#Sin_Number").val("");
+                                $("#Health_Status").val("");
                                 $("#Phone_Number").val("");
                                 $("#Address").val("");
                                 loadData();
@@ -109,13 +115,15 @@
             function openPatientModal(id) {
                $.ajax({
                    type: "POST",
-                   url: "../ViewExistingPatientInformation",
+                   url: "../StaffViewExistingPatientInformation",
                    data: {patient_id: id},
                    dataType: "JSON",
                    success: function(data) {
                        if (data.output !== null) {
+                            $("#Default_Doctor").val(data.output.Default_Doctor);
+                            $("#Patient_Id").val(data.output.Patient_Id);
                             $("#Health_Card_Number").val(data.output.Health_Card_Number);
-                            $("#Sin_Number").val(data.output.Sin_Number);
+                            $("#Health_Status").val(data.output.Health_Status);
                             $("#Phone_Number").val(data.output.Phone_Number);
                             $("#Address").val(data.output.Address);
                         }

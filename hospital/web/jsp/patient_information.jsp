@@ -6,9 +6,6 @@
         <title>Patient Information</title>
     </head>
     <body>
-        <div class="page-header">
-            <p class="mandatory-message"><strong>* marks mandatory fields.</strong></p>
-        </div>
         
         <div class="summary-panel" id="resultsDiv">
              <p class="lead">

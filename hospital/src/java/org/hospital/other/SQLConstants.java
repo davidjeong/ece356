@@ -61,8 +61,8 @@ public class SQLConstants {
     public static String VIEW_OTHER_PATIENTS = " { call ViewOtherPatients(?) } ";
     
     public static String VIEW_PAST_VISIT_RECORD_FOR_DOCTOR = "{ call ViewPastVisitRecordForDoctor(?) }";
-    public static String VIEW_PAST_VISIT_RECORD_FOR_STAFF = " { call ViewPastVisitRecordForDoctor(?) }";
-    public static String VIEW_PAST_VISIT_RECORD_FOR_PATIENT = "{ call ViewPastVisitRecordForDoctor(?) }";
+    public static String VIEW_PAST_VISIT_RECORD_FOR_STAFF = " { call ViewPastVisitRecordForStaff";
+    public static String VIEW_PAST_VISIT_RECORD_FOR_PATIENT = "{ call ViewPastVisitRecordForPatient(?) }";
     public static String VIEW_PATIENT_INFORMATION = "{ call ViewPatientInformation(?)}";
     public static String VIEW_PATIENT_VISIT =  "{ call CountPatientVisits(?,?,?) }";
     public static String VIEW_PATIENT_VISIT_RECORDS = "{ call ViewPatientRecords(?) }";

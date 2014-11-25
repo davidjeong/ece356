@@ -1,9 +1,3 @@
-<%-- 
-    Document   : revenue
-    Created on : Nov 23, 2014, 1:42:30 AM
-    Author     : l22fu
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

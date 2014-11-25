@@ -64,7 +64,7 @@
                 </div>
             </div>
         </nav>
-        <div class="container" id="content-panel">
+        <div class="container" id="content-panel"></div>
             <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
             <script type="text/javascript" src="../js/bootstrap.min.js"></script>
             <script type="text/javascript" src="../js/jquery-ui.min.js"></script>

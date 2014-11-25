@@ -109,6 +109,9 @@ public class UserCreationServlet extends HttpServlet {
                         success = true;
                         SQLConstants.CONN.commit();
                     } 
+                    else if (newUser.getUserType().equals(SQLConstants.Staff) || newUser.getUserType().equals(SQLConstants.Finance) || newUser.getUserType().equals(SQLConstants.Legal)) {
+                        success = true;
+                    }
                 }
             }
             if (!success) {

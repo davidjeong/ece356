@@ -48,8 +48,6 @@
                     
                 </div>
             </div>
-            
-
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button id="getVisits" type="button" class="btn btn-primary" style="vertical-align: middle;">Submit</button>

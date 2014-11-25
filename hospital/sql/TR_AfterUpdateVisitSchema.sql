@@ -14,7 +14,8 @@ CREATE TRIGGER AfterUpdateVisitSchema
             diagnosis,
             prescription,
 			comments,
-            inserted_time
+            inserted_time,
+            status
 		)
 		VALUES
         (
@@ -26,7 +27,8 @@ CREATE TRIGGER AfterUpdateVisitSchema
             NEW.diagnosis,
             NEW.prescription,
             NEW.comments,
-            NOW()
+            NOW(),
+            'UPDATE'
 		);
 	END
     

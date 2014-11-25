@@ -79,6 +79,7 @@ CREATE TABLE visit_backup_schema(
     diagnosis VARCHAR(256),
     standard_cost VARCHAR(6) default '5',
     inserted_time DATETIME NOT NULL,
+    status ENUM ('INSERT', 'UPDATE', 'DELETE'),
     PRIMARY KEY (cpso_number, start_time, inserted_time),
     FOREIGN KEY (patient_id) REFERENCES patient_schema(patient_id),
     FOREIGN KEY (cpso_number) REFERENCES doctor_schema (cpso_number),

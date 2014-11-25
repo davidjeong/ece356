@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
@@ -22,10 +17,6 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author l22fu
- */
 @WebServlet(name = "RevenueGeneratedServlet", urlPatterns = {"/RevenueGeneratedServlet"})
 public class RevenueGeneratedServlet extends HttpServlet {
 
@@ -150,7 +141,7 @@ public class RevenueGeneratedServlet extends HttpServlet {
                 visitsOutput.append("<th>Start Time</th>");
                 visitsOutput.append("<th>End Time</th>");
                 visitsOutput.append("<th>Number of Visits</th>");
-                visitsOutput.append("<th>Revenue</th>");
+                visitsOutput.append("<th>Revenue ($)</th>");
                 visitsOutput.append("</tr>");
                 visitsOutput.append("</thead>");  
                 
@@ -196,15 +187,4 @@ public class RevenueGeneratedServlet extends HttpServlet {
             }
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

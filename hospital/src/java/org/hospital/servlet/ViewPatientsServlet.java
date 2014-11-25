@@ -55,10 +55,13 @@ public class ViewPatientsServlet extends HttpServlet {
                     while (rs.next())
                     {
                         Patient p = new Patient();
+                        
+                        String healthStatus = (request.getParameter("health_status") == null || request.getParameter("health_status").isEmpty()) ? "N/A" : request.getParameter("health_status");
+                        
                         p.setPatientId(rs.getInt("patient_id"));
                         p.setLegalName(rs.getString("patient_legal_name"));
                         p.setDefaultDoctor(rs.getString("doctor_legal_name"));
-                        p.setHealthStatus(rs.getString("health_status"));
+                        p.setHealthStatus(healthStatus);
                         myList.add(p);
                         logger.info("Adding [" + p + "] to patient list");
                     }
@@ -74,10 +77,13 @@ public class ViewPatientsServlet extends HttpServlet {
                     while (rs.next())
                     {
                         Patient p = new Patient();
+                        
+                        String healthStatus = (request.getParameter("health_status") == null || request.getParameter("health_status").isEmpty()) ? "N/A" : request.getParameter("health_status");
+                        
                         p.setPatientId(rs.getInt("patient_id"));
                         p.setLegalName(rs.getString("patient_legal_name"));
                         p.setDefaultDoctor(rs.getString("doctor_legal_name"));
-                        p.setHealthStatus(rs.getString("health_status"));
+                        p.setHealthStatus(healthStatus);
                         otherList.add(p);
                         logger.info("Adding [" + p + "] to patient list");
                     }

@@ -81,7 +81,7 @@ public class CountDoctorVisitsServlet extends HttpServlet {
                                                           prescription,
                                                           comments,
                                                           diagnosis);
-                            
+                        visitList.add(vr);    
                         logger.info("Adding [" + vr + "] to patient list");
                     }
 

@@ -51,12 +51,22 @@ public class SearchVisitRecordsServlet extends HttpServlet {
         String prescription = null;
         String diagnosis = null;
         
+        String userType = request.getSession().getAttribute("usertype").toString();
+        String userName = null;
+        
         if (SQLConstants.CONN == null) {
             MySQLConnection.establish();
         }
         
         try {
-            String sql = "SELECT * FROM visit_schema v ";
+            String sql = "SELECT * FROM ";
+            if (userType.equals(SQLConstants.Legal)) 
+                sql += " visit_backup_schema v ";
+            else { 
+                //doctor
+                userName = request.getSession().getAttribute("username").toString();
+                sql += " visit_schema v ";
+            }
             
             date = request.getParameter("visit_date");
             name = request.getParameter("legal_name");
@@ -64,12 +74,24 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             diagnosis = request.getParameter("diagnosis");
             comments = request.getParameter("comments");
             prescription = request.getParameter("prescription");
-
+            
             if (!name.equals("")) {
-                sql += "INNER JOIN patient_schema p ON p.patient_id = v.patient_id INNER JOIN user_schema u ";
-                sql += " ON u.user_name = p.user_name WHERE u.legal_name LIKE '%"+name+"%' AND ";
+                sql += "INNER JOIN patient_schema p ON p.patient_id = v.patient_id INNER JOIN ";
+                
+                if (userType.equals(SQLConstants.Doctor)) {
+                    sql += " (SELECT up.patient_id FROM user_patient_view_schema up INNER JOIN doctor_schema d ON " +
+                        " d.user_name = up.user_name WHERE up.user_name = '"+userName+"') up " + 
+                        " ON up.patient_id = v.patient_id INNER JOIN ";
+                }
+                
+                sql += " user_schema u ON u.user_name = p.user_name WHERE u.legal_name LIKE '%"+name+"%' AND ";
                 success = true;
             } else {
+                if (userType.equals(SQLConstants.Doctor)) {
+                    sql += "INNER JOIN ( SELECT up.patient_id FROM user_patient_view_schema up INNER JOIN " +
+                            " doctor_schema d ON d.user_name = up.user_name WHERE up.user_name = '" +
+                            userName + "') up ON up.patient_id = v.patient_id ";
+                }
                 sql += " WHERE ";
             }
             

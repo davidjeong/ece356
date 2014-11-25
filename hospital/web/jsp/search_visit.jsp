@@ -80,7 +80,6 @@
             $("#getVisits").click(function() { 
 
                 dataString = $("#ajaxRequestVisits").serialize();
-                console.log(dataString);
                 $.ajax({
                     type: "POST",
                     url: "../SearchVisitRecordsServlet",

@@ -51,9 +51,7 @@ public class DoctorUpdateStaffAssignmentServlet extends HttpServlet {
                     csInsert.addBatch();
                 }
                 csInsert.executeBatch();
-            } else {
-                success = false;
-            }
+            } 
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(DoctorPatientViewingUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
             success = false;

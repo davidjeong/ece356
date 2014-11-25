@@ -127,13 +127,13 @@ public class RevenueGeneratedServlet extends HttpServlet {
                     totalOutput.append("<table class='table table-hover'>");
                     totalOutput.append("<thead>");
                     totalOutput.append("<tr>");
-                    totalOutput.append("<th>Total Revenue in this time period</th>");
+                    totalOutput.append("<th>Total Revenue in this time period ($)</th>");
                     totalOutput.append("</tr>");
                     totalOutput.append("</thead>");
                     
                     totalOutput.append("<tbody>");
                     totalOutput.append("<tr>");
-                    totalOutput.append("<td>").append("$ ").append(revenueFromSurgeries + revenueFromVisits).append(".00").append("</td>");
+                    totalOutput.append("<td>").append(revenueFromSurgeries + revenueFromVisits).append(".00").append("</td>");
                     totalOutput.append("</tr>");
                     totalOutput.append("</tbody>");
 

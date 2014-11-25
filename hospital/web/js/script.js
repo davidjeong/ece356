@@ -1,3 +1,8 @@
+function login() {
+    $("#jumbotron").hide();
+    $("#content-panel").load("jsp/login.jsp");
+}
+
 function load_appointments() {
     $("#content-panel").load("../jsp/view_appointments.jsp");
 }
@@ -62,6 +67,7 @@ function showPatientDiv() {
     $("#usertype").val("patient");
     $(".patient-field").show();
     $("#userTypeSelector").html("Patient&nbsp;<span class=\"caret\"></span>");
+    $("#newUserSubmit").attr('disabled', 'disabled');
 }
 
 function showStaffDiv() {
@@ -89,6 +95,14 @@ function hideAll() {
 }
 
 function changeDefaultDoctor(doctor) {
+    var parent = doctor.parentNode;
+    var cpso = parent.value;
+    $("#default_doctor").val(cpso);
+    $("#default_doctor_dropdown").html(doctor.innerHTML + "&nbsp;<span class=\"caret\"></span>");
+    $("#newUserSubmit").removeAttr("disabled");
+}
+
+function changeDefaultDoctor2(doctor) {
     var parent = doctor.parentNode;
     var cpso = parent.value;
     $("#default_doctor").val(cpso);

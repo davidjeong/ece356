@@ -116,7 +116,7 @@
                             var html = "<button class='btn btn-default dropdown-toggle' type='button' id='default_doctor_dropdown' data-toggle='dropdown'>Doctors&nbsp;<span class='caret'></span></button>";
                              html += "<ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>";
                              for (var i = 0; i < data.output.length; i++) {
-                                html += "<li value='" + data.output[i].cpso_number + "' role='presentation'><a role='menuitem' tabindex='" + i + "' href='#' onclick='changeDefaultDoctor(this);'>" + data.output[i].legal_name + "</a></li>";
+                                html += "<li value='" + data.output[i].cpso_number + "' role='presentation'><a role='menuitem' tabindex='" + i + "' href='#' onclick='changeDefaultDoctor2(this);'>" + data.output[i].legal_name + "</a></li>";
                             }
                             html += "</ul>";
                         } else {

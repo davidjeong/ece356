@@ -58,35 +58,41 @@ public class UserCreationServlet extends HttpServlet {
                     cs.executeUpdate();
 
                     if (newUser.getUserType().equals(SQLConstants.Patient)) {
-                        Patient patient = new Patient();
-                        patient.setUserName(request.getParameter("username"));
+                        String healthCardNumber = request.getParameter("health_card_number");
                         
-                        String defaultDoctor = request.getParameter("default_doctor");
-                        if (defaultDoctor.length() < 6) {
-                            int j = defaultDoctor.length();
-                            while (j< 6) {
-                                defaultDoctor = "0" + defaultDoctor;
-                                j++;
-                            }
-                        }
-                        
-                        patient.setDefaultDoctor(defaultDoctor);
-                        patient.setHealthStatus(request.getParameter("health_status"));
-                        patient.setHealthCardNumber(request.getParameter("health_card_number"));
-                        patient.setSinNumber(request.getParameter("sin_number"));
-                        patient.setPhoneNumber(request.getParameter("phone_number"));
-                        patient.setAddress(request.getParameter("address"));
+                        if (!healthCardNumber.isEmpty()) {
+                            Patient patient = new Patient();
+                            patient.setUserName(request.getParameter("username"));
 
-                        cs = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_PATIENT);
-                        i = 0;
-                        cs.setString(++i, patient.getUserName());
-                        cs.setString(++i, patient.getDefaultDoctor());
-                        cs.setString(++i, patient.getHealthStatus());
-                        cs.setString(++i, patient.getHealthCardNumber());
-                        cs.setString(++i, patient.getSinNumber());
-                        cs.setString(++i, patient.getPhoneNumber());
-                        cs.setString(++i, patient.getAddress());
-                        cs.executeUpdate();
+                            String defaultDoctor = request.getParameter("default_doctor");
+                            if (defaultDoctor.length() < 6) {
+                                int j = defaultDoctor.length();
+                                while (j< 6) {
+                                    defaultDoctor = "0" + defaultDoctor;
+                                    j++;
+                                }
+                            }
+                            
+                            patient.setDefaultDoctor(defaultDoctor);
+                            patient.setHealthStatus(request.getParameter("health_status"));
+                            patient.setHealthCardNumber(healthCardNumber);
+                            patient.setSinNumber(request.getParameter("sin_number"));
+                            patient.setPhoneNumber(request.getParameter("phone_number"));
+                            patient.setAddress(request.getParameter("address"));
+
+                            cs = SQLConstants.CONN.prepareCall(SQLConstants.INSERT_NEW_PATIENT);
+                            i = 0;
+                            cs.setString(++i, patient.getUserName());
+                            cs.setString(++i, patient.getDefaultDoctor());
+                            cs.setString(++i, patient.getHealthStatus());
+                            cs.setString(++i, patient.getHealthCardNumber());
+                            cs.setString(++i, patient.getSinNumber());
+                            cs.setString(++i, patient.getPhoneNumber());
+                            cs.setString(++i, patient.getAddress());
+                            cs.executeUpdate();
+                            success = true;
+                            SQLConstants.CONN.commit();
+                        }
                     }
                     else if (newUser.getUserType().equals(SQLConstants.Doctor)) {
                         Doctor doctor = new Doctor();
@@ -100,11 +106,15 @@ public class UserCreationServlet extends HttpServlet {
                         cs.setString(++i, doctor.getCpsoNumber());
                         cs.setString(++i, doctor.getDepartment());
                         cs.executeUpdate();
+                        success = true;
+                        SQLConstants.CONN.commit();
                     } 
-                    success = true;
-                    SQLConstants.CONN.commit();
                 }
             }
+            if (!success) {
+                SQLConstants.CONN.rollback();
+            }
+            SQLConstants.CONN.setAutoCommit(true);
         } catch (SQLException e) {
             try {
                 logger.error(e.toString());

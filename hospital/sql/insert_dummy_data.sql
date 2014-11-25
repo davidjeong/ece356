@@ -77,6 +77,8 @@ INSERT INTO doctor_staff_assignment_schema (cpso_number, staff) VALUES
 ('018375', 'creed');
 
 INSERT INTO surgery_schema (surgery_name, cost) VALUES
+('None', '0'),
+('All', '0'),
 ('Dental Cleaning', '120'),
 ('Simple Checkup', '50'),
 ('Organ Transplant', '45000'),

@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <label for="login_password" class="col-sm-2 control-label">Password*</label>
                     <div class="col-sm-10">
-                        <input id="login_username" type="text" class="form-control" id="login_password" name="password">
+                        <input id="login_username" type="password" class="form-control" id="login_password" name="password">
                     </div>
                 </div>
                 <div class="form-group">

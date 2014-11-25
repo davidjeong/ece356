@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="page-header refresh-header">
-            <p id="update_message" class="alert alert-success message" style="visibility: hidden">Test</p>
+            <p id="update_message" class="alert alert-success message" style="visibility: hidden"></p>
             <div class="form-inline">
                 <p class="mandatory-message" style="text-align: left;"><strong>* Select a patient from the left table, and select doctors to grant/revoke them viewing permissions. Apply changes per patient.</strong></p>
                 <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>
@@ -42,7 +42,7 @@
                                 document.getElementById("submit").disabled = true;
                             } else {
                                 document.getElementById("submit").disabled = false;
-                            }
+                            }   
                         }
                     });
                 }

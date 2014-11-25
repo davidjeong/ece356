@@ -95,7 +95,7 @@
             })
         </script>
         <div class="page-header refresh-header">
-            <p id="update_message" class="alert alert-success message" style="visibility: hidden">T</p>
+            <p id="update_message" class="alert alert-success message" style="visibility: hidden"></p>
             <div class="form-inline">
                 <p class="mandatory-message" style="text-align: left;"><strong>* Assign staff members to yourself</strong></p>
                 <button id="submit" type="button" style="margin-right: 10px;"class="btn btn-warning">Apply Changes</button>

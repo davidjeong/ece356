@@ -23,6 +23,6 @@ CREATE PROCEDURE ViewPastVisitRecordForStaff(IN username varchar(32))
 	WHERE 
 		ds.staff = username AND
 		v.start_time < CURTIME()
-	ORDER BY v.start_time ASC;
+	ORDER BY v.cpso_number ASC, v.start_time ASC;
 	END //
 DELIMITER ;

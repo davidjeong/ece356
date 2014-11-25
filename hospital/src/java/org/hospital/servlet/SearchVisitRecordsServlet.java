@@ -80,12 +80,20 @@ public class SearchVisitRecordsServlet extends HttpServlet {
 
             } else {
                 if (userType.equals(SQLConstants.Doctor)) {
-                    sql += "INNER JOIN ( SELECT up.patient_id FROM user_patient_view_schema up INNER JOIN " +
+         
+                    sql += " INNER JOIN ( SELECT up.patient_id FROM user_patient_view_schema up INNER JOIN " +
                             " doctor_schema d ON d.user_name = up.user_name WHERE up.user_name = '" +
                             userName + "') up ON up.patient_id = v.patient_id ";
                 }
-                sql += " WHERE ";
+                if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
+                        !prescription.equals("")) {
+                    sql += " WHERE ";
+                }
             }
+            
+            if (!surgery.equals("All")) {
+                sql += " v.surgery_name = '"+surgery+"' AND ";
+            } 
             
             if (!date.equals("")) {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -100,10 +108,6 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                 sql += "'"+time1.toString() + "' <= start_time AND end_time <='" + time2.toString() + "' AND ";
             }
             
-            if (!surgery.equals("All")) {
-                sql += " v.surgery_name = '"+surgery+"' AND ";
-            }
-            
             if (!diagnosis.equals("")) {
                 sql += " v.diagnosis LIKE '%"+diagnosis+"%' AND ";
             }
@@ -116,7 +120,11 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                 sql += " v.prescription LIKE '%"+prescription+"%' AND ";
             }
             
-            sql = sql.substring(0, sql.length() - 4);
+            if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
+                    !prescription.equals("")) {
+                sql = sql.substring(0, sql.length() - 3);
+            }
+            
             ps = SQLConstants.CONN.prepareStatement(sql);
             rs = ps.executeQuery();
             VisitRecord vr= null;
@@ -209,7 +217,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                 }
                 out.println(" { \"success\":\"" + success + "\", \"output\":\"" + output.toString() + "\"} ");
             } else {
-                out.println("{ \"success\":\"" + success + "\", \"output\":\"Input Parameters are incorrect.\" }");
+                out.println("{ \"success\":\"" + success + "\", \"output\":\"There are no visitation records that match ALL of your search parameters.\" }");
             }
         }
                 

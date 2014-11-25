@@ -86,7 +86,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                             userName + "') up ON up.patient_id = v.patient_id ";
                 }
                 if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
-                        !prescription.equals("")) {
+                        !prescription.equals("") || !surgery.equals("") ) {
                     sql += " WHERE ";
                 }
             }
@@ -121,7 +121,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             }
             
             if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
-                    !prescription.equals("") || !name.equals("")) {
+                    !prescription.equals("") || !name.equals("") || !surgery.equals("")) {
                 sql = sql.substring(0, sql.length() - 4); //remove "AND " from query
             }
             

@@ -57,7 +57,6 @@
             </div>
         </nav>
         <div class="container" id="content-panel">
-
             <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script> 
             <script type="text/javascript" src="../js/bootstrap.min.js"></script>
             <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
@@ -65,5 +64,11 @@
             <script type="text/javascript" src="../js/underscore-min.js"></script>
             <script type="text/javascript" src="../js/calendar.min.js"></script>
             <script type="text/javascript" src="../js/script.js"></script>
+            <script type="text/javascript">
+                $('.nav.navbar-nav > li').on('click', function(e) {
+                $('.nav.navbar-nav > li').removeClass('active');
+                $(this).addClass('active');
+            });   
+            </script>
     </body>
 </html>

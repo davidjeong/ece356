@@ -28,7 +28,7 @@ public class DoctorPatientViewingUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String doctorUserName = SQLConstants.USER.getUserName();
+        String doctorUserName = request.getSession().getAttribute("username").toString();
         String patientId = request.getParameter("patientId");
         String[] doctorIds = request.getParameterValues("doctors[]");
 

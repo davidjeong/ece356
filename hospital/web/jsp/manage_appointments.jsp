@@ -318,6 +318,7 @@
                              $("#creation_message").addClass("alert alert-success message");
                              $("#ajaxRequestCreateNewAppointment")[0].reset();
                              $("#inputModal").modal('toggle');
+                             $("#patient_div").html("<p>No patient for selected doctor.</p>");
                              retrieveCalendar();
                         } else {
                            $("#error_message").addClass("alert alert-danger message");

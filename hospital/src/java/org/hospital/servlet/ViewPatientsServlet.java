@@ -51,7 +51,7 @@ public class ViewPatientsServlet extends HttpServlet {
                     {
                         Patient p = new Patient();
                         
-                        String healthStatus = (request.getParameter("health_status") == null || request.getParameter("health_status").isEmpty()) ? "N/A" : request.getParameter("health_status");
+                        String healthStatus = (rs.getString("health_status") == null || rs.getString("health_status").isEmpty()) ? "N/A" : rs.getString("health_status");
                         
                         p.setPatientId(rs.getInt("patient_id"));
                         p.setLegalName(rs.getString("patient_legal_name"));

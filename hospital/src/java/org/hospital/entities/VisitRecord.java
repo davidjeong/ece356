@@ -22,6 +22,7 @@ public class VisitRecord {
     private String prescription;
     private String comments;
     private String diagnosis;
+    private String action;
     
     public VisitRecord() {
         
@@ -89,4 +90,11 @@ public class VisitRecord {
         return diagnosis;
     }
     
+    public void setAction(String a) {
+        this.action = a;
+    }
+    
+    public String getAction() {
+        return action;
+    }
 }

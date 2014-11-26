@@ -52,11 +52,11 @@ public class SearchVisitRecordsServlet extends HttpServlet {
         try {
             String sql = "SELECT * FROM ";
             if (userType.equals(SQLConstants.Legal)) 
-                sql += " visit_backup_schema v ";
+                sql += " visit_backup_schema  v  ";
             else { 
                 //doctor
                 userName = request.getSession().getAttribute("username").toString();
-                sql += " visit_schema v ";
+                sql += " visit_schema  v  ";
             }
             
             date = request.getParameter("visit_date");
@@ -86,7 +86,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                             userName + "') up ON up.patient_id = v.patient_id ";
                 }
                 if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
-                        !prescription.equals("") || !surgery.equals("") ) {
+                        !prescription.equals("") || !surgery.equals("All") ) {
                     sql += " WHERE ";
                 }
             }
@@ -121,8 +121,12 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             }
             
             if (!date.equals("") || !diagnosis.equals("") || !comments.equals("") ||
-                    !prescription.equals("") || !name.equals("") || !surgery.equals("")) {
+                    !prescription.equals("") || !name.equals("") || !surgery.equals("All")) {
                 sql = sql.substring(0, sql.length() - 4); //remove "AND " from query
+            }
+            
+            if (userType.equals(SQLConstants.Legal)) {
+                sql += " ORDER BY v.inserted_time";
             }
             
             ps = SQLConstants.CONN.prepareStatement(sql);
@@ -143,6 +147,9 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                                                       p,
                                                       c,
                                                       d);
+                    if (userType.equals(SQLConstants.Legal)) {
+                        vr.setAction(rs.getString("status"));
+                    }
                     visits.add(vr);
                     logger.info("Adding [" + vr + "] to upcoming list");
                     success = true;
@@ -189,6 +196,9 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                     output.append("<th>Prescription</th>");
                     output.append("<th>Diagnosis</th>");
                     output.append("<th>Comments</th>");
+                    if (userType.equals(SQLConstants.Legal)) {
+                        output.append("<th>Action Taken</th>");
+                    }
 
                     output.append("</tr>");
                     output.append("</thead>");
@@ -206,6 +216,9 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                         output.append("<td>").append(vr.getPrescription()).append("</td>");
                         output.append("<td>").append(vr.getDiagnosis()).append("</td>");
                         output.append("<td>").append(vr.getComments()).append("</td>");
+                        if (userType.equals(SQLConstants.Legal)) {
+                            output.append("<td>").append(vr.getAction()).append("</td>");
+                        }
 
                         output.append("</tr>");
                     }

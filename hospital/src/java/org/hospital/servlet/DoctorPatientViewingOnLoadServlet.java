@@ -16,10 +16,6 @@ import org.hospital.entities.Doctor;
 import org.hospital.entities.Patient;
 import org.hospital.other.SQLConstants;
 
-/**
- *
- * @author okamayana
- */
 @WebServlet(urlPatterns = {"/DoctorPatientViewingOnLoadServlet"})
 public class DoctorPatientViewingOnLoadServlet extends HttpServlet {
 

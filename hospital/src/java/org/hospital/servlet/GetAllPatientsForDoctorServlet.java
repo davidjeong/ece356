@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hospital.entities.Doctor;
 import org.hospital.entities.Patient;
 import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;

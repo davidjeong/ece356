@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
@@ -11,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,10 +18,6 @@ import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author okamayana
- */
 @WebServlet(urlPatterns = {"/DoctorListStaffAssignmentServlet"})
 public class DoctorListStaffAssignmentServlet extends HttpServlet {
 

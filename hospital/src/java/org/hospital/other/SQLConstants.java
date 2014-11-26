@@ -53,11 +53,9 @@ public class SQLConstants {
     public static String VIEW_ALL_PATIENT = "{ call ViewAllPatients }";
     public static String VIEW_ALL_PATIENTS_FOR_DOCTOR = " { call ViewAllPatientsForDoctor(?) } ";
     public static String VIEW_ALL_STAFF = "{ call ViewAllStaff }";
-    public static String VIEW_ALL_VISIT_RECORDS = "{ call ViewAllVisitRecords () }";
     public static String VIEW_COUNT_PATIENT_VISIT = "{call UniquePatientsGivenDoctor(?,?,?) }";
     
     public static String VIEW_DOCTORS_FOR_PATIENT = "{ call ViewDoctorsForPatient(?) }";
-    public static String VIEW_DOCTORS_FOR_STAFF = "{ call ViewDoctorsForStaff(?) }";
     public static String VIEW_DOCTOR_VISIT = "{ call CountDoctorVisits(?,?,?) }";
     
     public static String VIEW_EARNING_BY_DOCTOR = "{ call ViewEarningByDoctor(?,?,?) }";
@@ -75,7 +73,6 @@ public class SQLConstants {
     public static String VIEW_STAFFS_FOR_DOCTOR = "{ call ViewStaffsForDoctor(?) }";
     public static String VIEW_UPCOMING_DOCTOR_WEEKLY_RECORDS = " { call ViewUpcomingDoctorWeeklyRecords(?) } ";
 
-    public static String VIEW_UPCOMING_VISIT_RECORD = "{ call ViewUpcomingVisitRecord(?) }";
     public static String VIEW_UPCOMING_VISIT_RECORD_FOR_DOCTOR = "{ call ViewUpcomingVisitRecordForDoctor(?) }";
     public static String VIEW_UPCOMING_VISIT_RECORD_FOR_STAFF = "{ call ViewUpcomingVisitRecordForStaff(?) }";
     public static String VIEW_UPCOMING_VISIT_RECORD_FOR_PATIENT = "{ call ViewUpcomingVisitRecordForPatient(?) }";
@@ -84,7 +81,6 @@ public class SQLConstants {
     public static String UPDATE_PATIENT_RECORD =" { call UpdatePatientRecord(?,?,?,?,?,?,?) }";
     public static String UPDATE_PERSONAL_RECORD = " { call UpdatePersonalRecord(?,?,?) } ";
     public static String UPDATE_VISIT_RECORD = " { call UpdateVisitRecord(?,?,?,?,?) }";
-    public static String UPDATE_STAFF_PATIENT_RECORD = " {call StaffUpdatePatientRecord(?,?,?,?,?,?) }";
     public static String USERNAME_TO_CPSONUMBER = "{ call UsernameToCpsonumber(?) }";
     public static String USERNAME_TO_PATIENTID = " { call UsernameToPatientID(?) }";
     

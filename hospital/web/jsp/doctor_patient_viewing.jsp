@@ -1,5 +1,3 @@
-<%@page import="org.hospital.entities.Patient"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -39,7 +37,7 @@
                             $("#patientsTable").html(data.outputPatient);
                             $("#doctorsTable").html(data.outputDoctor);
                             
-                            if (data.outputPatient == "You have no patients assigned to you") {
+                            if (data.outputPatient === "You have no patients assigned to you") {
                                 document.getElementById("submit").disabled = true;
                             } else {
                                 document.getElementById("submit").disabled = false;
@@ -85,7 +83,7 @@
                     var patients = document.getElementsByName("patients[]");
                     var sizes = patients.length;
                     for (i=0; i < sizes; i++) {
-                        if (patients[i].checked==true) {
+                        if (patients[i].checked===true) {
                             return patients[i].value;
                         }
                     }

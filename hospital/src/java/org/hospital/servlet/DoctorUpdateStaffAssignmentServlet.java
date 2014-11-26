@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
 
-/**
- *
- * @author okamayana
- */
 @WebServlet(urlPatterns = {"/DoctorUpdateStaffAssignmentServlet"})
 public class DoctorUpdateStaffAssignmentServlet extends HttpServlet {
 

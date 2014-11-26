@@ -1,5 +1,4 @@
-<%@page import="java.util.List"%>
-<%@page import="org.hospital.entities.Doctor"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>

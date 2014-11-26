@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.hospital.servlet;
 
 import java.io.IOException;
@@ -15,23 +10,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hospital.entities.Patient;
 import org.hospital.other.MySQLConnection;
 import org.hospital.other.SQLConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author l22fu
- */
 @WebServlet(name = "SearchPatientServlet", urlPatterns = {"/SearchPatientServlet"})
 public class SearchPatientServlet extends HttpServlet {
 

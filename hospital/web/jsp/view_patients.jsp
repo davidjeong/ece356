@@ -1,5 +1,3 @@
-<%@page import="org.hospital.entities.Patient"%>
-<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

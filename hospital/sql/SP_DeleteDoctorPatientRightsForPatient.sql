@@ -2,8 +2,8 @@ USE ece356;
 
 DELIMITER //
 CREATE PROCEDURE DeleteDoctorPatientRightsForPatient(
-		IN patient_id_ VARCHAR(32),
-		IN default_doctor_ VARCHAR(6)
+		IN patient_id_ INT,
+		IN default_doctor_ VARCHAR(32)
 	)
     BEGIN
 		DELETE up
@@ -14,3 +14,4 @@ CREATE PROCEDURE DeleteDoctorPatientRightsForPatient(
 			AND us.user_type = "doctor";
 	END //
 DELIMITER ;
+

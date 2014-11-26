@@ -42,7 +42,7 @@ public class DoctorPatientViewingUpdateServlet extends HttpServlet {
 
             try {
                 csDelete = SQLConstants.CONN.prepareCall(SQLConstants.DELETE_DOCTOR_PATIENT_RIGHTS_FOR_PATIENT);
-                csDelete.setString(1, patientId);
+                csDelete.setInt(1, Integer.parseInt(patientId));
                 csDelete.setString(2, doctorUserName);
                 csDelete.executeUpdate();
 

@@ -23,6 +23,7 @@ public class VisitRecord {
     private String comments;
     private String diagnosis;
     private String action;
+    private Timestamp inserted_time;
     
     public VisitRecord() {
         
@@ -96,5 +97,13 @@ public class VisitRecord {
     
     public String getAction() {
         return action;
+    }
+    
+    public void setInsertedTime (Timestamp t) {
+        this.inserted_time = t;
+    }
+    
+    public Date getInsertedTime() {
+        return inserted_time;
     }
 }

@@ -149,6 +149,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                                                       d);
                     if (userType.equals(SQLConstants.Legal)) {
                         vr.setAction(rs.getString("status"));
+                        vr.setInsertedTime(rs.getTimestamp("inserted_time"));
                     }
                     visits.add(vr);
                     logger.info("Adding [" + vr + "] to upcoming list");
@@ -198,6 +199,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                     output.append("<th>Comments</th>");
                     if (userType.equals(SQLConstants.Legal)) {
                         output.append("<th>Action Taken</th>");
+                        output.append("<th>Record Inserted Time</th>");
                     }
 
                     output.append("</tr>");
@@ -218,6 +220,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
                         output.append("<td>").append(vr.getComments()).append("</td>");
                         if (userType.equals(SQLConstants.Legal)) {
                             output.append("<td>").append(vr.getAction()).append("</td>");
+                            output.append("<td>").append(sdf.format(vr.getInsertedTime())).append("</td>");
                         }
 
                         output.append("</tr>");

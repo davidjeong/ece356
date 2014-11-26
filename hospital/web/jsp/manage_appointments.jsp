@@ -243,7 +243,7 @@
                     endDateTextBox,
                     {
                             minDate: 0,
-                            minInterval: (1000*60*60), // 1hr
+                            minInterval: (1000*60*30), // 30 min
                             dateFormat: 'dd M yy', 
                             timeFormat: 'HH:mm',
                             start: {}, // start picker options
@@ -259,7 +259,7 @@
                     endupDateTextBox,
                     {
                             minDate: 0,
-                            minInterval: (1000*60*60), // 1hr
+                            minInterval: (1000*60*30), // 30 min
                             dateFormat: 'dd M yy', 
                             timeFormat: 'HH:mm',
                             start: {}, // start picker options

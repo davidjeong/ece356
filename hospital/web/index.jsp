@@ -29,7 +29,7 @@
                     An all-in-one health care management tool.
                 </p>
                 <blockquote class="blockquote-reverse">
-                    <p>Excellent web service for manage small-to-large hospitals.</p>
+                    <p>Excellent web service for managing small-to-large hospitals.</p>
                     <footer>Professor from
                         <cite>University of Waterloo</cite>
                     </footer>

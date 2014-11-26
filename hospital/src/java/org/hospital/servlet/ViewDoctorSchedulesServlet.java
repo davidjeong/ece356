@@ -6,6 +6,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -94,12 +95,17 @@ public class ViewDoctorSchedulesServlet extends HttpServlet {
                 if (!visitList.isEmpty()) {
                     output.append("{ \"events_source\": [ ");
                     String delim = "";
+                    Date now = new Date();
                     for (int i=0; i<visitList.size(); i++) {
                         VisitRecord vr = visitList.get(i);
                         output.append(delim).append(" { ");
                         output.append("\"id\":\"").append(String.valueOf(i)).append("\",");
                         output.append("\"title\":\"").append(String.valueOf(patientIdToNameMapping.get(vr.getPatientID()))).append(" - ").append(cpsoToNameMapping.get(vr.getCPSONumber())).append("\",");
-                        output.append("\"url\":\"javascript:modifyAppointment(&#39;").append(String.valueOf(patientIdToNameMapping.get(vr.getPatientID()))).append("&#39;,&#39;").append(vr.getCPSONumber()).append("&#39;, ").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);\",");
+                        if (vr.getEndTime().after(now)) {
+                            output.append("\"url\":\"javascript:modifyAppointment(&#39;").append(String.valueOf(patientIdToNameMapping.get(vr.getPatientID()))).append("&#39;,&#39;").append(vr.getCPSONumber()).append("&#39;, ").append(vr.getPatientID()).append(", &#39;").append(vr.getStartTime()).append("&#39;);\",");
+                        } else {
+                            output.append("\"url\":\"#\",");
+                        }
                         output.append("\"class\":\"event-info\",");
                         long startMillis = vr.getStartTime().getTime();
                         long endMillis = vr.getEndTime().getTime();

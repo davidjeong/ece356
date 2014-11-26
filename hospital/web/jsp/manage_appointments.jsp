@@ -239,9 +239,10 @@
             var endDateTextBox = $('#end_range');
    
             $.timepicker.datetimeRange(
-                    startDateTextBox,
+                    startDateTextBox, 
                     endDateTextBox,
                     {
+                            minDate: 0,
                             minInterval: (1000*60*60), // 1hr
                             dateFormat: 'dd M yy', 
                             timeFormat: 'HH:mm',
@@ -257,6 +258,7 @@
                     startupDateTextBox,
                     endupDateTextBox,
                     {
+                            minDate: 0,
                             minInterval: (1000*60*60), // 1hr
                             dateFormat: 'dd M yy', 
                             timeFormat: 'HH:mm',

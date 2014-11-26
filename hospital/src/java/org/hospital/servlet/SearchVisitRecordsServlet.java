@@ -126,7 +126,7 @@ public class SearchVisitRecordsServlet extends HttpServlet {
             }
             
             if (userType.equals(SQLConstants.Legal)) {
-                sql += " ORDER BY v.inserted_time";
+                sql += " ORDER BY v.inserted_time DESC";
             }
             
             ps = SQLConstants.CONN.prepareStatement(sql);

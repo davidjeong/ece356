@@ -15,6 +15,7 @@ CREATE PROCEDURE ViewPatientRecords(IN patient_id_ INT)
 	FROM
 		visit_schema v
 	WHERE
-		v.patient_id = patient_id_;
+		v.patient_id = patient_id_
+	ORDER BY v.start_time DESC;
 	END //
 DELIMITER ;
